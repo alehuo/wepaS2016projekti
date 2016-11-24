@@ -14,19 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alehuo.wepas2016projekti.application;
+package com.alehuo.wepas2016projekti.controllers;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *
+ * Oletuskontrolleri
  * @author alehuo
  */
-@SpringBootApplication
-public class Application {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+@Controller
+public class DefaultController {
+    @RequestMapping("/")
+    public String index(){
+        return "index";
     }
 }
