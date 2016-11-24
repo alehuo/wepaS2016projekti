@@ -16,10 +16,52 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
+import java.util.Objects;
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
 /**
+ * Käyttäjä -luokka
  *
  * @author alehuo
  */
-public class User {
-    
+public class User extends AbstractPersistable<Long> {
+
+    /**
+     * Käyttäjätunnus
+     */
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.username);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        return true;
+    }
+
 }
