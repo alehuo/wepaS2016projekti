@@ -17,6 +17,8 @@
 package com.alehuo.wepas2016projekti.domain;
 
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -24,6 +26,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  *
  * @author alehuo
  */
+@Entity
+@Table(name = "Users")
 public class User extends AbstractPersistable<Long> {
 
     /**

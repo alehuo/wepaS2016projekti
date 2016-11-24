@@ -14,32 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alehuo.wepas2016projekti.controller;
+package com.alehuo.wepas2016projekti;
 
-import com.alehuo.wepas2016projekti.domain.User;
-import com.alehuo.wepas2016projekti.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Oletuskontrolleri
  *
  * @author alehuo
  */
-@Controller
-public class DefaultController {
+@SpringBootApplication
+public class Application {
 
-    @Autowired
-    private UserRepository userRepo;
-
-    @RequestMapping("/")
-    public String index() {
-        User u = new User();
-        u.setUsername("Admin");
-
-        userRepo.save(u);
-
-        return "index";
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
 }
