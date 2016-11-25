@@ -16,32 +16,29 @@
  */
 package com.alehuo.wepas2016projekti.controller;
 
-import com.alehuo.wepas2016projekti.domain.Role;
-import com.alehuo.wepas2016projekti.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Oletuskontrolleri
  *
  * @author alehuo
  */
 @Controller
-public class DefaultController {
+public class ProfileController {
 
-    @Autowired
-    private UserService userService;
-
-    @RequestMapping("/")
-    public String index() {
-        
-        return "index";
+    @RequestMapping("/profile/{username}")
+    @ResponseBody
+    public String viewProfile(@PathVariable String username) {
+        return "profile for " + username;
     }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
-        return "login";
+    
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    @ResponseBody
+    public String search(@RequestParam String username) {
+        return "profile for " + username;
     }
 }

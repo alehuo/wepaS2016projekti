@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Pivotal Software, Inc.
+ * Copyright (C) alehuo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alehuo.wepas2016projekti.repository;
-
-import com.alehuo.wepas2016projekti.domain.User;
-import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+package com.alehuo.wepas2016projekti.domain;
 
 /**
  *
  * @author alehuo
  */
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    List<User> findAll();
-
-    User findByUsername(String username);
+public enum Role {
+    USER, ADMINISTRATOR;
 }

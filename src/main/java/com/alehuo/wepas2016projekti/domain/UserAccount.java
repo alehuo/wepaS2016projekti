@@ -17,7 +17,10 @@
 package com.alehuo.wepas2016projekti.domain;
 
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -28,16 +31,29 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  */
 @Entity
 @Table(name = "Users")
-public class User extends AbstractPersistable<Long> {
+public class UserAccount extends AbstractPersistable<Long> {
 
     /**
      * Käyttäjätunnus
      */
+    @Column(name = "username", unique = true, length = 24)
     private String username;
+
+    /**
+     * Salasana
+     */
+    @Column(name = "password",
+            nullable = false)
+    private String password;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     /**
      * Sähköpostiosoite
      */
+    @Column(name = "email", unique = true, length = 24)
     private String email;
 
     public String getUsername() {
@@ -54,6 +70,32 @@ public class User extends AbstractPersistable<Long> {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
+
+    @Override
+    protected void setId(Long id) {
+        super.setId(id);
     }
 
     @Override
@@ -74,7 +116,7 @@ public class User extends AbstractPersistable<Long> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final User other = (User) obj;
+        final UserAccount other = (UserAccount) obj;
         if (!Objects.equals(this.username, other.username)) {
             return false;
         }

@@ -57,7 +57,10 @@
             <artifactId>bootswatch</artifactId>
             <version>3.3.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
