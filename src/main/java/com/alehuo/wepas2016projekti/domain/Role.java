@@ -17,7 +17,7 @@
 package com.alehuo.wepas2016projekti.domain;
 
 /**
- *
+ * Käyttäjätilien roolit
  * @author alehuo
  */
 public enum Role {
