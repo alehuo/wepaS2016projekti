@@ -16,10 +16,13 @@
  */
 package com.alehuo.wepas2016projekti.controller;
 
-import com.alehuo.wepas2016projekti.domain.Role;
+import com.alehuo.wepas2016projekti.domain.Image;
+import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -34,9 +37,13 @@ public class DefaultController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ImageRepository imageRepo;
+
     @RequestMapping("/")
-    public String index() {
-        
+    public String index(Model m) {
+        List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
+        m.addAttribute("images", images);
         return "index";
     }
 

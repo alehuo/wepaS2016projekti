@@ -54,18 +54,19 @@
                 <a href="#" class="brand-logo">Logo</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="#"><i class="material-icons">timeline</i>Syöte</a></li>
-                    <li><a href="#"><i class="material-icons">face</i>Profiili</a></li>
+                    <li><a href="#"><i class="material-icons left">store</i>Syöte</a></li>
+                    <li><a href="#"><i class="material-icons left">search</i>Haku</a></li>
+                    <li><a href="#"><i class="material-icons left">face</i>Profiili</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li><a href="#"><i class="material-icons">timeline</i>Syöte</a></li>
+                    <li><a href="#"><i class="material-icons">search</i>Haku</a></li>
                     <li><a href="#"><i class="material-icons">face</i>Profiili</a></li>
-                </ul>
+                </ul>            
             </div>
         </nav>
-
         <div class="container">
-            <div class="preloader-wrapper big active">
+            <!--<div class="preloader-wrapper big active">
                 <div class="spinner-layer spinner-blue-only">
                     <div class="circle-clipper left">
                         <div class="circle"></div>
@@ -75,10 +76,71 @@
                         <div class="circle"></div>
                     </div>
                 </div>
+            </div>-->
+
+            <!--Card-->
+            <div class="card" th:each="image : ${images}">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img th:src="@{'/img/' + ${image.id}}"/>
+                    <span class="card-title" th:text="${image.description}">Kuvaus</span>
+                </div>
+                <div class="card-content">
+                    <p><span class="card-title grey-text text-darken-4 small"><b th:text="${image.imageOwner.username}">Omistana</b></span></p>
+                    <!--<div class="chip small">Hämeenlinna</div><div class="chip small">Valokuvaus</div>-->
+                </div>
+                <div class="card-action"><a href="#" class="indigo-text">Tykkää</a><a href="#" class="activator indigo-text">Kommentoi</a></div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4"><i class="material-icons">question_answer</i>Kommentit<i class="material-icons right">close</i></span>
+                    <form>
+                        <textarea id="textarea1" class="materialize-textarea"></textarea>
+                        <button class="btn waves-effect waves-light grey darken-1" type="submit" name="action">Kommentoi
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </form>
+                    <!--Kommentit tähän-->
+
+                    <!--<ul class="collection">
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">perm_identity</i>
+                            <span class="title">testaaja_001</span>
+                            <p>Wau!</p>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">perm_identity</i>
+                            <span class="title">testaaja_002</span>
+                            <p>Heh..</p>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">perm_identity</i>
+                            <span class="title">testaaja_003</span>
+                            <p>Joo..</p>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">perm_identity</i>
+                            <span class="title">testaaja_004</span>
+                            <p>Nice!</p>
+                        </li>
+                    </ul>-->
+
+                </div>
             </div>
+
+            <!--Action btn-->
+            <!--<div class="fixed-action-btn toolbar hide-on-large-only">
+                <a class="btn-floating btn-large blue darken-3">
+                    <i class="large material-icons">menu</i>
+                </a>
+                <ul>
+                    <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">store</i></a></li>
+                    <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">library_add</i></a></li>
+                    <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">search</i></a></li>
+                    <li class="waves-effect waves-light"><a href="#!"><i class="material-icons">face</i></a></li>
+                </ul>
+            </div>-->
+            <!--Floating add-->
             <div class="fixed-action-btn">
-                <a class="btn-floating btn-large red waves-effect waves-light">
-                    <i class="large material-icons">mode_edit</i>
+                <a class="btn-floating btn-large red waves-effect waves-light" th:href="@{/upload}">
+                    <i class="large material-icons">add</i>
                 </a>
             </div>
         </div>

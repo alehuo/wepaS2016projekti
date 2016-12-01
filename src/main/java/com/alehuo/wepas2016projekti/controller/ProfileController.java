@@ -39,6 +39,6 @@ public class ProfileController {
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     @ResponseBody
     public String search(@RequestParam String username) {
-        return "profile for " + username;
+        return "profile results for " + username;
     }
 }

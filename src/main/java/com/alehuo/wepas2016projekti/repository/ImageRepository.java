@@ -16,17 +16,14 @@
  */
 package com.alehuo.wepas2016projekti.repository;
 
-import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.domain.Image;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Käyttäjärepo
+ * Kuvarepo
  * @author alehuo
  */
-public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
-
-    List<UserAccount> findAll();
-
-    UserAccount findByUsername(String username);
+public interface ImageRepository extends JpaRepository<Image, Long> {
+    List<Image> findTop10ByOrderByIdDesc();
 }
