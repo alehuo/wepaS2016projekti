@@ -30,6 +30,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ProfileController {
 
+    @RequestMapping("/profile")
+    public String viewProfile() {
+        return "profile";
+    }
+    
     @RequestMapping("/profile/{username}")
     @ResponseBody
     public String viewProfile(@PathVariable String username) {
