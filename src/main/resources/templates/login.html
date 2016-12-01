@@ -5,28 +5,15 @@
         <!--<link rel="stylesheet" th:href="@{'~/' + 'webjars/bootswatch/3.3.5/paper/bootstrap.css'}"/>-->
         <meta name="mobile-web-app-capable" content="yes"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="theme-color" content="#01579B"/>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-            <!-- Compiled and minified CSS -->
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"/>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"/>
     </head>
     <body>
-        <!--<nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">WEPA S2016</a>
-                </div>
-            </div>
-        </nav>-->
-
         <nav>
-            <div class="nav-wrapper blue darken-3">
+            <div class="nav-wrapper light-blue darken-4">
                 <a href="#" class="center brand-logo">WEPA2016</a>
             </div>
         </nav>
@@ -60,7 +47,7 @@
                 </fieldset>
             </form>-->
 
-            <div class="row blue-text text-darken-2">
+            <div class="row">
                 <form class="col s12" th:action="@{/login}" method="POST">
                     <div class="row">
                         <div class="input-field">
@@ -78,7 +65,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field">
-                            <button type="submit" class="btn btn-primary blue darken-3">Kirjaudu sisään</button>
+                            <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
                         </div>
                     </div>
                 </form>

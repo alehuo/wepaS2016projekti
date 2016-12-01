@@ -17,12 +17,16 @@
 package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.Image;
+import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
+import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,19 +38,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author alehuo
  */
 @Controller
+@RequestMapping("img")
 public class ImageController {
 
     @Autowired
     private ImageRepository imageRepo;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * Hakee tietokannasta kuvan
+     *
      * @param imageId Kuvan ID
      * @param response HttpServletResponse
      * @return Kuva
-     * @throws IOException 
+     * @throws IOException
      */
-    @RequestMapping(value = "/img/{imageId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{imageId}", method = RequestMethod.GET)
     @ResponseBody
     public String getImage(@PathVariable Long imageId, HttpServletResponse response) throws IOException {
         Image i = imageRepo.findOne(imageId);
@@ -54,5 +63,35 @@ public class ImageController {
         ByteArrayInputStream in = new ByteArrayInputStream(i.getImageData());
         IOUtils.copy(in, response.getOutputStream());
         return "";
+    }
+
+    /**
+     * Kuvasta tykkäys
+     *
+     * @param imageId
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/like/{imageId}", method = RequestMethod.POST)
+    @ResponseBody
+    public String likeImage(@PathVariable Long imageId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        UserAccount u = userService.getUserByUsername(username);
+        if (u != null) {
+            Image i = imageRepo.findOne(imageId);
+            if (i.getLikedBy().contains(u)) {
+                i.removeLike(u);
+                imageRepo.save(i);
+                return "unlike";
+            } else {
+                i.addLike(u);
+                imageRepo.save(i);
+                return "like";
+            }
+            
+        }
+        return "fail";
     }
 }

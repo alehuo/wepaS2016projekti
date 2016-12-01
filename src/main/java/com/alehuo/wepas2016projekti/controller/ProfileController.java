@@ -16,7 +16,13 @@
  */
 package com.alehuo.wepas2016projekti.controller;
 
+import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.service.UserService;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,19 +34,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author alehuo
  */
 @Controller
+@RequestMapping("profile")
 public class ProfileController {
 
-    @RequestMapping("/profile")
-    public String viewProfile() {
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping("/{username}")
+    public String viewProfile(@PathVariable String username, Model m) throws UnsupportedEncodingException {
+        username = URLDecoder.decode(username, "UTF-8");
+        UserAccount u = userService.getUserByUsername(username);
+        m.addAttribute("user", u);
         return "profile";
     }
-    
-    @RequestMapping("/profile/{username}")
-    @ResponseBody
-    public String viewProfile(@PathVariable String username) {
-        return "profile for " + username;
-    }
-    
+
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     @ResponseBody
     public String search(@RequestParam String username) {

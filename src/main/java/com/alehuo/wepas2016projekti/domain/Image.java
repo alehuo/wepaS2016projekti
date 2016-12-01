@@ -54,6 +54,8 @@ public class Image extends AbstractPersistable<Long> {
     @Type(type = "timestamp")
     private Date creationDate;
 
+    private int likes = 0;
+
     /**
      * Aseta kuvan timestamp luontihetkenä
      */
@@ -99,12 +101,24 @@ public class Image extends AbstractPersistable<Long> {
         }
     }
 
+    public List<UserAccount> getLikedBy() {
+        return likedBy;
+    }
+
     public void setImageContentTyle(String contentType) {
         this.contentType = contentType;
     }
 
     public String getContentType() {
         return contentType;
+    }
+
+    public int getLikes() {
+        return likedBy.size();
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
     }
 
 }

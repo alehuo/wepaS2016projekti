@@ -17,10 +17,13 @@
 package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.Image;
+import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +45,11 @@ public class DefaultController {
 
     @RequestMapping("/")
     public String index(Model m) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
         List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
+        UserAccount u = userService.getUserByUsername(username);
+        m.addAttribute("user", u);
         m.addAttribute("images", images);
         return "index";
     }

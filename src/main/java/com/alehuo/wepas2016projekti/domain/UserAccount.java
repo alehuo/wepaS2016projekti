@@ -16,16 +16,15 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -59,15 +58,6 @@ public class UserAccount extends AbstractPersistable<Long> {
      */
     @Column(name = "email", unique = true, length = 24)
     private String email;
-
-    /**
-     * Kuvat
-     */
-    @OneToMany
-    private List<Image> images;
-
-    @ManyToMany
-    private List<Image> likedImages;
 
     public String getUsername() {
         return username;
@@ -118,24 +108,6 @@ public class UserAccount extends AbstractPersistable<Long> {
         return hash;
     }
 
-    public List<Image> getImages() {
-        if (images == null) {
-            images = new ArrayList();
-        }
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
-
-    public void addImage(Image i) {
-        if (images == null) {
-            images = new ArrayList();
-        }
-        images.add(i);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -152,27 +124,6 @@ public class UserAccount extends AbstractPersistable<Long> {
             return false;
         }
         return true;
-    }
-
-    public List<Image> getLikedImages() {
-        return likedImages;
-    }
-
-    public void setLikedImages(List<Image> likedImages) {
-        this.likedImages = likedImages;
-    }
-
-    public void likeImage(Image i) {
-        if (likedImages == null) {
-            likedImages = new ArrayList();
-        }
-        likedImages.add(i);
-    }
-
-    public void unLikeImage(Image i) {
-        if (likedImages != null && likedImages.contains(i)) {
-            likedImages.remove(i);
-        }
     }
 
 }
