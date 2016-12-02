@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title>Kuvapalvelu</title>
         <!--<link rel="stylesheet" th:href="@{'~/' + 'webjars/bootswatch/3.3.5/paper/bootstrap.css'}"/>-->
         <meta name="mobile-web-app-capable" content="yes"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta name="theme-color" content="#01579B"/>
+        <meta name="theme-color" content="#283593"/>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"/>
+        <!--Manifest-->
+        <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
+        <!-- Compiled CSS -->
+        <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}"/>
     </head>
     <body>
         <nav>
-            <div class="nav-wrapper light-blue darken-4">
+            <div class="nav-wrapper">
                 <a href="#" class="center brand-logo">WEPA2016</a>
             </div>
         </nav>
@@ -25,28 +27,6 @@
             <div th:if="${param.logout}" class="alert alert-dismissible alert-success"> 
                 Olet nyt kirjautunut ulos.
             </div>
-            <!--<form class="form-horizontal" th:action="@{/login}" method="POST">
-                <fieldset>
-                    <legend>Kirjaudu sisään</legend>
-                    <div class="form-group">
-                        <div class="col-lg-10">
-                            <input class="form-control" id="inputUsername" name="username" placeholder="Käyttäjätunnus" required="true" autocomplete="off" type="text"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-10">
-                            <input class="form-control" id="inputPassword" name="password" placeholder="Salasana" required="true" autocomplete="off" type="password"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-10">
-                            <button type="reset" class="btn btn-default">Rekisteröidy</button>
-                            <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>-->
-
             <div class="row">
                 <form class="col s12" th:action="@{/login}" method="POST">
                     <div class="row">
@@ -75,6 +55,6 @@
         <script type="text/javascript" th:src="@{'~/' + 'webjars/jquery/3.1.1/jquery.min.js'}"></script>
         <!--<script type="text/javascript" th:src="@{'~/' + 'webjars/bootstrap/3.3.7-1/js/bootstrap.min.js'}"></script>-->
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+        <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
     </body>
 </html>

@@ -1,0 +1,7 @@
+{
+  "short_name": "Kuvapalvelu",
+  "name": "Kuvapalvelu",
+  "start_url": "/",
+  "display": "standalone"
+}
+

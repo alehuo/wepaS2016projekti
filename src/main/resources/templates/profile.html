@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title>Kuvapalvelu</title>
         <!--<link rel="stylesheet" th:href="@{'~/' + 'webjars/bootswatch/3.3.5/paper/bootstrap.css'}"/>-->
         <meta name="mobile-web-app-capable" content="yes"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta name="theme-color" content="#01579B"/>
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"/>
+        <meta name="theme-color" content="#283593"/>
+        <!-- Compiled CSS -->
+        <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}"/>
+        <!--Manifest-->
+        <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-        <style type="text/css">
-            .navbar.center .navbar-inner {
-                text-align: center;
-            }
-
-            .navbar.center .navbar-inner .nav {
-                display:inline-block;
-                float: none;
-            }
-        </style>
     </head>
     <body>
         <div class="navbar-fixed">
             <nav>
-                <div class="nav-wrapper light-blue darken-4">
+                <div class="nav-wrapper">
                     <a href="#" class="center brand-logo">Logo</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
@@ -57,11 +49,7 @@
         <script type="text/javascript" th:src="@{'~/' + 'webjars/jquery/3.1.1/jquery.min.js'}"></script>
         <!--<script type="text/javascript" th:src="@{'~/' + 'webjars/bootstrap/3.3.7-1/js/bootstrap.min.js'}"></script>-->
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(".button-collapse").sideNav();
-            })
-        </script>
+        <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
+        <script th:inline="javascript" th:src="@{'~/' + 'js/init.js'}"></script>
     </body>
 </html>

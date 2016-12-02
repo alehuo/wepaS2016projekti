@@ -40,6 +40,7 @@ public class UserService {
     public void init() {
         System.out.println("Creating users");
         createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
+        createNewUser("user", "user", "user@localhost.com", Role.USER);
     }
 
     /**

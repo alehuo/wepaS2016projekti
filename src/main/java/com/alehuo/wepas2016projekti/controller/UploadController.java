@@ -18,7 +18,7 @@ package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
-import com.alehuo.wepas2016projekti.repository.ImageRepository;
+import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +44,7 @@ public class UploadController {
     private UserService userService;
 
     @Autowired
-    private ImageRepository imageRepo;
+    private ImageService imageService;
 
 //    @RequestMapping(method = RequestMethod.GET)
 //    public String upload(Model m) {
@@ -55,7 +54,6 @@ public class UploadController {
 //        m.addAttribute("user", u);
 //        return "upload";
 //    }
-
     @RequestMapping(method = RequestMethod.POST)
     public String processUpload(@RequestParam("imageFile") MultipartFile file, @RequestParam String description) {
         //Hae autentikointi
@@ -67,17 +65,8 @@ public class UploadController {
             if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg"))) {
                 return "redirect:/";
             }
-
-            //Luo uusi kuva
-            Image i = new Image();
-            //Aseta data
-            i.setImageData(file.getBytes());
-            i.setImageContentTyle(file.getContentType());
-            i.setDescription(description);
-            //Aseta kuvan omistaja
-            i.setImageOwner(u);
             //Tallenna kuva
-            imageRepo.save(i);
+            imageService.addImage(u, file.getBytes(), description);
 
         } catch (IOException ex) {
             Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);

@@ -19,6 +19,7 @@ package com.alehuo.wepas2016projekti.controller;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
+import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,7 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ImageController {
 
     @Autowired
-    private ImageRepository imageRepo;
+    private ImageService imageService;
 
     @Autowired
     private UserService userService;
@@ -58,7 +59,7 @@ public class ImageController {
     @RequestMapping(value = "/{imageId}", method = RequestMethod.GET)
     @ResponseBody
     public String getImage(@PathVariable Long imageId, HttpServletResponse response) throws IOException {
-        Image i = imageRepo.findOne(imageId);
+        Image i = imageService.findOneImage(imageId);
         response.setContentType(i.getContentType());
         ByteArrayInputStream in = new ByteArrayInputStream(i.getImageData());
         IOUtils.copy(in, response.getOutputStream());
@@ -80,17 +81,17 @@ public class ImageController {
         String username = auth.getName();
         UserAccount u = userService.getUserByUsername(username);
         if (u != null) {
-            Image i = imageRepo.findOne(imageId);
+            Image i = imageService.findOneImage(imageId);
             if (i.getLikedBy().contains(u)) {
                 i.removeLike(u);
-                imageRepo.save(i);
+                imageService.saveImage(i);
                 return "unlike";
             } else {
                 i.addLike(u);
-                imageRepo.save(i);
+                imageService.saveImage(i);
                 return "like";
             }
-            
+
         }
         return "fail";
     }
