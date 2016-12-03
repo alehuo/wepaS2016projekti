@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
@@ -11,11 +11,13 @@
         <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
+        <!-- Image loader CSS -->
+        <link rel="stylesheet" th:href="@{'~/' + 'css/imageloader.css'}"/>
         <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     </head>
     <body>
-        <div class="navbar-fixed" sec:authorize="isAuthenticated()">
+        <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
                     <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
@@ -24,7 +26,7 @@
                         <li><a th:href="@{/}"><i class="material-icons left">store</i>Syöte</a></li>
                         <li><a th:href="@{/search}"><i class="material-icons left">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
-                        <li><a th:href="@{/logout}" id="logoutbtn"><i class="material-icons left">lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/logout}"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
                         <li><div class="userView">
@@ -32,7 +34,7 @@
                                     <img src="http://materializecss.com/images/office.jpg"/>
                                 </div>
                                 <a th:href="@{/profile}">
-                                    <span class="white-text name">Käyttäjänimi</span>
+                                    <span class="white-text name" th:text="${user.username}">Käyttäjänimi</span>
                                 </a>
                             </div></li>
                         <li><a th:href="@{/}"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
@@ -44,39 +46,34 @@
             </nav>
         </div>
         <div class="container">
-            <h3>Käyttäjän <b><span th:text="${userProfile.username}">Käyttäjänimi</span></b> jakamat kuvat</h3>
-            <!--Cards-->
-            <div class="card" th:each="image : ${userImages}">
-                <div class="card-image waves-effect waves-block waves-light">
-                    <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
-                    <noscript>
-                        <img th:src="@{'/img/' + ${image.uuid}}"/>
-                    </noscript>
-                    <div class="center-align imgpreloader" style="margin-top: 10px; margin-bottom: 10px; display: none;">
-                        <div class="preloader-wrapper small active">
-                            <div class="spinner-layer spinner-green-only">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div><div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
+            <h3>Jaa kuva</h3>
+            <form th:action="@{/upload}" id="uploadform" method="POST" enctype="multipart/form-data">
+                <div class="input-field">
+                    <input id="imageDesc" type="text" name="description" class="validate" length="24"/>
+                    <label for="imageDesc">Kuvaus</label>
+                </div>
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Lisää kuva</span>
+                        <input type="file" accept="image/*;capture=camera" name="imageFile" id="imgUploadInput"/>
                     </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text"/>
+                    </div>
+                </div>
+                <div class="input-field">
+                    <button class="btn waves-effect waves-light" type="submit" id="uploadSubmitBtn" name="action">Lataa
+                        <i class="material-icons right">send</i>
+                    </button>
 
                 </div>
-                <div class="card-content">
-                    <p><span class="card-title large" th:text="${image.description}"></span></p>
-                    Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span>
-                </div>
-                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="btn waves-effect waves-light likebutton"><i class="material-icons left">thumb_up</i>Tykkää (<span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>)</a></div>
-            </div>
+            </form>
+
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/script.js'}"></script>
+        <script th:inline="javascript" th:src="@{'~/' + 'js/like.js'}"></script>
     </body>
 </html>

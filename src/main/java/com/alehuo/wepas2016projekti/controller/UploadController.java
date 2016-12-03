@@ -16,7 +16,6 @@
  */
 package com.alehuo.wepas2016projekti.controller;
 
-import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
@@ -27,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,14 +46,15 @@ public class UploadController {
     @Autowired
     private ImageService imageService;
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    public String upload(Model m) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String username = auth.getName();
-//        UserAccount u = userService.getUserByUsername(username);
-//        m.addAttribute("user", u);
-//        return "upload";
-//    }
+    @RequestMapping(method = RequestMethod.GET)
+    public String upload(Model m) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        UserAccount u = userService.getUserByUsername(username);
+        m.addAttribute("user", u);
+        return "upload";
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public String processUpload(@RequestParam("imageFile") MultipartFile file, @RequestParam String description) {
         //Hae autentikointi

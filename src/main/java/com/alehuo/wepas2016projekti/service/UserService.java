@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 /**
  * Palvelu, joka käsittelee käyttäjätunnuksia
  *
@@ -40,7 +39,6 @@ public class UserService {
 
     @PostConstruct
     public void init() {
-        System.out.println("Creating users");
         createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
         createNewUser("user", "user", "user@localhost.com", Role.USER);
     }
@@ -76,9 +74,13 @@ public class UserService {
     public UserAccount getUserByUsername(String username) {
         return userRepo.findByUsername(username);
     }
-    
-    public UserAccount saveUser(UserAccount u){
+
+    public UserAccount saveUser(UserAccount u) {
         return userRepo.save(u);
+    }
+
+    public void deleteAllUsers() {
+        userRepo.deleteAll();
     }
 
 }

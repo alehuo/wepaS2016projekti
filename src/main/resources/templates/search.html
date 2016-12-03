@@ -26,7 +26,7 @@
                         <li><a th:href="@{/}"><i class="material-icons left">store</i>Syöte</a></li>
                         <li><a th:href="@{/search}"><i class="material-icons left">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
-                        <li><a th:href="@{/logout}"><i class="material-icons left">lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/logout}" id="logoutbtn"><i class="material-icons left">lock</i>Kirjaudu ulos</a></li>
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
                         <li><div class="userView">

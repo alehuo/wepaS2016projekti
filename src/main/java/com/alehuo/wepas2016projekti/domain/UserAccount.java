@@ -16,12 +16,12 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import org.junit.Ignore;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -89,19 +89,11 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     @Override
-    public Long getId() {
-        return super.getId();
-    }
-
-    @Override
-    protected void setId(Long id) {
-        super.setId(id);
-    }
-
-    @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.username);
+        int hash = 7;
+        hash = 89 * hash + (this.username != null ? this.username.hashCode() : 0);
+        hash = 89 * hash + (this.role != null ? this.role.hashCode() : 0);
+        hash = 89 * hash + (this.email != null ? this.email.hashCode() : 0);
         return hash;
     }
 
@@ -117,7 +109,13 @@ public class UserAccount extends AbstractPersistable<Long> {
             return false;
         }
         final UserAccount other = (UserAccount) obj;
-        if (!Objects.equals(this.username, other.username)) {
+        if ((this.username == null) ? (other.username != null) : !this.username.equals(other.username)) {
+            return false;
+        }
+        if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
+            return false;
+        }
+        if (this.role != other.role) {
             return false;
         }
         return true;
