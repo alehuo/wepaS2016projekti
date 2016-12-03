@@ -3,6 +3,7 @@
     "name": "Kuvapalvelu",
     "start_url": "/",
     "display": "standalone",
+    "theme_color": "#283593",
     "icons": [
         {
             "src": "icon_96x96.png",
@@ -12,6 +13,11 @@
         {
             "src": "icon_128x128.png",
             "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "icon_192x192.png",
+            "sizes": "192x192",
             "type": "image/png"
         }
     ]
