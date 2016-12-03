@@ -73,7 +73,7 @@
                     <p><span class="card-title large" th:text="${image.description}"></span></p>
                     Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span>
                 </div>
-                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" class="btn waves-effect waves-light likebutton"><i class="material-icons left">thumb_up</i>Tykkää (<span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>)</a></div>
+                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="btn waves-effect waves-light likebutton"><i class="material-icons left">thumb_up</i>Tykkää (<span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>)</a></div>
             </div>
             <h4 th:unless="${not #lists.isEmpty(images)}">Ei kuvia.</h4>
 
