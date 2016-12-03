@@ -18,5 +18,19 @@ $(document).ready(function () {
     $(".button-collapse").sideNav();
     $('#uploadmodal').modal();
     $('.carousel.carousel-slider').carousel({full_width: true});
+
+    //Ladataan sivun kuvat asynkronisesti
+    $('.autoload').each(function (i, obj) {
+        //Preloaderit esiin
+        $(this).parent().find(".imgpreloader").show();
+        $(this).hide();
+
+        //Ladataan kuva
+        this.src = $(this).data('original');
+        $(this).on('load', function () {
+            $(this).parent().find(".imgpreloader").hide();
+            $(this).fadeIn(1500);
+        });
+    });
 })
 
