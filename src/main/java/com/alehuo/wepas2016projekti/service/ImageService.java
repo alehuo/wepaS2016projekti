@@ -52,7 +52,7 @@ public class ImageService {
     }
     
     public List<Image> findAllByUserAccount(UserAccount u){
-        return imageRepo.findAllByImageOwner(u);
+        return imageRepo.findAllByImageOwnerOrderByIdDesc(u);
     }
     
     public Image saveImage(Image i){

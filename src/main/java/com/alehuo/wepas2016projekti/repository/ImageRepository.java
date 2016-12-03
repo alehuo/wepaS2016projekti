@@ -34,5 +34,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
     Image findOneByUuid(String uuid);
 
-    List<Image> findAllByImageOwner(UserAccount u);
+    List<Image> findAllByImageOwnerOrderByIdDesc(UserAccount u);
 }
