@@ -51,7 +51,7 @@ public class RedirectionTest {
 
     @Test
     public void sovellusOhjaaKirjautumisIkkunaan() throws Exception {
-        mockMvc.perform(get("/")).andExpect(redirectedUrl("http://localhost/login"));
+        mockMvc.perform(get("/")).andExpect(redirectedUrlPattern("**/login"));
         MvcResult res = mockMvc.perform(get("/login")).andReturn();
 
         String content = res.getResponse().getContentAsString();
