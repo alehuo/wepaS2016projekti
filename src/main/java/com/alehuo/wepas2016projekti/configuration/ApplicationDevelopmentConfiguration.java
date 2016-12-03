@@ -17,7 +17,9 @@
 package com.alehuo.wepas2016projekti.configuration;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -26,7 +28,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author alehuo
  */
 @Configuration
-public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
+@Profile("development")
+@EnableWebSecurity
+public class ApplicationDevelopmentConfiguration extends WebMvcConfigurerAdapter  {
 
     /**
      * Map resources

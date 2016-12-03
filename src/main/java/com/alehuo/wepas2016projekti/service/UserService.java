@@ -18,12 +18,13 @@ package com.alehuo.wepas2016projekti.service;
 
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.alehuo.wepas2016projekti.repository.UserAccountRepository;
+import java.util.List;
 import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 
 /**
  * Palvelu, joka käsittelee käyttäjätunnuksia
