@@ -41,7 +41,7 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     private UserDetailsService userDetailsService;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception  {
         http.headers().frameOptions().sameOrigin();
         http.authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/webjars/**").permitAll().anyRequest().permitAll()

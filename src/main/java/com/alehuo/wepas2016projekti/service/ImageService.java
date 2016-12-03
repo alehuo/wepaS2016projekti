@@ -35,11 +35,12 @@ public class ImageService {
     private ImageRepository imageRepo;
 
     @Transactional
-    public Image addImage(UserAccount u, byte[] imageData, String description) {
+    public Image addImage(UserAccount u, byte[] imageData, String imageType, String description) {
         Image i = new Image();
         i.setImageData(imageData);
         i.setDescription(description);
         i.setImageOwner(u);
+        i.setImageContentTyle(imageType);
         return saveImage(i);
     }
     

@@ -22,6 +22,7 @@ import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,7 +57,7 @@ public class UploadController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String processUpload(@RequestParam("imageFile") MultipartFile file, @RequestParam String description) {
+    public String processUpload(@RequestParam("imageFile") MultipartFile file, @RequestParam String description, HttpServletResponse response) {
         //Hae autentikointi
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
@@ -64,12 +65,14 @@ public class UploadController {
         try {
             //Tiedostomuodon tarkistus. Tarkista että onko oikea toteutustapa..
             if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg"))) {
+                response.setStatus(400);
                 return "redirect:/";
             }
             //Tallenna kuva
-            imageService.addImage(u, file.getBytes(), description);
-
+            imageService.addImage(u, file.getBytes(), file.getContentType(), description);
+            response.setStatus(201);
         } catch (IOException ex) {
+            response.setStatus(500);
             Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "redirect:/";
