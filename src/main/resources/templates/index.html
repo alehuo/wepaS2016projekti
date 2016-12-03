@@ -12,13 +12,13 @@
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
         <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     </head>
     <body>
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="#" class="center brand-logo">Logo</a>
+                    <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a th:href="@{/}"><i class="material-icons left">store</i>Syöte</a></li>
@@ -46,17 +46,18 @@
         </div>
         <div class="container">
             <!--Card-->
+            <!--Cards-->
             <div class="card" th:each="image : ${images}">
                 <div class="card-image waves-effect waves-block waves-light">
                     <img class="cardimg" th:src="@{'/img/' + ${image.uuid}}"/>
-                    <span class="card-title" th:text="${image.description}">Kuvaus</span>
                 </div>
                 <div class="card-content">
-                    <p><span class="card-title small"><a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a></span></p>
-                    <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy')}"></span>
+                    <p><span class="card-title large" th:text="${image.description}"></span></p>
+                    Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span>
                 </div>
                 <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="btn waves-effect waves-light likebutton"><i class="material-icons left">thumb_up</i>Tykkää (<span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>)</a></div>
             </div>
+            <h4 th:unless="${not #lists.isEmpty(images)}">Ei kuvia.</h4>
 
 
             <!--Floating add-->
@@ -65,49 +66,11 @@
                     <i class="large material-icons">add</i>
                 </a>
             </div>
-            <!-- Modal Structure -->
-            <!--<div id="uploadmodal" class="modal modal-fixed-footer">
-                <h2>Jaa kuva</h2>
-                <form th:action="@{/upload}" id="uploadform" method="POST" enctype="multipart/form-data">
-                    <div class="modal-content">
-                        Hello world
-                        <div class="input-field">
-                            <input id="icon_prefix" type="text" name="description" class="validate" length="24"/>
-                            <label for="icon_prefix">Kuvaus</label>
-                        </div>
-                        <div class="file-field input-field">
-                            <div class="btn">
-                                <span>Lisää kuva</span>
-                                <input type="file" accept="image/*;capture=camera" name="imageFile" id="imgUploadInput"/>
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text"/>
-                            </div>
-                        </div>
 
-
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Peruuta</a>
-                        <a href="#!" onclick="$('#uploadform').submit()" class="waves-effect waves-green btn-flat">Julkaise</a>
-                    </div>
-                </form>
-            </div>-->
             <!-- Modal Structure -->
             <div id="uploadmodal" class="modal modal-fixed-footer">
                 <div class="modal-content">
                     <h4>Jaa kuva</h4>
-                    <!--<div class="preloader-wrapper big active" style="margin: 0 auto;">
-                        <div class="spinner-layer spinner-blue-only">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div><div class="gap-patch">
-                                <div class="circle"></div>
-                            </div><div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                        </div>
-                    </div>-->
                     <form th:action="@{/upload}" id="uploadform" method="POST" enctype="multipart/form-data">
                         <div class="input-field">
                             <input id="icon_prefix" type="text" name="description" class="validate" length="24"/>
@@ -131,8 +94,6 @@
             </div>
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'webjars/jquery/3.1.1/jquery.min.js'}"></script>
-        <!--<script type="text/javascript" th:src="@{'~/' + 'webjars/bootstrap/3.3.7-1/js/bootstrap.min.js'}"></script>-->
-        <!-- Compiled and minified JavaScript -->
         <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/init.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/like.js'}"></script>

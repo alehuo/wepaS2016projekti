@@ -19,6 +19,8 @@ package com.alehuo.wepas2016projekti.service;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +28,13 @@ import org.springframework.stereotype.Service;
  *
  * @author alehuo
  */
-@Service
+@Service("imageService")
 public class ImageService {
 
     @Autowired
     private ImageRepository imageRepo;
 
+    @Transactional
     public Image addImage(UserAccount u, byte[] imageData, String description) {
         Image i = new Image();
         i.setImageData(imageData);
@@ -46,6 +49,10 @@ public class ImageService {
     
     public Image findOneImageByUuid(String uuid){
         return imageRepo.findOneByUuid(uuid);
+    }
+    
+    public List<Image> findAllByUserAccount(UserAccount u){
+        return imageRepo.findAllByImageOwner(u);
     }
     
     public Image saveImage(Image i){

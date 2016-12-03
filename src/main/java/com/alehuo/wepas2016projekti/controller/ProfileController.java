@@ -16,11 +16,16 @@
  */
 package com.alehuo.wepas2016projekti.controller;
 
+import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,11 +45,22 @@ public class ProfileController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ImageService imageService;
+
     @RequestMapping("/{username}")
     public String viewProfile(@PathVariable String username, Model m) throws UnsupportedEncodingException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedinUsername = auth.getName();
         username = URLDecoder.decode(username, "UTF-8");
         UserAccount u = userService.getUserByUsername(username);
-        m.addAttribute("user", u);
+        UserAccount loggedInUser = userService.getUserByUsername(loggedinUsername);
+        if (u != null) {
+            List<Image> images = imageService.findAllByUserAccount(u);
+            m.addAttribute("user", loggedInUser);
+            m.addAttribute("userImages", images);
+            m.addAttribute("userProfile", u);
+        }
         return "profile";
     }
 

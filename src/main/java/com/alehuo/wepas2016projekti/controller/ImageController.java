@@ -94,12 +94,12 @@ public class ImageController {
                     i.removeLike(u);
                     imageService.saveImage(i);
                     response.setStatus(200);
-                    return "like";
+                    return "unlike";
                 } else {
                     i.addLike(u);
                     imageService.saveImage(i);
                     response.setStatus(200);
-                    return "unlike";
+                    return "like";
                 }
             }
         }

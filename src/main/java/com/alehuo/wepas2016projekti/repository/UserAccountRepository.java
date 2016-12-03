@@ -19,11 +19,13 @@ package com.alehuo.wepas2016projekti.repository;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Käyttäjärepo
  * @author alehuo
  */
+@Repository
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
     List<UserAccount> findAll();

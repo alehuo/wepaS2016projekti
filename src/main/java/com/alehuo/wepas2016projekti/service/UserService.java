@@ -21,6 +21,7 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.UserAccountRepository;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ import org.springframework.stereotype.Service;
  *
  * @author alehuo
  */
-@Service
+@Service("userService")
 public class UserService {
 
     @Autowired
@@ -52,6 +53,7 @@ public class UserService {
      * @param email Sähköpostiosoite
      * @return Luotu käyttäjätunnus
      */
+    @Transactional
     public UserAccount createNewUser(String username, String password, String email, Role role) {
 
         UserAccount u = new UserAccount();

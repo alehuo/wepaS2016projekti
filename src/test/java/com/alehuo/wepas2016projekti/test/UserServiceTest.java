@@ -14,47 +14,50 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package domain;
+package com.alehuo.wepas2016projekti.test;
 
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.UserService;
+import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
+ * UserServicen testailua
  *
  * @author alehuo
  */
-/*@RunWith(SpringRunner.class)
-@SpringBootTest(classes={UserService.class})*/
-public class UserAccountTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class UserServiceTest {
 
-//    @Autowired
-//    private UserService userService;
-//
-//    public UserAccountTest() {
-//
-//    }
-//
-//    @Test
-//    public void kayttajaTilinLisaysToimii() {
-//        userService.createNewUser("administrator", "abc123", "administrator@localhost.com", Role.ADMINISTRATOR);
-//        UserAccount u = userService.getUserByUsername("administrator");
-//        assertNotNull(u);
-//        assertEquals("administrator", u.getUsername());
-//        assertEquals("administrator@localhost.com", u.getEmail());
-//        assertEquals(Role.ADMINISTRATOR, u.getRole());
-//        u = userService.getUserById(1L);
-//        assertNotNull(u);
-//        assertEquals("administrator", u.getUsername());
-//        assertEquals("administrator@localhost.com", u.getEmail());
-//        assertEquals(Role.ADMINISTRATOR, u.getRole());
-////    }
+    @Autowired
+    private UserService userService;
+
+    /**
+     * Testi testaa, että käyttäjätilin lisäys toimii userServicen kautta
+     */
+    @Test
+    public void kayttajaTilinLisaysToimiiUserServicenAvulla() {
+        
+        //Luodaan satunnainen data
+        String username = UUID.randomUUID().toString().substring(0, 8);
+        String email = UUID.randomUUID().toString().substring(0, 8) + "@test.com";
+        Role role = Role.USER;
+
+        userService.createNewUser(username, "helloworld", email, role);
+
+        UserAccount u = userService.getUserByUsername(username);
+
+        assertNotNull(u);
+        assertEquals("Käyttäjätunnusta ei aseteta oikein", username, u.getUsername());
+        assertEquals("Sähköpostiosoitetta ei aseteta oikein", email, u.getEmail());
+        assertEquals("Käyttäjätunnuksen roolia ei aseteta oikein", role, u.getRole());
+    }
 }

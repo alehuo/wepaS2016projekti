@@ -21,7 +21,6 @@ package com.alehuo.wepas2016projekti.configuration;
  * @author alehuo
  */
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -36,7 +35,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Profile("production")
 @Configuration
 @EnableWebSecurity
-@EnableAutoConfiguration
 public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -45,8 +43,11 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
-        //Sallitaan pääsy webjars -kansioon, profiilisivuille sekä H2-konsoliin. Muuten vaaditaan kirjautuminen.
-        http.authorizeRequests().antMatchers("/webjars/*", "/profile/*", "/search").permitAll().antMatchers("/").authenticated().and().logout().permitAll().and().formLogin().loginPage("/login");
+        http.authorizeRequests()
+                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/webjars/**").permitAll().anyRequest().permitAll()
+                .anyRequest().authenticated().and()
+                .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()
+                .logout().permitAll();
 
     }
 

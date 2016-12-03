@@ -27,14 +27,14 @@ function likeImage(imageUuid) {
     xmlHttp.open("POST", likeUrl + imageUuid, true);
     xmlHttp.send(null);
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4) {
-            if (xmlHttp.status == 200) {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status === 200) {
                 var response = xmlHttp.responseText;
-                if (response == "like") {
+                if (response === "like") {
                     Materialize.toast("Tykkäsit kuvasta", 3000);
                     document.getElementById("imageLikes_" + imageUuid).innerHTML++;
-                } else if (response == "unlike") {
-                    /*Materialize.toast("Kuvan tykkäys poistettu", 3000);*/
+                } else if (response === "unlike") {
+//                    Materialize.toast("Kuvan tykkäys poistettu", 3000);
                     document.getElementById("imageLikes_" + imageUuid).innerHTML--;
                 }
             } else {

@@ -21,12 +21,12 @@ package com.alehuo.wepas2016projekti.configuration;
  * @author alehuo
  */
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,18 +36,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Profile("development")
 @Configuration
 @EnableWebSecurity
-@EnableAutoConfiguration
 public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
         http.csrf().disable();
-        //Sallitaan pääsy webjars -kansioon, profiilisivuille sekä H2-konsoliin. Muuten vaaditaan kirjautuminen.
-        http.authorizeRequests().antMatchers("/webjars/*", "/profile/*", "/h2-console/*", "/search").permitAll().antMatchers("/").authenticated().and().logout().permitAll().and().formLogin().loginPage("/login");
+        http.authorizeRequests()
+                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/webjars/**").permitAll().anyRequest().permitAll()
+                .anyRequest().authenticated().and()
+                .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()
+                .logout().permitAll();
 
     }
 

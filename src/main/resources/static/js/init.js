@@ -17,6 +17,6 @@
 $(document).ready(function () {
     $(".button-collapse").sideNav();
     $('#uploadmodal').modal();
-    Materialize.fadeInImage('.cardimg')
+    $('.carousel.carousel-slider').carousel({full_width: true});
 })
 

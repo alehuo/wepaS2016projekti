@@ -30,7 +30,7 @@ import com.alehuo.wepas2016projekti.repository.UserAccountRepository;
  *
  * @author alehuo
  */
-@Service
+@Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired

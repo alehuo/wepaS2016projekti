@@ -17,14 +17,22 @@
 package com.alehuo.wepas2016projekti.repository;
 
 import com.alehuo.wepas2016projekti.domain.Image;
+import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Kuvarepo
+ *
  * @author alehuo
  */
+@Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
+
     List<Image> findTop10ByOrderByIdDesc();
+
     Image findOneByUuid(String uuid);
+
+    List<Image> findAllByImageOwner(UserAccount u);
 }
