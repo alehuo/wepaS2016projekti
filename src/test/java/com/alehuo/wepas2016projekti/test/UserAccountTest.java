@@ -18,16 +18,10 @@ package com.alehuo.wepas2016projekti.test;
 
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
-import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.UUID;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  *

@@ -20,7 +20,6 @@ import org.fluentlenium.adapter.FluentTest;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class LoginTest extends FluentTest {
+public class ProfileTest extends FluentTest {
 
     public WebDriver webDriver = new HtmlUnitDriver();
 
@@ -48,7 +47,7 @@ public class LoginTest extends FluentTest {
     private Integer port;
 
     @Test
-    public void kirjautuminenSisaanJaUlosToimii() throws Exception {
+    public void profiiliSivunSelaaminenToimii1() throws Exception {
         //Aiempi testi testaa jo siirtymisen kirjautumissivulle
         goTo("http://localhost:" + port);
 
@@ -60,14 +59,12 @@ public class LoginTest extends FluentTest {
 
         assertTrue(pageSource().contains("Syöte"));
 
-        webDriver.findElement(By.xpath("//*[text()[contains(.,'Kirjaudu ulos')]]")).click();
-
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
-
-        fill(find("#username")).with("vaaratunnus");
-        fill(find("#passwd")).with("vaaratunnus");
-        submit(find("form").first());
-
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
+        goTo("http://localhost:" + port + "/profile/user");
+//        Thread.sleep(Integer.MAX_VALUE);
+        assertTrue(pageSource().contains("Käyttäjän"));
+        assertTrue(pageSource().contains("user"));
+        
+        goTo("http://localhost:" + port + "/profile/user2");
+        assertTrue(pageSource().contains("Profiilia ei löydy"));
     }
 }

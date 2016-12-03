@@ -49,15 +49,17 @@ public class ProfileController {
     public String viewProfile(@PathVariable String username, Model m) throws UnsupportedEncodingException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedinUsername = auth.getName();
-        username = URLDecoder.decode(username, "UTF-8");
-        UserAccount u = userService.getUserByUsername(username);
         UserAccount loggedInUser = userService.getUserByUsername(loggedinUsername);
+        m.addAttribute("user", loggedInUser);
+
+        String profileUsername = URLDecoder.decode(username, "UTF-8");
+        UserAccount u = userService.getUserByUsername(profileUsername);
+        m.addAttribute("userProfile", u);
         if (u != null) {
             List<Image> images = imageService.findAllByUserAccount(u);
-            m.addAttribute("user", loggedInUser);
             m.addAttribute("userImages", images);
-            m.addAttribute("userProfile", u);
         }
+
         return "profile";
     }
 
