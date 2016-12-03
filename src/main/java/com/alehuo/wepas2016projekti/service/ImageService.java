@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Pivotal Software, Inc.
+ * Copyright (C) 2016 alehuo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,13 +37,17 @@ public class ImageService {
         i.setImageData(imageData);
         i.setDescription(description);
         i.setImageOwner(u);
-        imageRepo.save(i);
-        return i;
+        return saveImage(i);
     }
     
-    public Image findOneImage(Long imageId){
+    public Image findOneImageById(Long imageId){
         return imageRepo.findOne(imageId);
     }
+    
+    public Image findOneImageByUuid(String uuid){
+        return imageRepo.findOneByUuid(uuid);
+    }
+    
     public Image saveImage(Image i){
         imageRepo.save(i);
         return i;

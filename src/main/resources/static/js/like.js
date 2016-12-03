@@ -21,10 +21,10 @@
  * @param {type} imageId
  * @returns {undefined}
  */
-function likeImage(imageId) {
+function likeImage(imageUuid) {
     var xmlHttp = new XMLHttpRequest();
     var likeUrl = "/img/like/";
-    xmlHttp.open("POST", likeUrl + imageId, true);
+    xmlHttp.open("POST", likeUrl + imageUuid, true);
     xmlHttp.send(null);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4) {
@@ -32,13 +32,13 @@ function likeImage(imageId) {
                 var response = xmlHttp.responseText;
                 if (response == "like") {
                     Materialize.toast("Tykkäsit kuvasta", 3000);
-                    document.getElementById("imageLikes_" + imageId).innerHTML++;
+                    document.getElementById("imageLikes_" + imageUuid).innerHTML++;
                 } else if (response == "unlike") {
-                    Materialize.toast("Kuvan tykkäys poistettu", 3000);
-                    document.getElementById("imageLikes_" + imageId).innerHTML--;
-                } else {
-                    Materialize.toast("Palvelinvirhe", 3000);
+                    /*Materialize.toast("Kuvan tykkäys poistettu", 3000);*/
+                    document.getElementById("imageLikes_" + imageUuid).innerHTML--;
                 }
+            } else {
+                Materialize.toast("Palvelinvirhe", 3000);
             }
 
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Pivotal Software, Inc.
+ * Copyright (C) 2016 alehuo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,12 @@ package com.alehuo.wepas2016projekti.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
@@ -42,6 +44,9 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<UserAccount> likedBy;
 
+    @ManyToMany
+    private List<Comment> comments;
+
     @Column(name = "data")
     @Type(type = "image")
     private byte[] imageData;
@@ -55,6 +60,8 @@ public class Image extends AbstractPersistable<Long> {
     private Date creationDate;
 
     private int likes = 0;
+
+    private String uuid = UUID.randomUUID().toString();
 
     /**
      * Aseta kuvan timestamp luontihetkenä
@@ -119,6 +126,32 @@ public class Image extends AbstractPersistable<Long> {
 
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Comment> getComments() {
+        if (comments == null) {
+            comments = new ArrayList();
+        }
+        return comments;
+    }
+
+    public void addComment(Comment c) {
+        if (comments == null) {
+            comments = new ArrayList();
+        }
+        comments.add(c);
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
 }

@@ -59,7 +59,7 @@ public class UserService {
         u.setEmail(email);
         u.setRole(role);
 
-        return userRepo.save(u);
+        return saveUser(u);
     }
 
     public List<UserAccount> getAllUsers() {
@@ -72,6 +72,10 @@ public class UserService {
 
     public UserAccount getUserByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+    
+    public UserAccount saveUser(UserAccount u){
+        return userRepo.save(u);
     }
 
 }

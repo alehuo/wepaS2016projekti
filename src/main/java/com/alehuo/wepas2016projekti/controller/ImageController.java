@@ -56,13 +56,20 @@ public class ImageController {
      * @return Kuva
      * @throws IOException
      */
-    @RequestMapping(value = "/{imageId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{imageUuid}", method = RequestMethod.GET)
     @ResponseBody
-    public String getImage(@PathVariable Long imageId, HttpServletResponse response) throws IOException {
-        Image i = imageService.findOneImage(imageId);
-        response.setContentType(i.getContentType());
-        ByteArrayInputStream in = new ByteArrayInputStream(i.getImageData());
-        IOUtils.copy(in, response.getOutputStream());
+    public String getImage(@PathVariable String imageUuid, HttpServletResponse response) throws IOException {
+        Image i = imageService.findOneImageByUuid(imageUuid);
+        if (i != null) {
+            response.setContentType(i.getContentType());
+            response.setContentLength(i.getImageData().length);
+            ByteArrayInputStream in = new ByteArrayInputStream(i.getImageData());
+            IOUtils.copy(in, response.getOutputStream());
+        } else {
+            response.setStatus(404);
+            return "Image not found";
+        }
+        response.setStatus(200);
         return "";
     }
 
@@ -74,25 +81,29 @@ public class ImageController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/like/{imageId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/like/{imageUuid}", method = RequestMethod.POST)
     @ResponseBody
-    public String likeImage(@PathVariable Long imageId) {
+    public String likeImage(@PathVariable String imageUuid, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         UserAccount u = userService.getUserByUsername(username);
         if (u != null) {
-            Image i = imageService.findOneImage(imageId);
-            if (i.getLikedBy().contains(u)) {
-                i.removeLike(u);
-                imageService.saveImage(i);
-                return "unlike";
-            } else {
-                i.addLike(u);
-                imageService.saveImage(i);
-                return "like";
+            Image i = imageService.findOneImageByUuid(imageUuid);
+            if (i != null) {
+                if (i.getLikedBy().contains(u)) {
+                    i.removeLike(u);
+                    imageService.saveImage(i);
+                    response.setStatus(200);
+                    return "like";
+                } else {
+                    i.addLike(u);
+                    imageService.saveImage(i);
+                    response.setStatus(200);
+                    return "unlike";
+                }
             }
-
         }
-        return "fail";
+        response.setStatus(400);
+        return "";
     }
 }
