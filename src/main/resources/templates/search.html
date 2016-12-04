@@ -11,29 +11,34 @@
         <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
-        <!-- Image loader CSS -->
-        <link rel="stylesheet" th:href="@{'~/' + 'css/imageloader.css'}"/>
         <!--Import Google Icon Font-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <style type="text/css">
+            /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
+            #sidenav-overlay {
+                z-index: 996; 
+            }
+        </style>
     </head>
     <body>
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
                     <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <a href="#" data-activates="mobileMenu" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a th:href="@{/}"><i class="material-icons left">store</i>Syöte</a></li>
                         <li><a th:href="@{/search}"><i class="material-icons left">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
-                        <li><a th:href="@{/logout}" id="logoutbtn"><i class="material-icons left">lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/logout}"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
                     </ul>
-                    <ul class="side-nav" id="mobile-demo">
+                    <ul class="side-nav" id="mobileMenu">
                         <li><div class="userView">
                                 <div class="background">
-                                    <img src="http://materializecss.com/images/office.jpg"/>
+                                    <img th:src="@{'/slidenav_bg.jpg'}"/>
                                 </div>
-                                <a th:href="@{/profile}">
+                                <a th:href="@{'/profile/' + ${user.username}}"><img class="circle" th:src="@{'/profile.jpg'}"/></a>
+                                <a th:href="@{'/profile/' + ${user.username}}">
                                     <span class="white-text name" th:text="${user.username}">Käyttäjänimi</span>
                                 </a>
                             </div></li>

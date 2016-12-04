@@ -13,6 +13,12 @@
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
         <!--Import Google Icon Font-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <style type="text/css">
+            /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
+            #sidenav-overlay {
+                z-index: 996; 
+            }
+        </style>
     </head>
     <body>
         <nav>

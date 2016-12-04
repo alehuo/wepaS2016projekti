@@ -35,9 +35,10 @@
                     <ul class="side-nav" id="mobileMenu">
                         <li><div class="userView">
                                 <div class="background">
-                                    <img src="http://materializecss.com/images/office.jpg"/>
+                                    <img th:src="@{'/slidenav_bg.jpg'}"/>
                                 </div>
-                                <a th:href="@{/profile}">
+                                <a th:href="@{'/profile/' + ${user.username}}"><img class="circle" th:src="@{'/profile.jpg'}"/></a>
+                                <a th:href="@{'/profile/' + ${user.username}}">
                                     <span class="white-text name" th:text="${user.username}">Käyttäjänimi</span>
                                 </a>
                             </div></li>
