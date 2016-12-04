@@ -21,6 +21,8 @@
 $(document).ready(function () {
     //Käynnistä sideNav
     $(".button-collapse").sideNav();
+    //Materialbox
+    $('.materialboxed').materialbox();
     //Ladataan sivun kuvat asynkronisesti
     $('.autoload').each(function (i, obj) {
         //Preloaderit esiin
@@ -33,5 +35,7 @@ $(document).ready(function () {
             $(this).fadeIn(1500);
         });
     });
+
+
 })
 
