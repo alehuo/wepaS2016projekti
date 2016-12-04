@@ -47,7 +47,7 @@ public class LoginTest extends FluentTest {
     private Integer port;
 
     @Test
-    @Ignore
+//    @Ignore
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
         goTo("http://localhost:" + port);
 
