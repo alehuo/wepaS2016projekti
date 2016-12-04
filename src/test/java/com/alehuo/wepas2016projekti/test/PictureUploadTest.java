@@ -29,6 +29,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -37,6 +38,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("production")
 public class PictureUploadTest extends FluentTest {
 
     public WebDriver webDriver = new HtmlUnitDriver();
@@ -50,7 +52,7 @@ public class PictureUploadTest extends FluentTest {
     private Integer port;
 
     @Test
-    @Ignore
+//    @Ignore
     public void uudenKuvanJakaminenToimii() {
         goTo("http://localhost:" + port);
 
@@ -88,7 +90,7 @@ public class PictureUploadTest extends FluentTest {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void kuvanTykkaaminenToimii() throws InterruptedException {
 
         /*
@@ -114,8 +116,8 @@ public class PictureUploadTest extends FluentTest {
         //Päivitä sivu
         webDriver.navigate().refresh();
         //Nyt ollaan etusivulla, tarkistetaan että tykkäys rekisteröityi onnistuneesti
-        //Käytetään Jsoup -kirjastoa jotta saadaan pelkkä teksti sivulta. Sivulle on lähetetty vain yksi kuva ja näin ollen löytyy vain yksi Tykkää -elementti.
+        //Käytetään Jsoup -kirjastoa jotta saadaan pelkkä teksti sivulta.
         String parsedPageSource = Jsoup.parse(pageSource()).text();
-        assertTrue(parsedPageSource.contains("Tykkää ( 1 )"));
+        assertTrue(parsedPageSource.contains("0 tykkäystä"));
     }
 }
