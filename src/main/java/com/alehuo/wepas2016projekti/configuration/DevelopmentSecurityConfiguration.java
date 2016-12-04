@@ -49,7 +49,7 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity http) throws Exception  {
         http.headers().frameOptions().sameOrigin();
-        http.csrf().disable();
+//        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/webjars/**", "/h2-console/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
