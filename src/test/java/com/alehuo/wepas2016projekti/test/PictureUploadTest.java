@@ -50,6 +50,7 @@ public class PictureUploadTest extends FluentTest {
     private Integer port;
 
     @Test
+    @Ignore
     public void uudenKuvanJakaminenToimii() {
         goTo("http://localhost:" + port);
 
