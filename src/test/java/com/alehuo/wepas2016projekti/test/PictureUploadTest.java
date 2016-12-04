@@ -16,11 +16,12 @@
  */
 package com.alehuo.wepas2016projekti.test;
 
+import com.alehuo.wepas2016projekti.configuration.ProductionConfiguration;
+import com.alehuo.wepas2016projekti.configuration.ProductionSecurityConfiguration;
 import java.util.UUID;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -29,7 +30,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -38,7 +40,10 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("production")
+@ContextHierarchy({
+    @ContextConfiguration(classes = ProductionConfiguration.class),
+    @ContextConfiguration(classes = ProductionSecurityConfiguration.class)
+})
 public class PictureUploadTest extends FluentTest {
 
     public WebDriver webDriver = new HtmlUnitDriver();
