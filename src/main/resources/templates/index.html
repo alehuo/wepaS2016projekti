@@ -5,14 +5,15 @@
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--Import Google Icon Font-->
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <!--Theme color-->
         <meta name="theme-color" content="#283593"/>
         <!-- Compiled CSS -->
-        <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}"/>
+        <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}" media="screen,projection"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
-        <!--Import Google Icon Font-->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
         <style type="text/css">
             /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
             #sidenav-overlay {
@@ -39,7 +40,10 @@
                                 </div>
                                 <a th:href="@{'/profile/' + ${user.username}}"><img class="circle" th:src="@{'/profile.jpg'}"/></a>
                                 <a th:href="@{'/profile/' + ${user.username}}">
-                                    <span class="white-text name" th:text="${user.username}">Käyttäjänimi</span>
+                                    <span class="white-text name" th:text="${user.username}" style="font-weight: bold;">Käyttäjänimi</span>
+                                </a>
+                                <a th:href="@{'/profile/' + ${user.username}}">
+                                    <span class="white-text email" th:text="${user.email}">Sähköpostiosoite</span>
                                 </a>
                             </div></li>
                         <li><a th:href="@{/}"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
@@ -56,6 +60,7 @@
             <div class="card" th:each="image : ${images}">
                 <div class="card-image">
                     <img class="autoload materialboxed" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
+                    <span class="card-title"></span>
                     <noscript>
                         <img th:src="@{'/img/' + ${image.uuid}}"/>
                     </noscript>
@@ -72,13 +77,13 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="card-content">
                     <p><span class="card-title large" th:text="${image.description}"></span></p>
-                    Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span>
+                    Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
+                    <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;">0</span> kommenttia</span>
                 </div>
-                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="btn waves-effect waves-light likebutton"><i class="material-icons left">thumb_up</i>Tykkää (<span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>)</a></div>
+                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a><a href="#!">Kommentoi</a></div>
             </div>
             <h4 th:unless="${not #lists.isEmpty(images)}">Ei kuvia.</h4>
 

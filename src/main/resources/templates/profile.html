@@ -39,7 +39,10 @@
                                 </div>
                                 <a th:href="@{'/profile/' + ${user.username}}"><img class="circle" th:src="@{'/profile.jpg'}"/></a>
                                 <a th:href="@{'/profile/' + ${user.username}}">
-                                    <span class="white-text name" th:text="${user.username}">Käyttäjänimi</span>
+                                    <span class="white-text name" th:text="${user.username}" style="font-weight: bold;">Käyttäjänimi</span>
+                                </a>
+                                <a th:href="@{'/profile/' + ${user.username}}">
+                                    <span class="white-text email" th:text="${user.email}">Sähköpostiosoite</span>
                                 </a>
                             </div></li>
                         <li><a th:href="@{/}"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
@@ -58,8 +61,9 @@
                 <h3>Käyttäjän <b><span th:text="${userProfile.username}">Käyttäjänimi</span></b> jakamat kuvat</h3>
                 <!--Cards-->
                 <div class="card" th:each="image : ${userImages}">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
+                    <div class="card-image">
+                        <img class="autoload materialboxed" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
+                        <span class="card-title imgpreloader"><i class="small material-icons">thumb_up</i> <span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">chat_bubble</i> <span>0</span></span>
                         <noscript>
                             <img th:src="@{'/img/' + ${image.uuid}}"/>
                         </noscript>
@@ -76,13 +80,12 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="card-content">
                         <p><span class="card-title large" th:text="${image.description}"></span></p>
                         Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span>
                     </div>
-                    <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="btn waves-effect waves-light likebutton"><i class="material-icons left">thumb_up</i>Tykkää (<span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>)</a></div>
+                    <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a><a href="#!">Kommentoi</a></div>
                 </div>
             </div>
         </div>
@@ -90,5 +93,6 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/script.js'}"></script>
+        <script th:inline="javascript" th:src="@{'~/' + 'js/like.js'}"></script>
     </body>
 </html>
