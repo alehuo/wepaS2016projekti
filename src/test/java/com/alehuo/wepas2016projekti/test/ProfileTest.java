@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Pivotal Software, Inc.
+ * Copyright (C) 2016 alehuo
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
 package com.alehuo.wepas2016projekti.test;
 
 import org.fluentlenium.adapter.FluentTest;
+import org.jsoup.Jsoup;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -43,10 +44,10 @@ public class ProfileTest extends FluentTest {
     }
 
     @LocalServerPort
-    @Value("${local.server.port}")
     private Integer port;
 
     @Test
+    @Ignore
     public void profiiliSivunSelaaminenToimii1() throws Exception {
         //Aiempi testi testaa jo siirtymisen kirjautumissivulle
         goTo("http://localhost:" + port);
@@ -60,10 +61,10 @@ public class ProfileTest extends FluentTest {
         assertTrue(pageSource().contains("Syöte"));
 
         goTo("http://localhost:" + port + "/profile/user");
-//        Thread.sleep(Integer.MAX_VALUE);
-        assertTrue(pageSource().contains("Käyttäjän"));
-        assertTrue(pageSource().contains("user"));
-        
+
+        String parsedPageSource = Jsoup.parse(pageSource()).text();
+        assertTrue(parsedPageSource.contains("Käyttäjän user jakamat kuvat"));
+
         goTo("http://localhost:" + port + "/profile/user2");
         assertTrue(pageSource().contains("Profiilia ei löydy"));
     }

@@ -16,6 +16,7 @@
  */
 package com.alehuo.wepas2016projekti.test;
 
+import javax.servlet.http.HttpServletRequest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author alehuo
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 public class RedirectionTest {
 
     @Autowired
@@ -53,10 +54,6 @@ public class RedirectionTest {
     @Test
     @Ignore
     public void sovellusOhjaaKirjautumisIkkunaan() throws Exception {
-        mockMvc.perform(get("/")).andExpect(redirectedUrlPattern("**/login"));
-        MvcResult res = mockMvc.perform(get("/login")).andReturn();
-
-        String content = res.getResponse().getContentAsString();
-        Assert.assertTrue(content.contains("Kirjaudu sisään"));
+        mockMvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrlPattern("**/login"));
     }
 }
