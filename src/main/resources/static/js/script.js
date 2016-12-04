@@ -14,18 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * Nämä komennot suoritetaan kun dokumentti on latautunut
+ * @type type
+ */
 $(document).ready(function () {
+    //Käynnistä sideNav
     $(".button-collapse").sideNav();
-    $('#uploadmodal').modal();
-    $('.carousel.carousel-slider').carousel({full_width: true});
-
     //Ladataan sivun kuvat asynkronisesti
     $('.autoload').each(function (i, obj) {
         //Preloaderit esiin
         $(this).parent().find(".imgpreloader").show();
         $(this).hide();
-
-        //Ladataan kuva
+        //Ladataan kuva (Eli siirretään data-original src:hen)
         this.src = $(this).data('original');
         $(this).on('load', function () {
             $(this).parent().find(".imgpreloader").hide();
