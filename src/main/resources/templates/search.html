@@ -39,7 +39,10 @@
                                 </div>
                                 <a th:href="@{'/profile/' + ${user.username}}"><img class="circle" th:src="@{'/profile.jpg'}"/></a>
                                 <a th:href="@{'/profile/' + ${user.username}}">
-                                    <span class="white-text name" th:text="${user.username}">Käyttäjänimi</span>
+                                    <span class="white-text name" th:text="${user.username}" style="font-weight: bold;">Käyttäjänimi</span>
+                                </a>
+                                <a th:href="@{'/profile/' + ${user.username}}">
+                                    <span class="white-text email" th:text="${user.email}">Sähköpostiosoite</span>
                                 </a>
                             </div></li>
                         <li><a th:href="@{/}"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
@@ -72,7 +75,5 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/script.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/like.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/search.js'}"></script>
     </body>
 </html>
