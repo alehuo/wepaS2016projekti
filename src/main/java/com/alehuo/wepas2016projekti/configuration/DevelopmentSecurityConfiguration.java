@@ -42,14 +42,14 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     private UserDetailsService userDetailsService;
 
     @Override
-    public void configure(WebSecurity web) throws Exception  {
+    public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception  {
+    protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
-//        http.csrf().disable();
+        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/webjars/**", "/h2-console/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()

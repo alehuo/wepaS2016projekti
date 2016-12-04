@@ -43,6 +43,7 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     @Override
     protected void configure(HttpSecurity http) throws Exception  {
         http.headers().frameOptions().sameOrigin();
+        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/webjars/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
