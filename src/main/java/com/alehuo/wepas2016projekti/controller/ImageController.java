@@ -18,7 +18,6 @@ package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
-import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.ByteArrayInputStream;
@@ -32,6 +31,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -76,14 +76,14 @@ public class ImageController {
     /**
      * Kuvasta tykkäys
      *
-     * @param imageId
-     * @param response
-     * @return
-     * @throws IOException
+     * @param imageUuid Kuvan UUID
+     * @param response HTTP vastaus
+     * @return Onnistuiko pyyntö vai ei (sekä sen tyyppi; unlike vai like).
      */
-    @RequestMapping(value = "/like/{imageUuid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
     @ResponseBody
-    public String likeImage(@PathVariable String imageUuid, HttpServletResponse response) {
+    public String likeImage(@RequestParam String imageUuid, HttpServletResponse response) {
+        //Käyttäjän autentikoiminen
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         UserAccount u = userService.getUserByUsername(username);

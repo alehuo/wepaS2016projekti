@@ -14,18 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
- * Tykkää kuvasta
- * Tämä metodi ei ole se paras toteutustapa, mutta se toimii :)
- * @param {type} imageId
+ * Tykkäysskripti
+ * @param {type} imageUuid
  * @returns {undefined}
  */
 function likeImage(imageUuid) {
     var xmlHttp = new XMLHttpRequest();
+    //Pyynnön osoite
     var likeUrl = "/img/like/";
-    xmlHttp.open("POST", likeUrl + imageUuid, true);
-    xmlHttp.send(null);
+    //Parametrit
+    var params = "imageUuid=" + imageUuid;
+    //Avaa POST -pyyntö
+    xmlHttp.open("POST", likeUrl, true);
+    //Aseta Content-type
+    xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //Lähetä data
+    xmlHttp.send(params);
+    //Tarkista vastaus
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status === 200) {
@@ -34,14 +40,13 @@ function likeImage(imageUuid) {
                     Materialize.toast("Tykkäsit kuvasta", 3000);
                     document.getElementById("imageLikes_" + imageUuid).innerHTML++;
                 } else if (response === "unlike") {
-//                    Materialize.toast("Kuvan tykkäys poistettu", 3000);
                     document.getElementById("imageLikes_" + imageUuid).innerHTML--;
                 }
             } else {
-                Materialize.toast("Palvelinvirhe", 3000);
+                Materialize.toast("Palvelinvirhe (HTTP " + xmlHttp.status + ")", 3000);
             }
 
         }
-    }
+    };
     return;
 }
