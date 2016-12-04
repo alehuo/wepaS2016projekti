@@ -5,14 +5,15 @@
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <!--Theme color-->
         <meta name="theme-color" content="#283593"/>
         <!-- Compiled CSS -->
-        <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}"/>
+        <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}" media="screen,projection"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
-        <!--Import Google Icon Font-->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
         <style type="text/css">
             /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
             #sidenav-overlay {
