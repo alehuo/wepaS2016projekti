@@ -64,7 +64,7 @@
                 <div class="card" th:each="image : ${userImages}">
                     <div class="card-image">
                         <img class="autoload materialboxed" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
-                        <span class="card-title imgpreloader"><i class="small material-icons">thumb_up</i> <span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}">0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="material-icons">chat_bubble</i> <span>0</span></span>
+                        <span class="card-title"></span>
                         <noscript>
                             <img th:src="@{'/img/' + ${image.uuid}}"/>
                         </noscript>
@@ -84,7 +84,8 @@
                     </div>
                     <div class="card-content">
                         <p><span class="card-title large" th:text="${image.description}"></span></p>
-                        Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span>
+                        Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
+                        <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;">0</span> kommenttia</span>
                     </div>
                     <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a><a href="#!">Kommentoi</a></div>
                 </div>
@@ -92,8 +93,8 @@
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/script.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/like.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/like.js'}"></script>
     </body>
 </html>
