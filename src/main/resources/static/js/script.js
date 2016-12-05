@@ -21,11 +21,9 @@
 $(document).ready(function () {
     //Käynnistä sideNav
     $(".button-collapse").sideNav();
-    //Materialbox
-    $('.materialboxed').materialbox();
     //Ladataan sivun kuvat asynkronisesti
     $('.autoload').each(function (i, obj) {
-        //Preloaderit esiin
+        //Preloader esiin
         $(this).parent().find(".imgpreloader").show();
         $(this).hide();
         //Ladataan kuva (Eli siirretään data-original src:hen)
@@ -33,9 +31,11 @@ $(document).ready(function () {
         $(this).on('load', function () {
             $(this).parent().find(".imgpreloader").hide();
             $(this).fadeIn(1500);
+            //Materialbox
+            $(this).materialbox();
         });
     });
-
+//    $('.materialboxed')
 
 })
 

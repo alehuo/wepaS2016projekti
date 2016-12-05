@@ -58,15 +58,11 @@
             <h3>Syöte</h3>
             <!--Cards-->
             <div class="card" th:each="image : ${images}">
-                <div class="card-image">
-                    <img class="autoload materialboxed" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
+                <div class="card-image center-align">
+                    <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
                     <span class="card-title"></span>
-                    <noscript>
-                        <img th:src="@{'/img/' + ${image.uuid}}"/>
-                    </noscript>
-                    <div class="center-align imgpreloader" style="margin-top: 10px; margin-bottom: 10px; display: none;">
-                        <div class="preloader-wrapper small active">
-                            <div class="spinner-layer spinner-green-only">
+                        <div class="preloader-wrapper big active imgpreloader" style="display: none;">
+                            <div class="spinner-layer spinner-blue-only">
                                 <div class="circle-clipper left">
                                     <div class="circle"></div>
                                 </div><div class="gap-patch">
@@ -76,7 +72,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <noscript>
+                        <img th:src="@{'/img/' + ${image.uuid}}"/>
+                    </noscript>
                 </div>
                 <div class="card-content">
                     <p><span class="card-title large" th:text="${image.description}"></span></p>
