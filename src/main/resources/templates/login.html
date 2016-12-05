@@ -29,12 +29,6 @@
 
         <div class="container">
             <h3>Kirjaudu sisään</h3>
-            <div th:if="${param.error}" class="alert alert-dismissible alert-danger">    
-                Väärä käyttäjätunnus tai salasana.
-            </div>
-            <div th:if="${param.logout}" class="alert alert-dismissible alert-success"> 
-                Olet nyt kirjautunut ulos.
-            </div>
             <div class="row">
                 <form class="col s12" th:action="@{/login}" method="POST">
                     <div class="row">
@@ -62,6 +56,12 @@
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
+        <script th:if="${param.error}" type="text/javascript">
+            Materialize.toast('Kirjautuminen epäonnistui', 4000);
+        </script>
+        <script th:if="${param.logout}" type="text/javascript">
+            Materialize.toast('Kirjauduttu ulos', 4000);
+        </script>
     </body>
 </html>
