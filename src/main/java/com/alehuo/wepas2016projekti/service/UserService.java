@@ -39,9 +39,13 @@ public class UserService {
 
     @PostConstruct
     public void init() {
-        userRepo.deleteAll();
-        createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
-        createNewUser("user", "user", "user@localhost.com", Role.USER);
+        if (userRepo.findByUsername("admin") == null) {
+            createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
+        }
+
+        if (userRepo.findByUsername("user") == null) {
+            createNewUser("user", "user", "user@localhost.com", Role.USER);
+        }
     }
 
     /**
