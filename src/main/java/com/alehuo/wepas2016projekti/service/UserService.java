@@ -39,6 +39,7 @@ public class UserService {
 
     @PostConstruct
     public void init() {
+        userRepo.deleteAll();
         createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
         createNewUser("user", "user", "user@localhost.com", Role.USER);
     }
