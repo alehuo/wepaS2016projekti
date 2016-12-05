@@ -80,10 +80,14 @@
                 </div>
                 <div class="card-content">
                     <p><span class="card-title large" th:text="${image.description}"></span></p>
+<!--                    <div th:each="comment : ${image.comments}">
+                        <p><span class="card-title large" th:text="${comment.body}"></span></p>
+                    </div>-->
                     Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
                     <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;">0</span> kommenttia</span>
                 </div>
-                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a><a href="#!">Kommentoi</a></div>
+                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>
+                    <a th:href="@{'/comment/' + ${image.uuid}}">Kommentoi</a></div>
             </div>
             <h4 th:unless="${not #lists.isEmpty(images)}">Ei kuvia.</h4>
 
