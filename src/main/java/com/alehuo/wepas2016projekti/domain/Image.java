@@ -20,15 +20,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import javax.persistence.CascadeType;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -48,10 +51,12 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<Comment> comments;
 
-    @Column(name = "data")
-    @Type(type = "image")
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] imageData;
 
+    @NotBlank
+    @Length(min = 4, max = 64)
     private String description;
 
     private String contentType;

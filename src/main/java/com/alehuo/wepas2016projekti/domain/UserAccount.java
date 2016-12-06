@@ -21,6 +21,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.junit.Ignore;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -36,7 +39,9 @@ public class UserAccount extends AbstractPersistable<Long> {
     /**
      * Käyttäjätunnus
      */
-    @Column(name = "username", unique = true, length = 24)
+    @Column(name = "username", unique = true)
+    @NotBlank
+    @Length(min = 5, max = 25)
     private String username;
 
     /**
@@ -44,6 +49,7 @@ public class UserAccount extends AbstractPersistable<Long> {
      */
     @Column(name = "password",
             nullable = false)
+    @NotBlank
     private String password;
 
     @Column(name = "role", nullable = false)
@@ -54,6 +60,8 @@ public class UserAccount extends AbstractPersistable<Long> {
      * Sähköpostiosoite
      */
     @Column(name = "email", unique = true, length = 24)
+    @NotBlank
+    @Email
     private String email;
 
     public String getUsername() {
