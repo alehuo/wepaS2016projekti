@@ -111,5 +111,7 @@ function createCommentModal(imageUuid) {
         $(".container").append(elementDiv);
         $('.modal').modal();
         $('#commentModal_' + imageUuid).modal('open');
+    } else {
+        $('#commentModal_' + imageUuid).modal('open');
     }
 }
