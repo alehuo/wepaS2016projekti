@@ -10,7 +10,7 @@ Kuvapalvelu
 * Käyttäjien seuraaminen ja estäminen
 * Pääkäyttäjillä mahdollisuus poistaa julkaisuja, kommentteja ja antaa porttikieltoja
 * Rekisteröitymislomake
-* Responsiivinen ulkoasu eli toimii hyvin sek� mobiililaitteilla että työpöytäselaimilla
+* Responsiivinen ulkoasu eli toimii hyvin sekä mobiililaitteilla että työpöytäselaimilla
 
 Testaus
 
