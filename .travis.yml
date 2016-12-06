@@ -10,4 +10,4 @@ script: "mvn clean test -Dspring.profiles.active=development -B"
 jdk:
   - oraclejdk8
 after_success:
-  - mvn clean test -DTRAVIS_JOB_ID=$TRAVIS_JOB_ID -Dspring.profiles.active=development jacoco:report coveralls:report
+  - mvn clean test -Dspring.profiles.active=development jacoco:report coveralls:report
