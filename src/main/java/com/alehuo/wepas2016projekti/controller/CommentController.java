@@ -18,15 +18,17 @@ package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
-import com.alehuo.wepas2016projekti.repository.ImageRepository;
+import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -40,29 +42,22 @@ public class CommentController {
     private UserService userService;
     
     @Autowired
-    private ImageRepository imageRepository;
-
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
-    @ResponseBody
-    public String addComment2(@PathVariable String uuid) {
-        //Testaukseen käytetty
-        Image img = imageRepository.findOneByUuid(uuid);
-        Comment comment = new Comment();
-        comment.setBody("KommenttiGET");
-        comment.setUser(userService.getUserByUsername("admin"));
-        img.addComment(comment);
-        return "redirect:/";
-    }
-
+    private ImageService imageService;
+    
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
-    @ResponseBody
-    public String addComment(@PathVariable String uuid) {
-        //Testaukseen käytetty
-        Image img = imageRepository.findOneByUuid(uuid);
-        Comment comment = new Comment();
-        comment.setBody("KommenttiPOST");
-        comment.setUser(userService.getUserByUsername("admin"));
-        img.addComment(comment);
+    public String addComment(@PathVariable String uuid, @RequestParam String comment) {
+        Image img = imageService.findOneImageByUuid(uuid);
+        Comment comm = new Comment();
+        comm.setBody(comment);
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        UserAccount u = userService.getUserByUsername(username);        
+        comm.setUser(u);
+        
+        img.addComment(comm);
+        
+        imageService.saveImage(img);
         return "redirect:/";
     }
 }
