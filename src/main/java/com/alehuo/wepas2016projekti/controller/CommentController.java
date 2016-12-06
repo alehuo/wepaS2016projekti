@@ -41,24 +41,26 @@ public class CommentController {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private ImageService imageService;
-    
+
     @Autowired
     private CommentService commentService;
-    
+
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
     public String addComment(@PathVariable String uuid, @RequestParam String comment) {
         Image img = imageService.findOneImageByUuid(uuid);
-        
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         UserAccount u = userService.getUserByUsername(username);
         Comment comm = commentService.addComment(comment, u);
         img.addComment(comm);
-        
+        u.addComment(comm);
+
+        userService.saveUser(u);
         imageService.saveImage(img);
-        return "redirect:/";
+        return "redirect:/#" + uuid;
     }
 }

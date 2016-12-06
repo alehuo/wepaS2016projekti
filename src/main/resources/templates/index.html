@@ -59,6 +59,7 @@
             <!--Cards-->
             <div class="card" th:each="image : ${images}">
                 <div class="card-image center-align">
+                    <a th:id="${image.uuid}"></a>
                     <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
                     <span class="card-title"></span>
                     <div class="preloader-wrapper big active imgpreloader" style="display: none;">
