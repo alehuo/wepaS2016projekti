@@ -40,7 +40,7 @@ function createCommentModal(imageUuid) {
 
         //Modalin lomake
         var commentForm = document.createElement("form");
-        commentForm.id = "commentForm";
+        commentForm.id = "commentForm_" + imageUuid;
         commentForm.action = "/comment/" + imageUuid;
         commentForm.method = "POST";
 
@@ -73,7 +73,9 @@ function createCommentModal(imageUuid) {
         submitBtn.href = "#!";
         submitBtn.className = "modal-action waves-effect waves-green btn-flat";
         submitBtn.textContent = "Kommentoi";
-        submitBtn.onclick = "$('#commentForm').submit();";
+        $(submitBtn).on("click", function () {
+            $('#commentForm_' + imageUuid).submit();
+        });
 
         //Lomakkeen peruuta -nappi
         var cancelBtn = document.createElement("a");
