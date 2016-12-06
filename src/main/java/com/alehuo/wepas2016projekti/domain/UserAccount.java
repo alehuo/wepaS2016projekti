@@ -62,7 +62,7 @@ public class UserAccount extends AbstractPersistable<Long> {
     /**
      * Sähköpostiosoite
      */
-    @Column(name = "email", unique = true, length = 24)
+    @Column(name = "email", unique = true, length = 255)
     @NotBlank
     @Email
     private String email;

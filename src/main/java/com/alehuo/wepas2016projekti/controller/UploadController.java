@@ -64,7 +64,7 @@ public class UploadController {
         UserAccount u = userService.getUserByUsername(username);
         try {
             //Tiedostomuodon tarkistus. Tarkista että onko oikea toteutustapa..
-            if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg"))) {
+            if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/bmp"))) {
                 response.setStatus(400);
                 return "redirect:/";
             }

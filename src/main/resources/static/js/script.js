@@ -33,6 +33,10 @@ $(document).ready(function () {
             $(this).fadeIn(1500);
             //Materialbox
             $(this).materialbox();
+            $('.grid').masonry({
+                itemSelector: '.grid-item',
+                columnWidth: 400
+            });
         });
     });
 //    $('.materialboxed')
