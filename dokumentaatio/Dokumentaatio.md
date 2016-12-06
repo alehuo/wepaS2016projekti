@@ -2,21 +2,21 @@
 
 Kuvapalvelu
 
-*	Kuvien lataus sek‰ hallinta
-*	Kuvien tykk‰ys ja kommentointi
-*	K‰ytt‰j‰profiilit (julkiset sek‰ yksityiset)
-*	K‰ytt‰jien seuraaminen ja est‰minen
-*	P‰‰k‰ytt‰jill‰ mahdollisuus poistaa julkaisuja, kommentteja ja antaa porttikieltoja
-*	Rekisterˆitymislomake
-*	Responsiivinen ulkoasu eli toimii hyvin sek‰ mobiililaitteilla ett‰ tyˆpˆyt‰selaimilla
+* Kuvien lataus sek√§ hallinta
+* Kuvien tykk√§ys ja kommentointi
+* K√§ytt√§j√§profiilit (julkiset sek√§ yksityiset)
+* K√§ytt√§jien seuraaminen ja est√§minen
+* P√§√§k√§ytt√§jill√§ mahdollisuus poistaa julkaisuja, kommentteja ja antaa porttikieltoja
+* Rekister√∂itymislomake
+* Responsiivinen ulkoasu eli toimii hyvin sekÔøΩ mobiililaitteilla ett√§ ty√∂p√∂yt√§selaimilla
 
 Testaus
 
-* Yksikkˆ- ja integraatiotestit jne.
+* Yksikk√∂- ja integraatiotestit jne.
 * GitHub -> Travis -> Heroku
 
-Teknisi‰ juttuja
+Teknisi√§ juttuja
 
 * Kuvien tallennus tietokantaan?
-* PostgreSQL -tietokantaj‰rjestelm‰ Herokussa?
-* Kuvien pienennys jotta ne eiv‰t vie niin paljoa tilaa?
+* PostgreSQL -tietokantaj√§rjestelm√§ Herokussa?
+* Kuvien pienennys jotta ne eiv√§t vie niin paljoa tilaa?
