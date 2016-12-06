@@ -80,7 +80,7 @@ function createCommentModal(imageUuid) {
 
         //Lomakkeen peruuta -nappi
         var cancelBtn = document.createElement("a");
-        cancelBtn.href = "#!";
+        cancelBtn.href = "";
         cancelBtn.className = "modal-action modal-close waves-effect waves-green btn-flat";
         cancelBtn.textContent = "Peruuta";
 
