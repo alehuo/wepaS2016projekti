@@ -61,31 +61,31 @@
                 <div class="card-image center-align">
                     <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
                     <span class="card-title"></span>
-                        <div class="preloader-wrapper big active imgpreloader" style="display: none;">
-                            <div class="spinner-layer spinner-blue-only">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div><div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
+                    <div class="preloader-wrapper big active imgpreloader" style="display: none;">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
                             </div>
                         </div>
+                    </div>
                     <noscript>
                         <img th:src="@{'/img/' + ${image.uuid}}"/>
                     </noscript>
                 </div>
                 <div class="card-content">
                     <p><span class="card-title large" th:text="${image.description}"></span></p>
-<!--                    <div th:each="comment : ${image.comments}">
-                        <p><span class="card-title large" th:text="${comment.body}"></span></p>
-                    </div>-->
+                    <!--                    <div th:each="comment : ${image.comments}">
+                                            <p><span class="card-title large" th:text="${comment.body}"></span></p>
+                                        </div>-->
                     Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
                     <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;">0</span> kommenttia</span>
                 </div>
                 <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>
-                    <a th:href="@{'/comment/' + ${image.uuid}}">Kommentoi</a></div>
+                    <a href="#!" th:onclick="'createCommentModal(\'' + ${image.uuid} + '\');'">Kommentoi</a></div>
             </div>
             <h4 th:unless="${not #lists.isEmpty(images)}">Ei kuvia.</h4>
 
@@ -102,5 +102,6 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/like.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/createForm.js'}"></script>
     </body>
 </html>

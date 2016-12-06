@@ -22,3 +22,4 @@ Teknisiä juttuja
 * Kuvien tallennus tietokantaan?
 * PostgreSQL -tietokantajärjestelmä Herokussa?
 * Kuvien pienennys jotta ne eivät vie niin paljoa tilaa?
+* Otetaanko HTTPS käyttöön Heroku -sovellukselle?
