@@ -64,12 +64,13 @@
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Lisää kuva</span>
-                        <input type="file" accept="image/*;capture=camera" name="imageFile" id="imgUploadInput"/>
+                        <input type="file" accept="image/*;capture=camera" name="imageFile" id="imgUploadInput" onchange="previewFile(event)"/>
                     </div>
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text"/>
                     </div>
                 </div>
+                <img id="preview" src="#" style="display: none;" width="70%"/>
                 <div class="input-field">
                     <button class="btn waves-effect waves-light" type="submit" id="uploadSubmitBtn" name="action">Lataa
                         <i class="material-icons right">send</i>
@@ -84,5 +85,6 @@
         <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/script.js'}"></script>
         <script th:inline="javascript" th:src="@{'~/' + 'js/like.js'}"></script>
+        <script th:inline="javascript" th:src="@{'~/' + 'js/upload.js'}"></script>
     </body>
 </html>
