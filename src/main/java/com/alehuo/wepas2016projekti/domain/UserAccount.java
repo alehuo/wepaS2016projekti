@@ -41,7 +41,7 @@ public class UserAccount extends AbstractPersistable<Long> {
      */
     @Column(name = "username", unique = true)
     @NotBlank
-    @Length(min = 5, max = 25)
+    @Length(min = 4, max = 25)
     private String username;
 
     /**
