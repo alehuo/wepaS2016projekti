@@ -55,7 +55,7 @@
             </nav>
         </div>
         <div class="container">
-            <h3>Kuva</h3>
+            <h3 th:text="${image.description}"></h3>
             <div class="card">
                 <div class="card-image center-align">
                     <a th:id="${image.uuid}"></a>
@@ -77,7 +77,7 @@
                     </noscript>
                 </div>
                 <div class="card-content">
-                    <p><span class="card-title large" th:text="${image.description}"></span></p>
+                    <!--<p><span class="card-title large" th:text="${image.description}"></span></p>-->
                     Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
                     <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:text="${image.commentsAmount}">0</span> kommenttia</span>
                     <p>
@@ -86,7 +86,6 @@
                                 <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
                             </li>  
                         </ul>
-                        <a th:href="@{'/profile/photo/' + ${image.uuid}}">Näytä kaikki kommentit</a>
                     </p>
                 </div>  
                 <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>

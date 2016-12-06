@@ -17,6 +17,7 @@
 package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.Image;
+import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.UserService;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Oletuskontrolleri
@@ -57,5 +59,20 @@ public class DefaultController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
+    }
+    
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register() {
+        return "register";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        if (userService.getUserByUsername(username) == null) {
+            userService.createNewUser(username, password, email, Role.USER);
+        }else{
+            return "redirect:/register?error";
+        }
+        return "redirect:/login";
     }
 }
