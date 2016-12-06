@@ -43,7 +43,7 @@ public class CommentService {
         c.setBody(body);
         c.setUser(u);
         u.addComment(c);
-        userService.saveUser(u);
+        //userService.saveUser(u);
         return commentRepository.save(c);
     }
 }
