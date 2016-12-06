@@ -108,6 +108,8 @@ function createCommentModal(imageUuid) {
         elementDiv.appendChild(modalFooterDiv);
 
         //Lisää modal verkkosivulle
-        document.body.appendChild(elementDiv);
+        $(".container").append(elementDiv);
+        $('.modal').modal();
+        $('#commentModal_' + imageUuid).modal('open');
     }
 }
