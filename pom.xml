@@ -139,7 +139,7 @@
 				<configuration>
 					<repoToken>yourcoverallsprojectrepositorytoken</repoToken>
 				</configuration>
-		</plugin>
+			</plugin>
         </plugins>
     </build>
 </project>
