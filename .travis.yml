@@ -9,3 +9,5 @@ install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script: "mvn test -Dspring.profiles.active=development -B"
 jdk:
   - oraclejdk8
+after_success:
+  - coveralls
