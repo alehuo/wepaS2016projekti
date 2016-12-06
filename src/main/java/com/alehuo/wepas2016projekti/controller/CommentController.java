@@ -20,6 +20,7 @@ import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
+import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -43,11 +44,11 @@ public class CommentController {
     private UserService userService;
     
     @Autowired
-    private ImageRepository imageRepository;
+    private ImageService imageService;
     
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
     public String addComment(@PathVariable String uuid, @RequestParam String comment) {
-        Image img = imageRepository.findOneByUuid(uuid);
+        Image img = imageService.findOneImageByUuid(uuid);
         Comment comm = new Comment();
         comm.setBody(comment);
         
@@ -57,6 +58,8 @@ public class CommentController {
         comm.setUser(u);
         
         img.addComment(comm);
+        
+        imageService.saveImage(img);
         return "redirect:/";
     }
 }
