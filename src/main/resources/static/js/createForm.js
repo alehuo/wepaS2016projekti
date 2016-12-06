@@ -20,7 +20,8 @@
  * @returns {undefined}
  */
 function createCommentModal(imageUuid) {
-    if (document.getElementById("commentModal_" + imageUuid) === null) {
+    var commentModal = document.getElementById("commentModal_" + imageUuid);
+    if (commentModal === null) {
         //Elementti
         var elementDiv = document.createElement("div");
         elementDiv.id = "commentModal_" + imageUuid;
@@ -74,7 +75,7 @@ function createCommentModal(imageUuid) {
         submitBtn.className = "modal-action waves-effect waves-green btn-flat";
         submitBtn.textContent = "Kommentoi";
         $(submitBtn).on("click", function () {
-            $('#commentForm_' + imageUuid).submit();
+            $(commentForm).submit();
         });
 
         //Lomakkeen peruuta -nappi
@@ -112,8 +113,8 @@ function createCommentModal(imageUuid) {
         //Lisää modal verkkosivulle
         $(".container").append(elementDiv);
         $('.modal').modal();
-        $('#commentModal_' + imageUuid).modal('open');
+        $(elementDiv).modal('open');
     } else {
-        $('#commentModal_' + imageUuid).modal('open');
+        $(commentModal).modal('open');
     }
 }
