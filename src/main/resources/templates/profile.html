@@ -4,7 +4,7 @@
         <title>Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <!--Theme color-->
@@ -19,8 +19,19 @@
             #sidenav-overlay {
                 z-index: 996; 
             }
-            .grid-item { width: 400px; }
-            .grid-item--width2 { width: 400px; }
+            /*Masonry kuvan leveys*/
+            .grid-item { 
+                width: 280px; float: left; 
+            }
+            .grid {
+                margin: 0 auto;
+            }
+            /* clearfix */
+            .grid:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
         </style>
     </head>
     <body>
@@ -64,7 +75,7 @@
                 <h3>Käyttäjän <b><span th:text="${userProfile.username}">Käyttäjänimi</span></b> jakamat kuvat</h3>
                 <!--Cards-->
                 <div class="grid">
-                    <div class="grid-item" th:each="image : ${userImages}"><img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}" width="400"/></div>
+                    <div class="grid-item" th:each="image : ${userImages}"><img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}" width="280"/></div>
                 </div>
                 <!--<div class="card" th:each="image : ${userImages}">
                     <div class="card-image center-align">

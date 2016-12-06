@@ -35,7 +35,8 @@ $(document).ready(function () {
             $(this).materialbox();
             $('.grid').masonry({
                 itemSelector: '.grid-item',
-                columnWidth: 400
+                columnWidth: 280,
+                isFitWidth: true
             });
         });
     });
