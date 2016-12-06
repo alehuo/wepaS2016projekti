@@ -17,7 +17,6 @@
 package com.alehuo.wepas2016projekti.service;
 
 import com.alehuo.wepas2016projekti.domain.Comment;
-import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.CommentRepository;
 import javax.transaction.Transactional;
@@ -43,7 +42,6 @@ public class CommentService {
         c.setBody(body);
         c.setUser(u);
         u.addComment(c);
-        //userService.saveUser(u);
         return commentRepository.save(c);
     }
 }

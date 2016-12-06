@@ -64,11 +64,14 @@ public class ProfileController {
     }
 
     @RequestMapping("/photo/{uuid}")
-    @ResponseBody
     public String viewPhoto(@PathVariable String uuid, Model m) throws UnsupportedEncodingException {
-        //Näyttää kuvan sekä kaikki sen kommentin.
-        //Myös kommentointimahdollisuus
-        return "todo";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedinUsername = auth.getName();
+        UserAccount loggedInUser = userService.getUserByUsername(loggedinUsername);
+        m.addAttribute("user", loggedInUser);
+        
+        m.addAttribute("image", imageService.findOneImageByUuid(uuid));
+        return "image";
     }
 
 }
