@@ -155,5 +155,9 @@ public class Image extends AbstractPersistable<Long> {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+    
+    public int getCommentsAmount(){
+        return comments.size();
+    }
 
 }

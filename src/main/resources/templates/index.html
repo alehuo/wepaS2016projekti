@@ -80,10 +80,12 @@
                 <div class="card-content">
                     <p><span class="card-title large" th:text="${image.description}"></span></p>
                     Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
-                    <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;">0</span> kommenttia</span>
-                    <div th:each="comment : ${image.comments}">
-                        <p><span th:text="${comment.body}"></span></p>
-                    </div>
+                    <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:text="${image.commentsAmount}">0</span> kommenttia</span>
+                    <p>
+                        <div th:each="comment : ${image.comments}">
+                            <p><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span> <span th:text="${comment.body}"></span></p>
+                        </div>
+                    </p>
                 </div>  
                 <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>
                     <a href="#!" th:onclick="'createCommentModal(\'' + ${image.uuid} + '\');'">Kommentoi</a></div>
