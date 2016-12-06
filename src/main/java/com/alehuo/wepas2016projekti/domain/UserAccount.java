@@ -18,6 +18,7 @@ package com.alehuo.wepas2016projekti.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -67,7 +68,7 @@ public class UserAccount extends AbstractPersistable<Long> {
     @Email
     private String email;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public UserAccount() {
