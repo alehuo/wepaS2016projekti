@@ -19,6 +19,7 @@ package com.alehuo.wepas2016projekti.controller;
 import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.service.CommentService;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +45,17 @@ public class CommentController {
     @Autowired
     private ImageService imageService;
     
+    @Autowired
+    private CommentService commentService;
+    
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
     public String addComment(@PathVariable String uuid, @RequestParam String comment) {
         Image img = imageService.findOneImageByUuid(uuid);
-        Comment comm = new Comment();
-        comm.setBody(comment);
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        UserAccount u = userService.getUserByUsername(username);        
-        comm.setUser(u);
-        
+        UserAccount u = userService.getUserByUsername(username);
+        Comment comm = commentService.addComment(comment, u);
         img.addComment(comm);
         
         imageService.saveImage(img);

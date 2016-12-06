@@ -68,6 +68,11 @@ public class Image extends AbstractPersistable<Long> {
     private int likes = 0;
 
     private String uuid = UUID.randomUUID().toString();
+    
+    public Image() {
+        comments = new ArrayList<>();
+        likedBy = new ArrayList<>();
+    }
 
     /**
      * Aseta kuvan timestamp luontihetkenä
@@ -102,14 +107,11 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public void addLike(UserAccount u) {
-        if (likedBy == null) {
-            likedBy = new ArrayList();
-        }
         likedBy.add(u);
     }
 
     public void removeLike(UserAccount u) {
-        if (likedBy != null && likedBy.contains(u)) {
+        if (likedBy.contains(u)) {
             likedBy.remove(u);
         }
     }
@@ -139,16 +141,10 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public List<Comment> getComments() {
-        if (comments == null) {
-            comments = new ArrayList();
-        }
         return comments;
     }
 
     public void addComment(Comment c) {
-        if (comments == null) {
-            comments = new ArrayList();
-        }
         comments.add(c);
     }
 
