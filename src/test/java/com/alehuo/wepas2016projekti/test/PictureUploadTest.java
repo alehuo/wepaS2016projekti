@@ -49,7 +49,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PictureUploadTest extends FluentTest {
 
-    public HtmlUnitDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.CHROME);
+    public HtmlUnitDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
 
     @Autowired
     private ImageService imageService;
@@ -73,7 +73,6 @@ public class PictureUploadTest extends FluentTest {
     public void uudenKuvanJakaminenToimii() {
 
 //        initService.resetApplicationState();
-        webDriver.setJavascriptEnabled(true);
 
         goTo("http://localhost:" + port);
 
@@ -115,8 +114,6 @@ public class PictureUploadTest extends FluentTest {
 
         //Nollaa tila
         initService.resetApplicationState();
-
-        webDriver.setJavascriptEnabled(true);
 
         //Etusivu
         goTo("http://localhost:" + port);

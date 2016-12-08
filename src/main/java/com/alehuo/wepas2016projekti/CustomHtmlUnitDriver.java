@@ -27,8 +27,13 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
  */
 public class CustomHtmlUnitDriver extends HtmlUnitDriver {
 
-    public CustomHtmlUnitDriver(BrowserVersion bV) {
-        super(bV);
+    /**
+     *
+     * @param bV
+     * @param status
+     */
+    public CustomHtmlUnitDriver(BrowserVersion bV, boolean status) {
+        super(bV, status);
     }
 
     @Override
