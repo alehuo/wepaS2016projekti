@@ -19,9 +19,16 @@ package com.alehuo.wepas2016projekti.controller;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.repository.CommentRepository;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.UserService;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -44,17 +51,71 @@ public class DefaultController {
     private UserService userService;
 
     @Autowired
+    private CommentRepository commentRepo;
+
+    @Autowired
     private ImageRepository imageRepo;
 
+    /**
+     * Alustus
+     */
     @PostConstruct
     public void init() {
-        if (userService.getUserByUsername("admin") == null) {
-            userService.createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
+
+        commentRepo.deleteAll();
+        imageRepo.deleteAll();
+        userService.deleteAllUsers();
+
+        userService.createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
+        userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
+
+        try {
+            if (imageRepo.findAllByImageOwnerOrderByIdDesc(userService.getUserByUsername("admin")).size() == 0) {
+                Path path = Paths.get("src/main/resources/kuvat/1.jpg");
+                Image i = new Image();
+                i.setImageContentType("image/jpg");
+                i.setImageData(Files.readAllBytes(path));
+                i.setDescription("Testikuva 1");
+                i.setImageOwner(userService.getUserByUsername("admin"));
+                imageRepo.save(i);
+
+                path = Paths.get("src/main/resources/kuvat/2.jpg");
+                i = new Image();
+                i.setImageContentType("image/jpg");
+                i.setImageData(Files.readAllBytes(path));
+                i.setDescription("Testikuva 1");
+                i.setImageOwner(userService.getUserByUsername("admin"));
+                imageRepo.save(i);
+
+                path = Paths.get("src/main/resources/kuvat/3.jpg");
+                i = new Image();
+                i.setImageContentType("image/jpg");
+                i.setImageData(Files.readAllBytes(path));
+                i.setDescription("Testikuva 1");
+                i.setImageOwner(userService.getUserByUsername("admin"));
+                imageRepo.save(i);
+
+                path = Paths.get("src/main/resources/kuvat/4.jpg");
+                i = new Image();
+                i.setImageContentType("image/jpg");
+                i.setImageData(Files.readAllBytes(path));
+                i.setDescription("Testikuva 1");
+                i.setImageOwner(userService.getUserByUsername("admin"));
+                imageRepo.save(i);
+
+                path = Paths.get("src/main/resources/kuvat/5.jpg");
+                i = new Image();
+                i.setImageContentType("image/jpg");
+                i.setImageData(Files.readAllBytes(path));
+                i.setDescription("Testikuva 1");
+                i.setImageOwner(userService.getUserByUsername("admin"));
+                imageRepo.save(i);
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (userService.getUserByUsername("user") == null) {
-            userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
-        }
     }
 
     @RequestMapping("/")
