@@ -18,6 +18,8 @@ package com.alehuo.wepas2016projekti.test;
 
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.service.CommentService;
+import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
 import java.util.UUID;
@@ -42,14 +44,24 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private ImageService imageService;
+
     /**
      * Testi testaa, että käyttäjätilin lisäys toimii userServicen kautta
      */
     @Test
     public void kayttajaTilinLisaysToimiiUserServicenAvulla() {
+        //Tyhjennetään kommenttitaulu
+        commentService.deleteAllComments();
+        //Tyhjennetään kuvat
+        imageService.deleteAllImages();
         //Tyhjennetään käyttäjätaulu
         userService.deleteAllUsers();
-        
+
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser = generateAndSaveRandomUser();
 
@@ -66,18 +78,22 @@ public class UserServiceTest {
      */
     @Test
     public void kayttajaTilinHakuToimiiUserServicenAvulla() {
+        //Tyhjennetään kommenttitaulu
+        commentService.deleteAllComments();
+        //Tyhjennetään kuvat
+        imageService.deleteAllImages();
         //Tyhjennetään käyttäjätaulu
         userService.deleteAllUsers();
-        
+
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser1 = generateAndSaveRandomUser();
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser2 = generateAndSaveRandomAdmin();
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser3 = generateAndSaveRandomUser();
-        
+
         List<UserAccount> users = userService.getAllUsers();
-        
+
         assertEquals("Käyttäjätilejä ei palautunut tarvittava määrä", 3, users.size());
         assertTrue(kayttajatilitSamoja(randomUser1, users.get(0)));
         assertTrue(kayttajatilitSamoja(randomUser2, users.get(1)));
@@ -86,12 +102,16 @@ public class UserServiceTest {
 
     @Test
     public void kayttajaTilinHakuToimiiIdlläUserServicenAvulla() {
+        //Tyhjennetään kommenttitaulu
+        commentService.deleteAllComments();
+        //Tyhjennetään kuvat
+        imageService.deleteAllImages();
         //Tyhjennetään käyttäjätaulu
         userService.deleteAllUsers();
-        
+
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser1 = generateAndSaveRandomUser();
-        
+
         assertEquals(randomUser1, userService.getUserById(randomUser1.getId()));
     }
 

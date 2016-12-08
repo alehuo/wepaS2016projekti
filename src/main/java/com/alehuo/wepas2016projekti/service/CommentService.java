@@ -29,19 +29,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CommentService {
-    
+
     @Autowired
     private CommentRepository commentRepository;
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Transactional
-    public Comment addComment(String body, UserAccount u) {        
+    public Comment addComment(String body, UserAccount u) {
         Comment c = new Comment();
         c.setBody(body);
         c.setUser(u);
         u.addComment(c);
         return commentRepository.save(c);
+    }
+
+    public void deleteAllComments() {
+        commentRepository.deleteAll();
     }
 }

@@ -43,21 +43,25 @@ public class ImageService {
         i.setImageContentType(imageType);
         return saveImage(i);
     }
-    
-    public Image findOneImageById(Long imageId){
+
+    public Image findOneImageById(Long imageId) {
         return imageRepo.findOne(imageId);
     }
-    
-    public Image findOneImageByUuid(String uuid){
+
+    public Image findOneImageByUuid(String uuid) {
         return imageRepo.findOneByUuid(uuid);
     }
-    
-    public List<Image> findAllByUserAccount(UserAccount u){
+
+    public List<Image> findAllByUserAccount(UserAccount u) {
         return imageRepo.findAllByImageOwnerOrderByIdDesc(u);
     }
-    
-    public Image saveImage(Image i){
+
+    public Image saveImage(Image i) {
         imageRepo.save(i);
         return i;
+    }
+
+    public void deleteAllImages() {
+        imageRepo.deleteAll();
     }
 }
