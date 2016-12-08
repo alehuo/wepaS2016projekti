@@ -16,6 +16,7 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,9 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<Comment> comments;
 
+    @ManyToMany
+    private List<Comment> lastThreeComments;
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] imageData;
@@ -68,9 +72,10 @@ public class Image extends AbstractPersistable<Long> {
     private int likes = 0;
 
     private String uuid = UUID.randomUUID().toString();
-    
+
     public Image() {
         comments = new ArrayList<>();
+        lastThreeComments = new ArrayList<>();
         likedBy = new ArrayList<>();
     }
 
@@ -137,6 +142,11 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public void setComments(List<Comment> comments) {
+        if (comments.size() > 3) {
+            this.lastThreeComments = comments.subList(comments.size() - 3, comments.size());
+        } else {
+            this.lastThreeComments = comments;
+        }
         this.comments = comments;
     }
 
@@ -145,6 +155,10 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public void addComment(Comment c) {
+        if (comments.size() >= 3) {
+            this.lastThreeComments.remove(0);            
+        }
+        lastThreeComments.add(c);
         comments.add(c);
     }
 
@@ -155,9 +169,20 @@ public class Image extends AbstractPersistable<Long> {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
-    
-    public int getCommentsAmount(){
+
+    public int getCommentsAmount() {
         return comments.size();
     }
+
+    public List<Comment> getLastThreeComments() {
+        Collections.reverse(lastThreeComments);
+        return lastThreeComments;
+    }
+
+    public void setLastThreeComments(List<Comment> lastThreeComments) {
+        this.lastThreeComments = lastThreeComments;
+    }
+    
+    
 
 }
