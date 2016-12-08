@@ -30,6 +30,8 @@ import java.util.UUID;
 //import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 //import org.openqa.selenium.By;
 
@@ -58,6 +60,13 @@ public class ImageTest {
         i.setImageOwner(u);
         i.addComment(c);
 
+        Image i2 = new Image();
+        i2.setDescription("HelloWorld");
+        i2.setImageData(imageData);
+        i2.setImageContentType("image/42");
+        i2.setImageOwner(u);
+        i2.addComment(c);
+
         List<Comment> comments = new ArrayList();
         comments.add(c);
 
@@ -77,8 +86,22 @@ public class ImageTest {
 
         assertEquals("UUID:tä ei aseteta oikein", uuid2, i.getUuid());
 
+        assertTrue(i2.equals(i));
+        assertEquals("equals() ei toimi oikein", i, i2);
+        assertTrue(i2.hashCode() == i.hashCode());
+        assertFalse(i.equals(null));
+
+        i2.setImageData(UUID.randomUUID().toString().getBytes());
+
+        assertNotEquals("equals() ei toimi oikein: kuvan data", i, i2);
+
+        i2.setImageContentType("image/1");
+
+        assertNotEquals("equals() ei toimi oikein: kuvan tyyppi", i, i2);
+
+        assertNotEquals("equals() ei toimi oikein: objektin tyyppi", i, new String());
     }
-    
+
     /*@Test
     public void tarkistaKuvienMaara() {
         
@@ -99,5 +122,4 @@ public class ImageTest {
         assertTrue(parsedPageSource.contains("Testikuva 4"));
         assertTrue(parsedPageSource.contains("Testikuva 5"));
     }*/
-
 }
