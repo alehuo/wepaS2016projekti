@@ -18,8 +18,10 @@ package com.alehuo.wepas2016projekti.domain;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -69,8 +71,6 @@ public class Image extends AbstractPersistable<Long> {
     @Column(name = "timestamp")
     @Type(type = "timestamp")
     private Date creationDate;
-
-    private int likes = 0;
 
     private String uuid = UUID.randomUUID().toString();
 
@@ -182,6 +182,35 @@ public class Image extends AbstractPersistable<Long> {
 
     public void setLastThreeComments(List<Comment> lastThreeComments) {
         this.lastThreeComments = lastThreeComments;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + Arrays.hashCode(this.imageData);
+        hash = 31 * hash + Objects.hashCode(this.contentType);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Image other = (Image) obj;
+        if (!Objects.equals(this.contentType, other.contentType)) {
+            return false;
+        }
+        if (!Arrays.equals(this.imageData, other.imageData)) {
+            return false;
+        }
+        return true;
     }
     
     

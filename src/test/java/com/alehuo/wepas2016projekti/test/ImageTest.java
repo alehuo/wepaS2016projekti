@@ -19,8 +19,10 @@ package com.alehuo.wepas2016projekti.test;
 import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -47,13 +49,29 @@ public class ImageTest {
         String uuid = UUID.randomUUID().toString().substring(0, 2);
         imageData = uuid.getBytes();
         i.setImageData(imageData);
+        i.setImageContentType("image/42");
         i.setImageOwner(u);
         i.addComment(c);
 
+        List<Comment> comments = new ArrayList();
+        comments.add(c);
+
         assertTrue("Kuvan dataa ei aseteta oikein", Arrays.equals(imageData, i.getImageData()));
+        assertEquals("Tyyppiä ei aseteta oikein", "image/42", i.getContentType());
         assertEquals("Kuvausta ei aseteta oikein", "HelloWorld", i.getDescription());
         assertEquals("Käyttäjää ei aseteta oikein", u, i.getImageOwner());
         assertEquals("Kommenttia ei aseteta oikein", c, i.getComments().get(0));
+
+        i.setComments(comments);
+
+        assertEquals("Kommentteja ei aseteta oikein", comments, i.getComments());
+
+        String uuid2 = "42424242-42424242";
+
+        i.setUuid(uuid2);
+
+        assertEquals("UUID:tä ei aseteta oikein", uuid2, i.getUuid());
+
     }
 
 }
