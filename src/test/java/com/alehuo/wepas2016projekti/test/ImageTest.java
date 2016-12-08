@@ -24,9 +24,17 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+<<<<<<< HEAD
+import org.fluentlenium.adapter.FluentTest;
+import org.jsoup.Jsoup;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+=======
+>>>>>>> e35702d648c030c2a0473d29b26176ce5056772b
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.openqa.selenium.By;
 
 /**
  *
@@ -73,5 +81,29 @@ public class ImageTest {
         assertEquals("UUID:tä ei aseteta oikein", uuid2, i.getUuid());
 
     }
+<<<<<<< HEAD
+    
+    @Test
+    public void tarkistaKuvienMaara() {
+        
+        goTo("http://localhost:" + port);
 
+        assertTrue(pageSource().contains("Kirjaudu sisään"));
+
+        fill(find("#username")).with("admin");
+        fill(find("#passwd")).with("admin");
+        submit(find("form").first());
+
+        assertTrue(pageSource().contains("Syöte"));
+        
+        String parsedPageSource = Jsoup.parse(pageSource()).text();
+        assertTrue(parsedPageSource.contains("Testikuva 1"));
+        assertTrue(parsedPageSource.contains("Testikuva 2"));
+        assertTrue(parsedPageSource.contains("Testikuva 3"));
+        assertTrue(parsedPageSource.contains("Testikuva 4"));
+        assertTrue(parsedPageSource.contains("Testikuva 5"));
+    }
+=======
+
+>>>>>>> e35702d648c030c2a0473d29b26176ce5056772b
 }
