@@ -83,7 +83,7 @@ public class DefaultController {
                 i = new Image();
                 i.setImageContentType("image/jpg");
                 i.setImageData(Files.readAllBytes(path));
-                i.setDescription("Testikuva 1");
+                i.setDescription("Testikuva 2");
                 i.setImageOwner(userService.getUserByUsername("admin"));
                 imageRepo.save(i);
 
@@ -91,7 +91,7 @@ public class DefaultController {
                 i = new Image();
                 i.setImageContentType("image/jpg");
                 i.setImageData(Files.readAllBytes(path));
-                i.setDescription("Testikuva 1");
+                i.setDescription("Testikuva 3");
                 i.setImageOwner(userService.getUserByUsername("admin"));
                 imageRepo.save(i);
 
@@ -99,7 +99,7 @@ public class DefaultController {
                 i = new Image();
                 i.setImageContentType("image/jpg");
                 i.setImageData(Files.readAllBytes(path));
-                i.setDescription("Testikuva 1");
+                i.setDescription("Testikuva 4");
                 i.setImageOwner(userService.getUserByUsername("admin"));
                 imageRepo.save(i);
 
@@ -107,7 +107,7 @@ public class DefaultController {
                 i = new Image();
                 i.setImageContentType("image/jpg");
                 i.setImageData(Files.readAllBytes(path));
-                i.setDescription("Testikuva 1");
+                i.setDescription("Testikuva 5");
                 i.setImageOwner(userService.getUserByUsername("admin"));
                 imageRepo.save(i);
             }
