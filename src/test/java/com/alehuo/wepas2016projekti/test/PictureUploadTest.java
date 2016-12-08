@@ -16,6 +16,14 @@
  */
 package com.alehuo.wepas2016projekti.test;
 
+import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
+import com.alehuo.wepas2016projekti.domain.Image;
+import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.service.ImageService;
+import com.alehuo.wepas2016projekti.service.InitService;
+import com.alehuo.wepas2016projekti.service.UserService;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import java.util.List;
 import java.util.UUID;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
@@ -23,12 +31,15 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -38,7 +49,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PictureUploadTest extends FluentTest {
 
-    public WebDriver webDriver = new HtmlUnitDriver();
+    public HtmlUnitDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.CHROME);
+
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private InitService initService;
 
     @Override
     public WebDriver getDefaultDriver() {
@@ -51,6 +71,10 @@ public class PictureUploadTest extends FluentTest {
     @Test
 //    @Ignore
     public void uudenKuvanJakaminenToimii() {
+
+//        initService.resetApplicationState();
+        webDriver.setJavascriptEnabled(true);
+
         goTo("http://localhost:" + port);
 
         assertTrue(pageSource().contains("Kirjaudu sisään"));
@@ -87,13 +111,13 @@ public class PictureUploadTest extends FluentTest {
     }
 
     @Test
-//    @Ignore
     public void kuvanTykkaaminenToimii() throws InterruptedException {
 
-        /*
-        Tämän toiminnallisuuden testin koodaaminen on vienyt jo 3 tuntia. Jätetään sikseen.
-        Testattu itse ja toimii.
-         */
+        //Nollaa tila
+        initService.resetApplicationState();
+
+        webDriver.setJavascriptEnabled(true);
+
         //Etusivu
         goTo("http://localhost:" + port);
 
@@ -105,16 +129,34 @@ public class PictureUploadTest extends FluentTest {
         //Lähetä lomake
         submit(find("form").first());
 
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+
         //Nyt ollaan etusivulla
         assertTrue(pageSource().contains("Syöte"));
 
-        //Paina tykkäysnappia
-        /*TODO*/
-        //Päivitä sivu
+
+        //Hae käyttäjätili ja sen kuvat
+        UserAccount u = userService.getUserByUsername("admin");
+        List<Image> images = imageService.findAllByUserAccount(u);
+
+        System.out.println(images.size());
+        assertTrue(images.size() == 5);
+
+        System.out.println("likeImage('" + images.get(0).getUuid() + "')");
+
+        //Suorita JavaScript -funktio jolla tykätään kuvasta
+        ((JavascriptExecutor) webDriver).executeScript("likeImage('" + images.get(0).getUuid() + "')");
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+
+        //Päivitä sivu varmuuden vuoksi (Tykkäyksen tulisi säilyä päivityksen yli)
         webDriver.navigate().refresh();
+
         //Nyt ollaan etusivulla, tarkistetaan että tykkäys rekisteröityi onnistuneesti
         //Käytetään Jsoup -kirjastoa jotta saadaan pelkkä teksti sivulta.
         String parsedPageSource = Jsoup.parse(pageSource()).text();
-        assertTrue(parsedPageSource.contains("0 tykkäystä"));
+        assertTrue(parsedPageSource.contains("1 tykkäystä"));
     }
 }

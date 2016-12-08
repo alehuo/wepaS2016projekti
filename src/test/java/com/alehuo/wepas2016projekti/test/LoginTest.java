@@ -16,6 +16,8 @@
  */
 package com.alehuo.wepas2016projekti.test;
 
+import com.alehuo.wepas2016projekti.configuration.DevelopmentConfiguration;
+import com.alehuo.wepas2016projekti.configuration.DevelopmentSecurityConfiguration;
 import com.alehuo.wepas2016projekti.configuration.ProductionConfiguration;
 import com.alehuo.wepas2016projekti.configuration.ProductionSecurityConfiguration;
 import org.fluentlenium.adapter.FluentTest;
@@ -27,6 +29,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -52,7 +55,7 @@ public class LoginTest extends FluentTest {
 //    @Ignore
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
         goTo("http://localhost:" + port);
-
+        System.out.println(webDriver.getPageSource());
         assertTrue(pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("admin");
