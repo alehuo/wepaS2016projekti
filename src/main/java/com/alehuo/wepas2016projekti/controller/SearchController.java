@@ -16,7 +16,10 @@
  */
 package com.alehuo.wepas2016projekti.controller;
 
+import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.UserService;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,18 +40,25 @@ public class SearchController {
 
     @Autowired
     private UserService userService;
-
+    private List<UserAccount> userlist = new ArrayList<>();
+    
     @RequestMapping(method = RequestMethod.GET)
     public String search(Model m) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedinUsername = auth.getName();
         m.addAttribute("user", userService.getUserByUsername(loggedinUsername));
+        m.addAttribute("userlist", userlist);
         return "search";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
     public String doSearch(@RequestParam String username) {
-        return "profile results for " + username;
+        userlist = new ArrayList<>();
+        for(UserAccount u : userService.getAllUsers()){
+            if(u.getUsername().contains(username)){
+                userlist.add(u);
+            }
+        }
+        return "redirect:/search";
     }
 }
