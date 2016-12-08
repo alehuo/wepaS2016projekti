@@ -69,6 +69,7 @@ public class ProfileTest extends FluentTest {
         assertTrue(pageSource().contains("Profiilia ei löydy"));
         
         webDriver.findElement(By.id("profiili")).click();
+        parsedPageSource = Jsoup.parse(pageSource()).text();
         assertTrue(parsedPageSource.contains("Käyttäjän admin jakamat kuvat"));
     }
 }
