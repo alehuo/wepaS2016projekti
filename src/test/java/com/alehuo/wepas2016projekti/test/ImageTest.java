@@ -22,16 +22,7 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
-import org.fluentlenium.adapter.FluentTest;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -39,19 +30,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author alehuo
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ImageTest extends FluentTest{
-
-    public WebDriver webDriver = new HtmlUnitDriver();
-
-    @Override
-    public WebDriver getDefaultDriver() {
-        return webDriver;
-    }
-
-    @LocalServerPort
-    private Integer port;
+public class ImageTest {
 
     @Test
     public void testaaAsetaKaikki() {
@@ -76,9 +55,5 @@ public class ImageTest extends FluentTest{
         assertEquals("Käyttäjää ei aseteta oikein", u, i.getImageOwner());
         assertEquals("Kommenttia ei aseteta oikein", c, i.getComments().get(0));
     }
-    
-    @Test
-    public void lisaaKuvaTest() {
-        
-    }
+
 }

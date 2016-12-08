@@ -60,18 +60,19 @@ function createCommentModal(imageUuid) {
 
         //Textarean label
         var textAreaLabel = document.createElement("label");
-        textAreaLabel.for = "icon_prefix2";
+        textAreaLabel.for = "commentModalTextarea_" + imageUuid;
         textAreaLabel.textContent = "Kommentti";
 
         //Lomakkeen textarea
         var textArea = document.createElement("textarea");
-        textArea.id = "icon_prefix2";
+        textArea.id = "commentModalTextarea_" + imageUuid;
         textArea.name = "comment";
         textArea.className = "materialize-textarea";
 
         //Lomakkeen lähetä -nappi
         var submitBtn = document.createElement("a");
         submitBtn.href = "#!";
+        submitBtn.id = "commentModalSubmitBtn_" + imageUuid;
         submitBtn.className = "modal-action waves-effect waves-green btn-flat";
         submitBtn.textContent = "Kommentoi";
         $(submitBtn).on("click", function () {
@@ -81,6 +82,7 @@ function createCommentModal(imageUuid) {
         //Lomakkeen peruuta -nappi
         var cancelBtn = document.createElement("a");
         cancelBtn.href = "#!";
+        cancelBtn.id = "commentModalCancelBtn_" + imageUuid;
         cancelBtn.className = "modal-action modal-close waves-effect waves-green btn-flat";
         cancelBtn.textContent = "Peruuta";
 

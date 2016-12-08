@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.UUID;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -69,10 +69,7 @@ public class PictureUploadTest extends FluentTest {
     private Integer port;
 
     @Test
-//    @Ignore
     public void uudenKuvanJakaminenToimii() {
-
-//        initService.resetApplicationState();
 
         goTo("http://localhost:" + port);
 
@@ -110,7 +107,7 @@ public class PictureUploadTest extends FluentTest {
     }
 
     @Test
-    public void kuvanTykkaaminenToimii() throws InterruptedException {
+    public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
         //Nollaa tila
         initService.resetApplicationState();
@@ -132,15 +129,12 @@ public class PictureUploadTest extends FluentTest {
         //Nyt ollaan etusivulla
         assertTrue(pageSource().contains("Syöte"));
 
-
         //Hae käyttäjätili ja sen kuvat
         UserAccount u = userService.getUserByUsername("admin");
         List<Image> images = imageService.findAllByUserAccount(u);
 
         System.out.println(images.size());
         assertTrue(images.size() == 5);
-
-        System.out.println("likeImage('" + images.get(0).getUuid() + "')");
 
         //Suorita JavaScript -funktio jolla tykätään kuvasta
         ((JavascriptExecutor) webDriver).executeScript("likeImage('" + images.get(0).getUuid() + "')");
@@ -155,5 +149,37 @@ public class PictureUploadTest extends FluentTest {
         //Käytetään Jsoup -kirjastoa jotta saadaan pelkkä teksti sivulta.
         String parsedPageSource = Jsoup.parse(pageSource()).text();
         assertTrue(parsedPageSource.contains("1 tykkäystä"));
+
+        //Suorita JavaScript -funktio jolla avataan kommentointi-ikkuna
+        ((JavascriptExecutor) webDriver).executeScript("createCommentModal('" + images.get(0).getUuid() + "')");
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+
+        ((JavascriptExecutor) webDriver).executeScript("$('#commentModal_" + images.get(0).getUuid() + "').modal('open');");
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+
+        //Etsi textarea
+        assertTrue(webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).isDisplayed());
+
+        //Kirjoita tekstiä
+        webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).sendKeys("HelloWorldTestiKommentti");
+
+        //Lähetä kommentti
+        webDriver.findElement(By.id("commentModalSubmitBtn_" + images.get(0).getUuid())).click();
+
+        assertTrue(pageSource().contains("HelloWorldTestiKommentti"));
+
+        parsedPageSource = Jsoup.parse(pageSource()).text();
+
+        assertTrue(parsedPageSource.contains("1 kommenttia"));
+
+        Image i = imageService.findOneImageByUuid(images.get(0).getUuid());
+
+        assertEquals(1, i.getComments().size());
+        assertEquals("HelloWorldTestiKommentti", i.getComments().get(0).getBody());
+
     }
 }
