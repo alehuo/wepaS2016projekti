@@ -125,7 +125,7 @@ public class Image extends AbstractPersistable<Long> {
         return likedBy;
     }
 
-    public void setImageContentTyle(String contentType) {
+    public void setImageContentType(String contentType) {
         this.contentType = contentType;
     }
 

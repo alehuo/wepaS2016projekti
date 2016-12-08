@@ -20,7 +20,6 @@ import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.UserAccountRepository;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,17 +35,7 @@ public class UserService {
 
     @Autowired
     private UserAccountRepository userRepo;
-
-    @PostConstruct
-    public void init() {
-        if (userRepo.findByUsername("admin") == null) {
-            createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
-        }
-
-        if (userRepo.findByUsername("user") == null) {
-            createNewUser("user", "user", "user@localhost.com", Role.USER);
-        }
-    }
+  
 
     /**
      * Uuden käyttäjän luominen

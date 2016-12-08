@@ -40,7 +40,7 @@ public class ImageService {
         i.setImageData(imageData);
         i.setDescription(description);
         i.setImageOwner(u);
-        i.setImageContentTyle(imageType);
+        i.setImageContentType(imageType);
         return saveImage(i);
     }
     
