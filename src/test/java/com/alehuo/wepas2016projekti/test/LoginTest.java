@@ -61,8 +61,8 @@ public class LoginTest extends FluentTest {
 
         assertTrue(pageSource().contains("Syöte"));
 
-        webDriver.findElement(By.xpath("//*[text()[contains(.,'Kirjaudu ulos')]]")).click();
-
+        webDriver.findElement(By.id("logout")).click();
+        
         assertTrue(pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("vaaratunnus");

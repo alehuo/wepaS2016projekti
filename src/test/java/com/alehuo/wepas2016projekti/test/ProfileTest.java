@@ -21,6 +21,7 @@ import org.jsoup.Jsoup;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -66,5 +67,8 @@ public class ProfileTest extends FluentTest {
 
         goTo("http://localhost:" + port + "/profile/user2");
         assertTrue(pageSource().contains("Profiilia ei löydy"));
+        
+        webDriver.findElement(By.id("profiili")).click();
+        assertTrue(parsedPageSource.contains("Käyttäjän admin jakamat kuvat"));
     }
 }
