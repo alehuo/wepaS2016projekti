@@ -9,6 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <sonar.exclusions>**/Application.java,**/CustomHtmlUnitDriver.java,**/DevelopmentConfiguration.java,**/DevelopmentSecurityConfiguration.java,**/ProductionConfiguration.java,**/ProductionSecurityConfiguration.java</sonar.exclusions>
     </properties>
     <name>WepaS2016Projekti</name>
     <description>Web-palvelinohjelmointi syksy 2016</description>

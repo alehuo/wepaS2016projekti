@@ -22,17 +22,14 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
+<<<<<<< HEAD
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+=======
+>>>>>>> e35702d648c030c2a0473d29b26176ce5056772b
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.openqa.selenium.By;
@@ -41,19 +38,7 @@ import org.openqa.selenium.By;
  *
  * @author alehuo
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ImageTest extends FluentTest{
-
-    public WebDriver webDriver = new HtmlUnitDriver();
-
-    @Override
-    public WebDriver getDefaultDriver() {
-        return webDriver;
-    }
-
-    @LocalServerPort
-    private Integer port;
+public class ImageTest {
 
     @Test
     public void testaaAsetaKaikki() {
@@ -78,6 +63,7 @@ public class ImageTest extends FluentTest{
         assertEquals("Käyttäjää ei aseteta oikein", u, i.getImageOwner());
         assertEquals("Kommenttia ei aseteta oikein", c, i.getComments().get(0));
     }
+<<<<<<< HEAD
     
     @Test
     public void tarkistaKuvienMaara() {
@@ -99,4 +85,7 @@ public class ImageTest extends FluentTest{
         assertTrue(parsedPageSource.contains("Testikuva 4"));
         assertTrue(parsedPageSource.contains("Testikuva 5"));
     }
+=======
+
+>>>>>>> e35702d648c030c2a0473d29b26176ce5056772b
 }
