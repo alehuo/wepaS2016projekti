@@ -83,7 +83,7 @@
                     <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:text="${image.commentsAmount}">0</span> kommenttia</span>
                     <p>
                         <ul>
-                            <li th:each="comment : ${image.comments}">
+                            <li th:each="comment : ${image.lastThreeComments}">
                                 <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
                             </li>  
                         </ul>
