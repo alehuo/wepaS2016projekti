@@ -22,6 +22,7 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,6 +46,17 @@ public class DefaultController {
     @Autowired
     private ImageRepository imageRepo;
 
+    @PostConstruct
+    public void init() {
+        if (userService.getUserByUsername("admin") == null) {
+            userService.createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
+        }
+
+        if (userService.getUserByUsername("user") == null) {
+            userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
+        }
+    }
+
     @RequestMapping("/")
     public String index(Model m) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -60,7 +72,7 @@ public class DefaultController {
     public String login() {
         return "login";
     }
-    
+
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register() {
         return "register";
@@ -70,7 +82,7 @@ public class DefaultController {
     public String register(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
         if (userService.getUserByUsername(username) == null) {
             userService.createNewUser(username, password, email, Role.USER);
-        }else{
+        } else {
             return "redirect:/register?error";
         }
         return "redirect:/login";
