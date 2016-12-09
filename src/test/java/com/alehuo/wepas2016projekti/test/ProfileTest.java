@@ -56,7 +56,10 @@ public class ProfileTest extends FluentTest {
 
         fill(find("#username")).with("admin");
         fill(find("#passwd")).with("admin");
-        submit(find("form").first());
+        submit(find("#loginForm"));
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
 
         assertTrue(pageSource().contains("Syöte"));
 
@@ -67,7 +70,7 @@ public class ProfileTest extends FluentTest {
 
         goTo("http://localhost:" + port + "/profile/user2");
         assertTrue(pageSource().contains("Profiilia ei löydy"));
-        
+
         webDriver.findElement(By.id("profiili")).click();
         parsedPageSource = Jsoup.parse(pageSource()).text();
         assertTrue(parsedPageSource.contains("Käyttäjän admin jakamat kuvat"));

@@ -55,20 +55,20 @@ public class RegisterTest extends FluentTest {
 
         webDriver.findElement(By.name("register")).click();
 
-        assertTrue(pageSource().contains("Rekisteröidy"));
+        assertTrue("\nError: ei löydy 'Rekisteröidy' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröidy"));
 
         fill(find("#username")).with("matti");
         fill(find("#passwd")).with("meikalainen");
         fill(find("#email")).with("matti.meikalainen@localhost.fi");
-        submit(find("form").first());
+        submit(find("#loginForm"));
 
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("matti");
         fill(find("#passwd")).with("meikalainen");
-        submit(find("form").first());
+        submit(find("#loginForm"));
 
-        assertTrue(pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'Syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
     }
 }

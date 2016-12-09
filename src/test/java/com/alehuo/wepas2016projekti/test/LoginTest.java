@@ -52,22 +52,25 @@ public class LoginTest extends FluentTest {
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
         goTo("http://localhost:" + port);
         System.out.println(webDriver.getPageSource());
-        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n",pageSource().contains("Kirjaudu sisään"));
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("admin");
         fill(find("#passwd")).with("admin");
         submit(find("#loginForm"));
 
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+
         assertTrue("\nError: ei löydy 'syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         webDriver.findElement(By.id("logout")).click();
 
-        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n",pageSource().contains("Kirjaudu sisään"));
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("vaaratunnus");
         fill(find("#passwd")).with("vaaratunnus");
         submit(find("form").first());
 
-        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n",pageSource().contains("Kirjaudu sisään"));
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
     }
 }

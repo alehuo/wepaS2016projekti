@@ -81,7 +81,7 @@ public class PictureUploadTest extends FluentTest {
         fill(find("#username")).with("admin");
         fill(find("#passwd")).with("admin");
         //Lähetä lomake
-        submit(find("form").first());
+        submit(find("#loginForm"));
 
         //Nyt ollaan etusivulla
         assertTrue("\nError: ei löydy 'Syöte' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Syöte"));
@@ -123,7 +123,7 @@ public class PictureUploadTest extends FluentTest {
         fill(find("#username")).with("admin");
         fill(find("#passwd")).with("admin");
         //Lähetä lomake
-        submit(find("form").first());
+        submit(find("#loginForm"));
 
         //Nuku vähän aikaa
         Thread.sleep(500);
