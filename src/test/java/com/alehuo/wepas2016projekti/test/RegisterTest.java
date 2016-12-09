@@ -38,37 +38,41 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RegisterTest extends FluentTest {
-
+    
     public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
-
+    
     @Override
     public WebDriver getDefaultDriver() {
         return webDriver;
     }
-
+    
     @LocalServerPort
     private Integer port;
-
+    
     @Test
     public void rekisteroityminenToimii() throws Exception {
         goTo("http://localhost:" + port);
-
+        
         webDriver.findElement(By.name("register")).click();
-
+        
         assertTrue("\nError: ei löydy 'Rekisteröidy' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröidy"));
-
+        
         fill(find("#username")).with("matti");
         fill(find("#passwd")).with("meikalainen");
         fill(find("#email")).with("matti.meikalainen@localhost.fi");
-        submit(find("#loginForm"));
-
+        submit(find("#registerForm"));
+        
+        Thread.sleep(500);
+        
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
-
+        
         fill(find("#username")).with("matti");
         fill(find("#passwd")).with("meikalainen");
         submit(find("#loginForm"));
-
+        
+        Thread.sleep(500);
+        
         assertTrue("\nError: ei löydy 'Syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
-
+        
     }
 }
