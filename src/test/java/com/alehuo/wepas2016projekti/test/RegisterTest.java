@@ -16,9 +16,13 @@
  */
 package com.alehuo.wepas2016projekti.test;
 
+import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import java.util.logging.Level;
 import org.fluentlenium.adapter.FluentTest;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -35,7 +39,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RegisterTest extends FluentTest {
 
-    public WebDriver webDriver = new HtmlUnitDriver();
+    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
 
     @Override
     public WebDriver getDefaultDriver() {
@@ -50,20 +54,20 @@ public class RegisterTest extends FluentTest {
         goTo("http://localhost:" + port);
 
         webDriver.findElement(By.name("register")).click();
-        
+
         assertTrue(pageSource().contains("Rekisteröidy"));
-        
+
         fill(find("#username")).with("matti");
         fill(find("#passwd")).with("meikalainen");
         fill(find("#email")).with("matti.meikalainen@localhost.fi");
         submit(find("form").first());
-        
+
         assertTrue(pageSource().contains("Kirjaudu sisään"));
-        
+
         fill(find("#username")).with("matti");
         fill(find("#passwd")).with("meikalainen");
         submit(find("form").first());
-        
+
         assertTrue(pageSource().contains("Syöte"));
 
     }

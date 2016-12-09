@@ -25,6 +25,7 @@ import com.alehuo.wepas2016projekti.service.UserService;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertEquals;
@@ -40,6 +41,7 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 
 /**
  *
@@ -49,7 +51,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PictureUploadTest extends FluentTest {
 
-    public HtmlUnitDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
+    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
 
     @Autowired
     private ImageService imageService;
