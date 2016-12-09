@@ -16,18 +16,21 @@
  */
 package com.alehuo.wepas2016projekti.test;
 
-import com.alehuo.wepas2016projekti.configuration.ProductionConfiguration;
-import com.alehuo.wepas2016projekti.configuration.ProductionSecurityConfiguration;
+import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import java.util.logging.Level;
 import org.fluentlenium.adapter.FluentTest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -37,38 +40,43 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginTest extends FluentTest {
-
-    public WebDriver webDriver = new HtmlUnitDriver();
-
+    
+    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
+    
     @Override
     public WebDriver getDefaultDriver() {
         return webDriver;
     }
-
+    
     @LocalServerPort
     private Integer port;
-
+    
     @Test
-//    @Ignore
+    @Ignore
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
         goTo("http://localhost:" + port);
-
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
-
+        
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
+        
         fill(find("#username")).with("admin");
         fill(find("#passwd")).with("admin");
-        submit(find("form").first());
+        submit(find("#loginForm"));
 
-        assertTrue(pageSource().contains("Syöte"));
-
-        webDriver.findElement(By.xpath("//*[text()[contains(.,'Kirjaudu ulos')]]")).click();
-
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
-
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+        
+        assertFalse("Sovellus ei ohjaa oikein etusivulle", webDriver.getCurrentUrl().contains("/login"));
+        
+        assertTrue("\nError: ei löydy 'syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+        
+        webDriver.findElement(By.id("logout")).click();
+        
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
+        
         fill(find("#username")).with("vaaratunnus");
         fill(find("#passwd")).with("vaaratunnus");
         submit(find("form").first());
-
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
+        
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
     }
 }

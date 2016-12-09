@@ -30,13 +30,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
  * @author alehuo
  */
 @Controller
-@RequestMapping("profile")
 public class ProfileController {
 
     @Autowired
@@ -45,7 +45,7 @@ public class ProfileController {
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping("/{username}")
+    @RequestMapping("/profile/{username}")
     public String viewProfile(@PathVariable String username, Model m) throws UnsupportedEncodingException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String loggedinUsername = auth.getName();
@@ -61,6 +61,17 @@ public class ProfileController {
         }
 
         return "profile";
+    }
+
+    @RequestMapping("/photo/{uuid}")
+    public String viewPhoto(@PathVariable String uuid, Model m) throws UnsupportedEncodingException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedinUsername = auth.getName();
+        UserAccount loggedInUser = userService.getUserByUsername(loggedinUsername);
+        m.addAttribute("user", loggedInUser);
+        
+        m.addAttribute("image", imageService.findOneImageByUuid(uuid));
+        return "image";
     }
 
 }

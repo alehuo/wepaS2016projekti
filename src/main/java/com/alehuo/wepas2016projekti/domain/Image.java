@@ -16,11 +16,15 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,8 +52,11 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<UserAccount> likedBy;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @ManyToMany
+    private List<Comment> lastThreeComments;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
@@ -65,9 +72,13 @@ public class Image extends AbstractPersistable<Long> {
     @Type(type = "timestamp")
     private Date creationDate;
 
-    private int likes = 0;
-
     private String uuid = UUID.randomUUID().toString();
+
+    public Image() {
+        comments = new ArrayList<>();
+        lastThreeComments = new ArrayList<>();
+        likedBy = new ArrayList<>();
+    }
 
     /**
      * Aseta kuvan timestamp luontihetkenä
@@ -102,14 +113,11 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public void addLike(UserAccount u) {
-        if (likedBy == null) {
-            likedBy = new ArrayList();
-        }
         likedBy.add(u);
     }
 
     public void removeLike(UserAccount u) {
-        if (likedBy != null && likedBy.contains(u)) {
+        if (likedBy.contains(u)) {
             likedBy.remove(u);
         }
     }
@@ -118,7 +126,7 @@ public class Image extends AbstractPersistable<Long> {
         return likedBy;
     }
 
-    public void setImageContentTyle(String contentType) {
+    public void setImageContentType(String contentType) {
         this.contentType = contentType;
     }
 
@@ -135,20 +143,23 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public void setComments(List<Comment> comments) {
+        if (comments.size() > 3) {
+            this.lastThreeComments = comments.subList(comments.size() - 3, comments.size());
+        } else {
+            this.lastThreeComments = comments;
+        }
         this.comments = comments;
     }
 
     public List<Comment> getComments() {
-        if (comments == null) {
-            comments = new ArrayList();
-        }
         return comments;
     }
 
     public void addComment(Comment c) {
-        if (comments == null) {
-            comments = new ArrayList();
+        if (comments.size() >= 3) {
+            this.lastThreeComments.remove(0);            
         }
+        lastThreeComments.add(c);
         comments.add(c);
     }
 
@@ -159,5 +170,49 @@ public class Image extends AbstractPersistable<Long> {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
+    public int getCommentsAmount() {
+        return comments.size();
+    }
+
+    public List<Comment> getLastThreeComments() {
+        Collections.reverse(lastThreeComments);
+        return lastThreeComments;
+    }
+
+    public void setLastThreeComments(List<Comment> lastThreeComments) {
+        this.lastThreeComments = lastThreeComments;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + Arrays.hashCode(this.imageData);
+        hash = 31 * hash + Objects.hashCode(this.contentType);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Image other = (Image) obj;
+        if (!Objects.equals(this.contentType, other.contentType)) {
+            return false;
+        }
+        if (!Arrays.equals(this.imageData, other.imageData)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

@@ -20,7 +20,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
@@ -33,11 +32,12 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 @Table(name = "Comments")
 public class Comment extends AbstractPersistable<Long> {
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserAccount user;
-    
+
     private String body;
-    
+
     @Column(name = "timestamp")
     @Type(type = "timestamp")
     private Date creationDate;
@@ -66,5 +66,4 @@ public class Comment extends AbstractPersistable<Long> {
         this.creationDate = creationDate;
     }
 
-    
 }

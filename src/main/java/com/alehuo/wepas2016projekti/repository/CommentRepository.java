@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 alehuo
+ * Copyright (C) 2016 Pivotal Software, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,25 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alehuo.wepas2016projekti;
+package com.alehuo.wepas2016projekti.repository;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import com.alehuo.wepas2016projekti.domain.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author alehuo
+ * @author Jusaa
  */
-@SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan
-public class Application {
+public interface CommentRepository extends JpaRepository<Comment, Long>{
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
 }

@@ -4,7 +4,7 @@
         <title>Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <!--Theme color-->
@@ -19,19 +19,32 @@
             #sidenav-overlay {
                 z-index: 996; 
             }
+            /*Masonry kuvan leveys*/
+            .grid-item { 
+                width: 280px; float: left; 
+            }
+            .grid {
+                margin: 0 auto;
+            }
+            /* clearfix */
+            .grid:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
         </style>
     </head>
-    <body>
+    <body>        
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
                     <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
                     <a href="#" data-activates="mobileMenu" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a th:href="@{/}"><i class="material-icons left">store</i>Syöte</a></li>
-                        <li><a th:href="@{/search}"><i class="material-icons left">search</i>Haku</a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
-                        <li><a th:href="@{/logout}"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i>Syöte</a></li>
+                        <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i>Haku</a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
+                        <li><a th:href="@{/logout}" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
                         <li><div class="userView">
@@ -46,10 +59,10 @@
                                     <span class="white-text email" th:text="${user.email}">Sähköpostiosoite</span>
                                 </a>
                             </div></li>
-                        <li><a th:href="@{/}"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
-                        <li><a th:href="@{/search}"><i class="material-icons green-text">search</i>Haku</a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}"><i class="material-icons blue-text">face</i>Profiili</a></li>
-                        <li><a th:href="@{/logout}"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/}" id="syote"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
+                        <li><a th:href="@{/search}" id="haku"><i class="material-icons green-text">search</i>Haku</a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons blue-text">face</i>Profiili</a></li>
+                        <li><a th:href="@{/logout}" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
                     </ul>            
                 </div>
             </nav>
@@ -61,7 +74,10 @@
             <div th:unless="${userProfile == null}">
                 <h3>Käyttäjän <b><span th:text="${userProfile.username}">Käyttäjänimi</span></b> jakamat kuvat</h3>
                 <!--Cards-->
-                <div class="card" th:each="image : ${userImages}">
+                <div class="grid">
+                    <div class="grid-item" th:each="image : ${userImages}"><img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}" width="280"/></div>
+                </div>
+                <!--<div class="card" th:each="image : ${userImages}">
                     <div class="card-image center-align">
                         <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
                         <span class="card-title"></span>
@@ -83,14 +99,27 @@
                     <div class="card-content">
                         <p><span class="card-title large" th:text="${image.description}"></span></p>
                         Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
-                        <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;">0</span> kommenttia</span>
-                    </div>
-                    <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a><a href="#!">Kommentoi</a></div>
+                        <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:text="${image.commentsAmount}">0</span> kommenttia</span>
+                        <p>
+                            <ul>
+                                <li th:each="comment : ${image.comments}">
+                                    <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
+                                </li>  
+                            </ul>
+                            <a th:href="@{'/photo/' + ${image.uuid}}">Näytä kaikki kommentit</a>
+                        </p>
+                    </div>  
+                    <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>
+                        <a href="#!" th:onclick="'createCommentModal(\'' + ${image.uuid} + '\');'">Kommentoi</a></div>
+
                 </div>
+                <h4 th:unless="${not #lists.isEmpty(userImages)}">Ei kuvia.</h4>
+            </div>-->
             </div>
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/masonry.pkgd.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/like.js'}"></script>

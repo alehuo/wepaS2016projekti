@@ -19,12 +19,21 @@ package com.alehuo.wepas2016projekti.test;
 import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+//import org.fluentlenium.adapter.FluentTest;
+//import org.jsoup.Jsoup;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+//import org.openqa.selenium.By;
 
 /**
  *
@@ -47,12 +56,70 @@ public class ImageTest {
         String uuid = UUID.randomUUID().toString().substring(0, 2);
         imageData = uuid.getBytes();
         i.setImageData(imageData);
+        i.setImageContentType("image/42");
         i.setImageOwner(u);
         i.addComment(c);
 
+        Image i2 = new Image();
+        i2.setDescription("HelloWorld");
+        i2.setImageData(imageData);
+        i2.setImageContentType("image/42");
+        i2.setImageOwner(u);
+        i2.addComment(c);
+
+        List<Comment> comments = new ArrayList();
+        comments.add(c);
+
         assertTrue("Kuvan dataa ei aseteta oikein", Arrays.equals(imageData, i.getImageData()));
+        assertEquals("Tyyppiä ei aseteta oikein", "image/42", i.getContentType());
         assertEquals("Kuvausta ei aseteta oikein", "HelloWorld", i.getDescription());
         assertEquals("Käyttäjää ei aseteta oikein", u, i.getImageOwner());
         assertEquals("Kommenttia ei aseteta oikein", c, i.getComments().get(0));
+
+        i.setComments(comments);
+
+        assertEquals("Kommentteja ei aseteta oikein", comments, i.getComments());
+
+        String uuid2 = "42424242-42424242";
+
+        i.setUuid(uuid2);
+
+        assertEquals("UUID:tä ei aseteta oikein", uuid2, i.getUuid());
+
+        assertTrue(i2.equals(i));
+        assertEquals("equals() ei toimi oikein", i, i2);
+        assertTrue(i2.hashCode() == i.hashCode());
+        assertFalse(i.equals(null));
+
+        i2.setImageData(UUID.randomUUID().toString().getBytes());
+
+        assertNotEquals("equals() ei toimi oikein: kuvan data", i, i2);
+
+        i2.setImageContentType("image/1");
+
+        assertNotEquals("equals() ei toimi oikein: kuvan tyyppi", i, i2);
+
+        assertNotEquals("equals() ei toimi oikein: objektin tyyppi", i, new String());
     }
+
+    /*@Test
+    public void tarkistaKuvienMaara() {
+        
+        goTo("http://localhost:" + port);
+
+        assertTrue(pageSource().contains("Kirjaudu sisään"));
+
+        fill(find("#username")).with("admin");
+        fill(find("#passwd")).with("admin");
+        submit(find("form").first());
+
+        assertTrue(pageSource().contains("Syöte"));
+        
+        String parsedPageSource = Jsoup.parse(pageSource()).text();
+        assertTrue(parsedPageSource.contains("Testikuva 1"));
+        assertTrue(parsedPageSource.contains("Testikuva 2"));
+        assertTrue(parsedPageSource.contains("Testikuva 3"));
+        assertTrue(parsedPageSource.contains("Testikuva 4"));
+        assertTrue(parsedPageSource.contains("Testikuva 5"));
+    }*/
 }

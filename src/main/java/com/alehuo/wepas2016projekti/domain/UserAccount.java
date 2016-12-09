@@ -16,15 +16,18 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.junit.Ignore;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -59,10 +62,17 @@ public class UserAccount extends AbstractPersistable<Long> {
     /**
      * Sähköpostiosoite
      */
-    @Column(name = "email", unique = true, length = 24)
+    @Column(name = "email", unique = true, length = 255)
     @NotBlank
     @Email
     private String email;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    public UserAccount() {
+        comments = new ArrayList();
+    }
 
     public String getUsername() {
         return username;
@@ -94,6 +104,18 @@ public class UserAccount extends AbstractPersistable<Long> {
 
     public Role getRole() {
         return role;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+    
+    public void addComment(Comment c){
+        comments.add(c);
     }
 
     @Override

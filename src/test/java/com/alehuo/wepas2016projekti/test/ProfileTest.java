@@ -19,8 +19,10 @@ package com.alehuo.wepas2016projekti.test;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -46,7 +48,7 @@ public class ProfileTest extends FluentTest {
     private Integer port;
 
     @Test
-//    @Ignore
+    @Ignore
     public void profiiliSivunSelaaminenToimii1() throws Exception {
         //Aiempi testi testaa jo siirtymisen kirjautumissivulle
         goTo("http://localhost:" + port);
@@ -55,7 +57,10 @@ public class ProfileTest extends FluentTest {
 
         fill(find("#username")).with("admin");
         fill(find("#passwd")).with("admin");
-        submit(find("form").first());
+        submit(find("#loginForm"));
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
 
         assertTrue(pageSource().contains("Syöte"));
 
@@ -66,5 +71,9 @@ public class ProfileTest extends FluentTest {
 
         goTo("http://localhost:" + port + "/profile/user2");
         assertTrue(pageSource().contains("Profiilia ei löydy"));
+
+        webDriver.findElement(By.id("profiili")).click();
+        parsedPageSource = Jsoup.parse(pageSource()).text();
+        assertTrue(parsedPageSource.contains("Käyttäjän admin jakamat kuvat"));
     }
 }

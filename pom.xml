@@ -9,6 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <sonar.exclusions>**/Application.java,**/CustomHtmlUnitDriver.java,**/InitService.java**/DevelopmentConfiguration.java,**/DevelopmentSecurityConfiguration.java,**/ProductionConfiguration.java,**/ProductionSecurityConfiguration.java</sonar.exclusions>
     </properties>
     <name>WepaS2016Projekti</name>
     <description>Web-palvelinohjelmointi syksy 2016</description>
@@ -92,6 +93,15 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>htmlunit-driver</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+        </dependency> 
+        <dependency>
+            <groupId>org.apache.directory.studio</groupId>
+            <artifactId>org.apache.commons.io</artifactId>
+            <version>2.4</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -132,16 +142,16 @@
                     </execution>
                 </executions>
             </plugin>
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>4.3.0</version>
-				<configuration>
-					<serviceName>travis-ci</serviceName>
-					<serviceJobId>${env.TRAVIS_JOB_ID} </serviceJobId>
-                                        <branch>master</branch>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+                <configuration>
+                    <serviceName>travis-ci</serviceName>
+                    <serviceJobId>${env.TRAVIS_JOB_ID} </serviceJobId>
+                    <branch>master</branch>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
