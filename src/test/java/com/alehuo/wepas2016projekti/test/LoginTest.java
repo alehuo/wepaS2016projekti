@@ -51,7 +51,7 @@ public class LoginTest extends FluentTest {
     @Test
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
         goTo("http://localhost:" + port);
-        System.out.println(webDriver.getPageSource());
+
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("admin");
