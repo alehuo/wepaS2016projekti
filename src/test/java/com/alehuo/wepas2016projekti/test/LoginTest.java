@@ -56,7 +56,7 @@ public class LoginTest extends FluentTest {
 
         fill(find("#username")).with("admin");
         fill(find("#passwd")).with("admin");
-        submit(find("form").first());
+        submit(find("#loginForm"));
 
         assertTrue("\nError: \n" + pageSource() + "\n",pageSource().contains("Syöte"));
 
