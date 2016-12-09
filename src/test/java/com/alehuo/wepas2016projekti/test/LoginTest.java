@@ -20,6 +20,7 @@ import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import java.util.logging.Level;
 import org.fluentlenium.adapter.FluentTest;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +61,8 @@ public class LoginTest extends FluentTest {
 
         //Nuku vähän aikaa
         Thread.sleep(500);
+
+        assertTrue("Sovellus ei ohjaa oikein etusivulle", webDriver.getCurrentUrl().equals("http://localhost:" + port));
 
         assertTrue("\nError: ei löydy 'syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
