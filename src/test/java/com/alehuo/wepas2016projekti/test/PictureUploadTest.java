@@ -75,7 +75,7 @@ public class PictureUploadTest extends FluentTest {
 
         goTo("http://localhost:" + port);
 
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         //admin -tunnuksilla sisään
         fill(find("#username")).with("admin");
@@ -84,13 +84,13 @@ public class PictureUploadTest extends FluentTest {
         submit(find("form").first());
 
         //Nyt ollaan etusivulla
-        assertTrue(pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'Syöte' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         //Klikkaa "plus" -nappia
         click(find("#uploadBtn").first());
 
         //Nyt ollaan Upload -sivulla
-        assertTrue(pageSource().contains("Jaa kuva"));
+        assertTrue("\nError: ei löydy 'Jaa kuva' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Jaa kuva"));
 
         //Lisää kuvaus
         String description = UUID.randomUUID().toString().substring(0, 8);
@@ -105,7 +105,7 @@ public class PictureUploadTest extends FluentTest {
         webDriver.findElement(By.id("uploadSubmitBtn")).click();
 
         //Nyt ollaan etusivulla, tarkistetaan että kuva lisättiin onnistuneesti
-        assertTrue(pageSource().contains(description));
+        assertTrue("\nError: ei löydy ladatun kuvan kuvausta \n" + pageSource() + "\n", pageSource().contains(description));
     }
 
     @Test
@@ -117,7 +117,7 @@ public class PictureUploadTest extends FluentTest {
         //Etusivu
         goTo("http://localhost:" + port);
 
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         //admin -tunnuksilla sisään
         fill(find("#username")).with("admin");
@@ -129,14 +129,14 @@ public class PictureUploadTest extends FluentTest {
         Thread.sleep(500);
 
         //Nyt ollaan etusivulla
-        assertTrue(pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'Syöte' tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         //Hae käyttäjätili ja sen kuvat
         UserAccount u = userService.getUserByUsername("admin");
         List<Image> images = imageService.findAllByUserAccount(u);
 
         System.out.println(images.size());
-        assertTrue(images.size() == 5);
+        assertTrue("\nError: kuvia ei ole listassa viisi\n", images.size() == 5);
 
         //Suorita JavaScript -funktio jolla tykätään kuvasta
         ((JavascriptExecutor) webDriver).executeScript("likeImage('" + images.get(0).getUuid() + "')");
@@ -150,7 +150,7 @@ public class PictureUploadTest extends FluentTest {
         //Nyt ollaan etusivulla, tarkistetaan että tykkäys rekisteröityi onnistuneesti
         //Käytetään Jsoup -kirjastoa jotta saadaan pelkkä teksti sivulta.
         String parsedPageSource = Jsoup.parse(pageSource()).text();
-        assertTrue(parsedPageSource.contains("1 tykkäystä"));
+        assertTrue("\nError: kuvalle ei lisätty tykkäystä\n" + pageSource() + "\n", parsedPageSource.contains("1 tykkäystä"));
 
         //Suorita JavaScript -funktio jolla avataan kommentointi-ikkuna
         ((JavascriptExecutor) webDriver).executeScript("createCommentModal('" + images.get(0).getUuid() + "')");
@@ -164,7 +164,7 @@ public class PictureUploadTest extends FluentTest {
         Thread.sleep(500);
 
         //Etsi textarea
-        assertTrue(webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).isDisplayed());
+        assertTrue("\nError: Ei löydetty commentModalTextarea_" + images.get(0).getUuid() + "\n" + pageSource() + "\n", webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).isDisplayed());
 
         //Kirjoita tekstiä
         webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).sendKeys("HelloWorldTestiKommentti");
@@ -172,16 +172,18 @@ public class PictureUploadTest extends FluentTest {
         //Lähetä kommentti
         webDriver.findElement(By.id("commentModalSubmitBtn_" + images.get(0).getUuid())).click();
 
-        assertTrue(pageSource().contains("HelloWorldTestiKommentti"));
+        assertTrue("\nError: Ei löydetty 'HelloWorldTestiKommentti' -tekstiä\n" + pageSource() + "\n",
+                pageSource().contains("HelloWorldTestiKommentti")
+        );
 
         parsedPageSource = Jsoup.parse(pageSource()).text();
 
-        assertTrue(parsedPageSource.contains("1 kommenttia"));
+        assertTrue("\nError: kuvalle ei lisätty kommenttia\n" + pageSource() + "\n", parsedPageSource.contains("1 kommenttia"));
 
         Image i = imageService.findOneImageByUuid(images.get(0).getUuid());
 
-        assertEquals(1, i.getComments().size());
-        assertEquals("HelloWorldTestiKommentti", i.getComments().get(0).getBody());
+        assertEquals("\nError: Kommentteja ei ole tasan yksi\n" + pageSource() + "\n", 1, i.getComments().size());
+        assertEquals("\nError: kommenttia ei löytynyt sivulta\n" + pageSource() + "\n", "HelloWorldTestiKommentti", i.getComments().get(0).getBody());
 
     }
 }
