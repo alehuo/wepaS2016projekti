@@ -58,7 +58,7 @@ public class LoginTest extends FluentTest {
         fill(find("#passwd")).with("admin");
         submit(find("form").first());
 
-        assertTrue(pageSource().contains("Syöte"));
+        assertTrue("\nError: \n" + pageSource() + "\n",pageSource().contains("Syöte"));
 
         webDriver.findElement(By.id("logout")).click();
 
