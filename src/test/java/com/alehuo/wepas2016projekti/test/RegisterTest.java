@@ -18,15 +18,13 @@ package com.alehuo.wepas2016projekti.test;
 
 import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import java.util.logging.Level;
 import org.fluentlenium.adapter.FluentTest;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -50,6 +48,7 @@ public class RegisterTest extends FluentTest {
     private Integer port;
     
     @Test
+    @Ignore
     public void rekisteroityminenToimii() throws Exception {
         goTo("http://localhost:" + port);
         

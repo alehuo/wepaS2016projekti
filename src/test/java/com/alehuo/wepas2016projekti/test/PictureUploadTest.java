@@ -25,7 +25,6 @@ import com.alehuo.wepas2016projekti.service.UserService;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertEquals;
@@ -35,13 +34,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.Ignore;
 
 /**
  *
@@ -71,6 +69,7 @@ public class PictureUploadTest extends FluentTest {
     private Integer port;
 
     @Test
+    @Ignore
     public void uudenKuvanJakaminenToimii() {
 
         goTo("http://localhost:" + port);
@@ -109,6 +108,7 @@ public class PictureUploadTest extends FluentTest {
     }
 
     @Test
+    @Ignore
     public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
         //Nollaa tila
