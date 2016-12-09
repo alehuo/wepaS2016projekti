@@ -26,6 +26,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,17 +51,21 @@ public class UserServiceTest {
     @Autowired
     private ImageService imageService;
 
-    /**
-     * Testi testaa, että käyttäjätilin lisäys toimii userServicen kautta
-     */
-    @Test
-    public void kayttajaTilinLisaysToimiiUserServicenAvulla() {
+    @Before
+    public void init() {
         //Tyhjennetään kommenttitaulu
         commentService.deleteAllComments();
         //Tyhjennetään kuvat
         imageService.deleteAllImages();
         //Tyhjennetään käyttäjätaulu
         userService.deleteAllUsers();
+    }
+
+    /**
+     * Testi testaa, että käyttäjätilin lisäys toimii userServicen kautta
+     */
+    @Test
+    public void kayttajaTilinLisaysToimiiUserServicenAvulla() {
 
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser = generateAndSaveRandomUser();
@@ -78,13 +83,6 @@ public class UserServiceTest {
      */
     @Test
     public void kayttajaTilinHakuToimiiUserServicenAvulla() {
-        //Tyhjennetään kommenttitaulu
-        commentService.deleteAllComments();
-        //Tyhjennetään kuvat
-        imageService.deleteAllImages();
-        //Tyhjennetään käyttäjätaulu
-        userService.deleteAllUsers();
-
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser1 = generateAndSaveRandomUser();
         //Luodaan satunnainen käyttäjä
@@ -102,13 +100,6 @@ public class UserServiceTest {
 
     @Test
     public void kayttajaTilinHakuToimiiIdlläUserServicenAvulla() {
-        //Tyhjennetään kommenttitaulu
-        commentService.deleteAllComments();
-        //Tyhjennetään kuvat
-        imageService.deleteAllImages();
-        //Tyhjennetään käyttäjätaulu
-        userService.deleteAllUsers();
-
         //Luodaan satunnainen käyttäjä
         UserAccount randomUser1 = generateAndSaveRandomUser();
 
