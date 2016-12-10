@@ -2,22 +2,30 @@
 
 Kuvapalvelu
 
-* Kuvien lataus sekä hallinta
+* Kuvien lataus
 * Kuvien tykkäys ja kommentointi
-* Käyttäjäprofiilit (julkiset sekä yksityiset)
-* Käyttäjien seuraaminen ja estäminen
-* Pääkäyttäjillä mahdollisuus poistaa julkaisuja, kommentteja ja antaa porttikieltoja
+* Käyttäjäprofiilit
 * Rekisteröitymislomake
 * Responsiivinen ulkoasu eli toimii hyvin sekä mobiililaitteilla että työpöytäselaimilla
+
+Tietokantataulut
+
+* Käyttäjät
+* Kuvat
+* Kommentit
+* Tykkäykset (liitostaulu)
+
 
 Testaus
 
 * Yksikkö- ja integraatiotestit jne.
 * GitHub -> Travis -> Heroku
 
-Teknisiä juttuja
+TODO list
 
-* Kuvien tallennus tietokantaan?
-* PostgreSQL -tietokantajärjestelmä Herokussa?
-* Kuvien pienennys jotta ne eivät vie niin paljoa tilaa?
-* Otetaanko HTTPS käyttöön Heroku -sovellukselle?
+* Kuvien tallennus tietokantaan toimii [OK]
+* PostgreSQL -tietokantajärjestelmä Herokussa toimii [OK]
+* CSRF protection käyttöön (ja tarkista että JavaScript -koodit toimivat tämän kanssa hyvin) []
+* Syötteiden validointi []
+* Käyttäjän toimintojen logitus ja seuranta []
+* Loput testeistä valmiiksi (Lisäksi korjaa Travis -palvelussa kaatuvat testit) []
