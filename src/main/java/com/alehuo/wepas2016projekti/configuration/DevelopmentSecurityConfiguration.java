@@ -33,7 +33,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Profile("development")
+@Profile({"development", "development_local"})
 @Configuration
 @EnableWebSecurity
 public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapter {
