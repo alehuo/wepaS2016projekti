@@ -38,9 +38,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        
-        UserAccount u = userRepo.findByUsername(string);
-        
+
+        UserAccount u = userRepo.findByUsernameIgnoreCase(string.trim());
+
         if (u == null) {
             throw new UsernameNotFoundException("Käyttäjätunnusta " + string + " ei löydy");
         }

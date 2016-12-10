@@ -47,14 +47,8 @@ public class SearchController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String doSearch(Authentication a, Model m, @RequestParam String username) {
-        List<UserAccount> userlist = new ArrayList<>();
-        for (UserAccount u : userService.getAllUsers()) {
-            if (u.getUsername().contains(username)) {
-                userlist.add(u);
-            }
-        }
         m.addAttribute("user", userService.getUserByUsername(a.getName()));
-        m.addAttribute("userlist", userlist);
+        m.addAttribute("userlist", userService.getUsersByUsernameLike(username));
         return "search";
     }
 }

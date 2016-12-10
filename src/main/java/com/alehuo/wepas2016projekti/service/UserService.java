@@ -35,7 +35,6 @@ public class UserService {
 
     @Autowired
     private UserAccountRepository userRepo;
-  
 
     /**
      * Uuden käyttäjän luominen
@@ -69,12 +68,20 @@ public class UserService {
         return userRepo.findByUsername(username);
     }
 
+    public UserAccount getUserByUsernameIgnoreCase(String username) {
+        return userRepo.findByUsernameIgnoreCase(username);
+    }
+
     public UserAccount saveUser(UserAccount u) {
         return userRepo.save(u);
     }
 
     public void deleteAllUsers() {
         userRepo.deleteAll();
+    }
+
+    public List<UserAccount> getUsersByUsernameLike(String username) {
+        return userRepo.findByUsernameIgnoreCaseContaining(username);
     }
 
 }

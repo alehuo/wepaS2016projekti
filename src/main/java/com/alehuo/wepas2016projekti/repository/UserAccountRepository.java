@@ -23,12 +23,16 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Käyttäjärepo
+ *
  * @author alehuo
  */
 @Repository
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
-    List<UserAccount> findAll();
-
     UserAccount findByUsername(String username);
+    
+    UserAccount findByUsernameIgnoreCase(String username);
+
+    List<UserAccount> findByUsernameIgnoreCaseContaining(String username);
+
 }
