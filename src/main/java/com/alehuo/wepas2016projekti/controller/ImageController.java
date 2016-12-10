@@ -51,7 +51,7 @@ public class ImageController {
     /**
      * Hakee tietokannasta kuvan
      *
-     * @param imageId Kuvan ID
+     * @param imageUuid Kuvan UUID
      * @param response HttpServletResponse
      * @return Kuva
      * @throws IOException
@@ -82,11 +82,9 @@ public class ImageController {
      */
     @RequestMapping(value = "/like", method = RequestMethod.POST)
     @ResponseBody
-    public String likeImage(@RequestParam String imageUuid, HttpServletResponse response) {
+    public String likeImage(Authentication a, @RequestParam String imageUuid, HttpServletResponse response) {
         //Käyttäjän autentikoiminen
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        UserAccount u = userService.getUserByUsername(username);
+        UserAccount u = userService.getUserByUsername(a.getName());
         if (u != null) {
             Image i = imageService.findOneImageByUuid(imageUuid);
             if (i != null) {

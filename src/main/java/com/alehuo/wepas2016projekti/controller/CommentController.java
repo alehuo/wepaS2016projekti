@@ -49,12 +49,9 @@ public class CommentController {
     private CommentService commentService;
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
-    public String addComment(@PathVariable String uuid, @RequestParam String comment) {
+    public String addComment(Authentication a, @PathVariable String uuid, @RequestParam String comment) {
         Image img = imageService.findOneImageByUuid(uuid);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        UserAccount u = userService.getUserByUsername(username);
+        UserAccount u = userService.getUserByUsername(a.getName());
         Comment comm = commentService.addComment(comment, u);
         img.addComment(comm);
         u.addComment(comm);

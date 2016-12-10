@@ -46,10 +46,8 @@ public class ProfileController {
     private ImageService imageService;
 
     @RequestMapping("/profile/{username}")
-    public String viewProfile(@PathVariable String username, Model m) throws UnsupportedEncodingException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String loggedinUsername = auth.getName();
-        UserAccount loggedInUser = userService.getUserByUsername(loggedinUsername);
+    public String viewProfile(Authentication a, @PathVariable String username, Model m) throws UnsupportedEncodingException {
+        UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
 
         String profileUsername = URLDecoder.decode(username, "UTF-8");
@@ -64,10 +62,8 @@ public class ProfileController {
     }
 
     @RequestMapping("/photo/{uuid}")
-    public String viewPhoto(@PathVariable String uuid, Model m) throws UnsupportedEncodingException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String loggedinUsername = auth.getName();
-        UserAccount loggedInUser = userService.getUserByUsername(loggedinUsername);
+    public String viewPhoto(Authentication a, @PathVariable String uuid, Model m) throws UnsupportedEncodingException {
+        UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
         
         m.addAttribute("image", imageService.findOneImageByUuid(uuid));

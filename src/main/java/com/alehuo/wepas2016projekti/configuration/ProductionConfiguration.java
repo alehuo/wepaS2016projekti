@@ -58,6 +58,8 @@ public class ProductionConfiguration extends WebMvcConfigurerAdapter {
         basicDataSource.setUrl(dbUrl);
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
+        
+        //Autocommit pois päältä
         basicDataSource.setDefaultAutoCommit(false);
         
         return basicDataSource;

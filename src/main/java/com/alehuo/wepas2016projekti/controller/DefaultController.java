@@ -63,11 +63,9 @@ public class DefaultController {
     }
 
     @RequestMapping("/")
-    public String index(Model m) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
+    public String index(Authentication a, Model m) {
         List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
-        UserAccount u = userService.getUserByUsername(username);
+        UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
         m.addAttribute("images", images);
         return "index";

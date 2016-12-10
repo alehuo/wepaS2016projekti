@@ -48,20 +48,16 @@ public class UploadController {
     private ImageService imageService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String upload(Model m) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        UserAccount u = userService.getUserByUsername(username);
+    public String upload(Authentication a, Model m) {
+        UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
         return "upload";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String processUpload(@RequestParam("imageFile") MultipartFile file, @RequestParam String description, HttpServletResponse response) {
+    public String processUpload(Authentication a, @RequestParam("imageFile") MultipartFile file, @RequestParam String description, HttpServletResponse response) {
         //Hae autentikointi
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        UserAccount u = userService.getUserByUsername(username);
+        UserAccount u = userService.getUserByUsername(a.getName());
         try {
             //Tiedostomuodon tarkistus. Tarkista että onko oikea toteutustapa..
             if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/bmp") || file.getContentType().equals("image/gif"))) {
