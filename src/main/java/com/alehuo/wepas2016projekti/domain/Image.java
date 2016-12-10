@@ -23,14 +23,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Lob;
+import static javax.persistence.FetchType.LAZY;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
@@ -58,9 +59,8 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<Comment> lastThreeComments;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] imageData;
+    @OneToOne(cascade = ALL, fetch = LAZY)
+    private File file;
 
     @NotBlank
     @Length(min = 4, max = 64)
@@ -78,6 +78,7 @@ public class Image extends AbstractPersistable<Long> {
         comments = new ArrayList<>();
         lastThreeComments = new ArrayList<>();
         likedBy = new ArrayList<>();
+        file = new File();
     }
 
     /**
@@ -89,11 +90,11 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public byte[] getImageData() {
-        return imageData;
+        return file.getFile();
     }
 
     public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
+        file.setFile(imageData);
     }
 
     public void setImageOwner(UserAccount imageOwner) {
@@ -157,7 +158,7 @@ public class Image extends AbstractPersistable<Long> {
 
     public void addComment(Comment c) {
         if (comments.size() >= 3) {
-            this.lastThreeComments.remove(0);            
+            this.lastThreeComments.remove(0);
         }
         lastThreeComments.add(c);
         comments.add(c);
@@ -187,7 +188,7 @@ public class Image extends AbstractPersistable<Long> {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 31 * hash + Arrays.hashCode(this.imageData);
+        hash = 31 * hash + Arrays.hashCode(this.file.getFile());
         hash = 31 * hash + Objects.hashCode(this.contentType);
         return hash;
     }
@@ -207,12 +208,10 @@ public class Image extends AbstractPersistable<Long> {
         if (!Objects.equals(this.contentType, other.contentType)) {
             return false;
         }
-        if (!Arrays.equals(this.imageData, other.imageData)) {
+        if (!Arrays.equals(this.getImageData(), other.getImageData())) {
             return false;
         }
         return true;
     }
-    
-    
 
 }
