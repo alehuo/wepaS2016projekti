@@ -16,15 +16,15 @@
  */
 package com.alehuo.wepas2016projekti.test;
 
+import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -37,7 +37,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProfileTest extends FluentTest {
 
-    public WebDriver webDriver = new HtmlUnitDriver();
+    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
 
     @Override
     public WebDriver getDefaultDriver() {

@@ -21,7 +21,6 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.fluentlenium.adapter.FluentTest;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
