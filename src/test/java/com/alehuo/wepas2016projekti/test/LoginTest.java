@@ -37,7 +37,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginTest extends FluentTest {
 
-    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
+    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.getDefault(), true);
 
     @Override
     public WebDriver getDefaultDriver() {
