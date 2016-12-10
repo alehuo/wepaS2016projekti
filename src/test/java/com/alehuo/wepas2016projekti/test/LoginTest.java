@@ -18,6 +18,8 @@ package com.alehuo.wepas2016projekti.test;
 
 import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.fluentlenium.adapter.FluentTest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
