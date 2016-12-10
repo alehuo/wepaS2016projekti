@@ -44,14 +44,17 @@ public class ImageService {
         return saveImage(i);
     }
 
+    @Transactional
     public Image findOneImageById(Long imageId) {
         return imageRepo.findOne(imageId);
     }
 
+    @Transactional
     public Image findOneImageByUuid(String uuid) {
         return imageRepo.findOneByUuid(uuid);
     }
 
+    @Transactional
     public List<Image> findAllByUserAccount(UserAccount u) {
         return imageRepo.findAllByImageOwnerOrderByIdDesc(u);
     }
