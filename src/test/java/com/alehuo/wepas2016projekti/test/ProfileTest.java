@@ -48,7 +48,6 @@ public class ProfileTest extends FluentTest {
     private Integer port;
 
     @Test
-    @Ignore
     public void profiiliSivunSelaaminenToimii1() throws Exception {
         //Aiempi testi testaa jo siirtymisen kirjautumissivulle
         goTo("http://localhost:" + port);

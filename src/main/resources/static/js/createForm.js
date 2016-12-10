@@ -69,6 +69,11 @@ function createCommentModal(imageUuid) {
         textArea.name = "comment";
         textArea.className = "materialize-textarea";
 
+        var hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "_csrf";
+        hiddenInput.value = $("meta[name='_csrf']").attr("content");
+
         //Lomakkeen lähetä -nappi
         var submitBtn = document.createElement("a");
         submitBtn.href = "#!";
@@ -97,6 +102,7 @@ function createCommentModal(imageUuid) {
 
         //Lisää lomakkeeseen rivi
         commentForm.appendChild(commentFormRow);
+        commentForm.appendChild(hiddenInput);
 
         //Lisää otsikko sisältöön
         modalContentDiv.appendChild(modalHeader);

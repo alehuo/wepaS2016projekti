@@ -18,12 +18,9 @@ package com.alehuo.wepas2016projekti.test;
 
 import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import java.util.logging.Level;
 import org.fluentlenium.adapter.FluentTest;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +49,6 @@ public class LoginTest extends FluentTest {
     private Integer port;
     
     @Test
-    @Ignore
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
         goTo("http://localhost:" + port);
         

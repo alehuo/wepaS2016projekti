@@ -70,8 +70,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class ="container">
             <div th:each="u : ${userlist}">
                 <p><a th:href="@{'/profile/' + ${u.username}}"><span th:text="${u.username}" style="font-weight: bold;">Käyttäjätunnus</span></a></p>
             </div>

@@ -29,6 +29,8 @@ function likeImage(imageUuid) {
     xmlHttp.open("POST", likeUrl, true);
     //Aseta Content-type
     xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //Aseta CSRF token
+    xmlHttp.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
     //Lähetä data
     xmlHttp.send(params);
     //Tarkista vastaus
