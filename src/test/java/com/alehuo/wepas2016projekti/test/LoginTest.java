@@ -66,8 +66,6 @@ public class LoginTest extends FluentTest {
         //Nuku vähän aikaa
         Thread.sleep(500);
 
-        assertFalse("Sovellus ei ohjaa oikein etusivulle", webDriver.getCurrentUrl().contains("/login"));
-
         assertTrue("\nError: ei löydy 'syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         webDriver.findElement(By.id("logout")).click();
