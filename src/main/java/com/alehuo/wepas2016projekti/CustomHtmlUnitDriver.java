@@ -61,6 +61,7 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     protected WebClient modifyWebClient(WebClient client) {
         WebClient modifiedClient = super.modifyWebClient(client);
         modifiedClient.getOptions().setThrowExceptionOnScriptError(false); //Skript error reporting pois päältä ettei esim. jQuery heitä virhettä
+        modifiedClient.getOptions().setCssEnabled(false);
         modifiedClient.setIncorrectnessListener(new IncorrectnessListener() {
             @Override
             public void notify(String string, Object o) {
