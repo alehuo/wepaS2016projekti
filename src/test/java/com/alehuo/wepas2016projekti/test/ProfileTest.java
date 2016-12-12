@@ -54,7 +54,6 @@ public class ProfileTest extends FluentTest {
 
     @Test
     public void profiiliSivunSelaaminenToimii1() throws Exception {
-        initService.resetApplicationState();
 
         //Aiempi testi testaa jo siirtymisen kirjautumissivulle
         goTo("http://localhost:" + port);

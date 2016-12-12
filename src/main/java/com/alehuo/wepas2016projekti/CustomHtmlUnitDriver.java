@@ -16,18 +16,16 @@
  */
 package com.alehuo.wepas2016projekti;
 
-import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.IncorrectnessListener;
 import com.gargoylesoftware.htmlunit.InteractivePage;
-import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.ScriptException;
-import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HTMLParserListener;
 import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.CSSParseException;
@@ -39,6 +37,13 @@ import org.w3c.css.sac.ErrorHandler;
  * @author alehuo
  */
 public class CustomHtmlUnitDriver extends HtmlUnitDriver {
+
+    static {
+        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
+
+        java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+        java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
+    }
 
     /**
      *

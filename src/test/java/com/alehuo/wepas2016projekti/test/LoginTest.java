@@ -54,7 +54,6 @@ public class LoginTest extends FluentTest {
 
     @Test
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
-        initService.resetApplicationState();
         
         goTo("http://localhost:" + port);
 
