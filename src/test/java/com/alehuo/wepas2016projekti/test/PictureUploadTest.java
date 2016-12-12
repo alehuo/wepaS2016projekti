@@ -69,7 +69,6 @@ public class PictureUploadTest extends FluentTest {
     private Integer port;
 
     @Test
-    @Ignore
     public void uudenKuvanJakaminenToimii() {
 
         goTo("http://localhost:" + port);
@@ -78,7 +77,7 @@ public class PictureUploadTest extends FluentTest {
 
         //admin -tunnuksilla sisään
         fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
+        fill(find("#password")).with("admin");
         //Lähetä lomake
         submit(find("#loginForm"));
 
@@ -108,7 +107,6 @@ public class PictureUploadTest extends FluentTest {
     }
 
     @Test
-    @Ignore
     public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
         //Nollaa tila
@@ -121,7 +119,7 @@ public class PictureUploadTest extends FluentTest {
 
         //admin -tunnuksilla sisään
         fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
+        fill(find("#password")).with("admin");
         //Lähetä lomake
         submit(find("#loginForm"));
 

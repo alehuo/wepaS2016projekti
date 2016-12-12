@@ -34,7 +34,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RegisterTest extends FluentTest {
+public class SearchTest extends FluentTest {
     
     public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
     
@@ -46,30 +46,26 @@ public class RegisterTest extends FluentTest {
     @LocalServerPort
     private Integer port;
     
+    
     @Test
-    public void rekisteroityminenToimii() throws Exception {
+    public void hakuToimii() throws Exception{
         goTo("http://localhost:" + port);
         
-        webDriver.findElement(By.name("register")).click();
-        
-        assertTrue("\nError: ei löydy 'Rekisteröidy' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröidy"));
-        
-        fill(find("#username")).with("matti");
-        fill(find("#password")).with("meikalainen");
-        fill(find("#email")).with("matti.meikalainen@localhost.fi");
-        submit(find("#registerForm"));
-        
-        Thread.sleep(500);
-        
-        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
-        
-        fill(find("#username")).with("matti");
-        fill(find("#password")).with("meikalainen");
+        fill(find("#username")).with("admin");
+        fill(find("#password")).with("admin");
         submit(find("#loginForm"));
         
-        Thread.sleep(500);
+        webDriver.findElement(By.id("haku")).click();
+        assertTrue("\nError: ei löydy 'Hae käyttäjiä' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Hae käyttäjiä"));
         
-        assertTrue("\nError: ei löydy 'Syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+        fill(find("#username")).with("user");
+        submit(find("#searchForm")); 
+        System.out.println(pageSource());
+        assertTrue("\nError: ei löydy 'href=\"/profile/user\"' -tekstiä \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));
         
+        fill(find("#username")).with("eiuser");
+        submit(find("#searchForm"));
+        
+        assertFalse("\nError: löytyy 'href=\"/profile/user\"' -teksti \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));
     }
 }

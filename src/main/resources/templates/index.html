@@ -13,6 +13,10 @@
         <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}" media="screen,projection"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
+        <!-- CSRF -->
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <!-- default header name is X-CSRF-TOKEN -->
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
         <style type="text/css">
             /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
@@ -31,7 +35,7 @@
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
-                        <li><a th:href="@{/logout}" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
+                        <li><a onclick="$('#logoutForm').submit();" href="#!" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
                         <li><div class="userView">
@@ -49,11 +53,16 @@
                         <li><a th:href="@{/}" id="syote"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons green-text">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons blue-text">face</i>Profiili</a></li>
-                        <li><a th:href="@{/logout}" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
+                        <li><a onclick="$('#logoutForm').submit();" href="#!" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
                     </ul>            
                 </div>
             </nav>
         </div>
+        <form action="/logout" id="logoutForm" method="POST">
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}"/>
+        </form>
         <div class="container">
             <h3>Syöte</h3>
             <!--Cards-->
@@ -107,7 +116,5 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
-        <script type="text/javascript" th:src="@{'~/' + 'js/like.js'}"></script>
-        <script type="text/javascript" th:src="@{'~/' + 'js/createForm.js'}"></script>
     </body>
 </html>

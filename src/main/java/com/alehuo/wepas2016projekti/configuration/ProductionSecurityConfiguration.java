@@ -31,6 +31,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Profile("production")
 @Configuration
@@ -43,12 +44,11 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
-        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/register").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()
-                .logout().permitAll();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
 
     }
 

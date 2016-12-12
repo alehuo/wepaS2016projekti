@@ -16,9 +16,22 @@
  */
 package com.alehuo.wepas2016projekti;
 
+import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.IncorrectnessListener;
+import com.gargoylesoftware.htmlunit.InteractivePage;
+import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.ScriptException;
+import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HTMLParserListener;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.w3c.css.sac.CSSException;
+import org.w3c.css.sac.CSSParseException;
+import org.w3c.css.sac.ErrorHandler;
 
 /**
  * Custom HtmlUnitDriver
@@ -40,6 +53,49 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     protected WebClient modifyWebClient(WebClient client) {
         WebClient modifiedClient = super.modifyWebClient(client);
         modifiedClient.getOptions().setThrowExceptionOnScriptError(false); //Skript error reporting pois päältä ettei esim. jQuery heitä virhettä
+        modifiedClient.setIncorrectnessListener(new IncorrectnessListener() {
+            @Override
+            public void notify(String string, Object o) {
+
+            }
+        });
+        modifiedClient.setJavaScriptErrorListener(new JavaScriptErrorListener() {
+            @Override
+            public void scriptException(InteractivePage ip, ScriptException se) {
+
+            }
+
+            @Override
+            public void timeoutError(InteractivePage ip, long l, long l1) {
+
+            }
+
+            @Override
+            public void malformedScriptURL(InteractivePage ip, String string, MalformedURLException murle) {
+
+            }
+
+            @Override
+            public void loadScriptError(InteractivePage ip, URL url, Exception excptn) {
+
+            }
+        });
+        modifiedClient.setCssErrorHandler(new ErrorHandler() {
+            @Override
+            public void warning(CSSParseException csspe) throws CSSException {
+
+            }
+
+            @Override
+            public void error(CSSParseException csspe) throws CSSException {
+
+            }
+
+            @Override
+            public void fatalError(CSSParseException csspe) throws CSSException {
+
+            }
+        });
         return modifiedClient;
     }
 
