@@ -76,15 +76,19 @@ public class PictureUploadTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         //admin -tunnuksilla sisään
-//        fill(find("#username")).with("admin");
-//        fill(find("#password")).with("admin");
-        webDriver.findElement(By.id("username")).sendKeys("admin");
-        webDriver.findElement(By.id("password")).sendKeys("admin");
+        fill(find("#username")).with("admin");
+        fill(find("#password")).with("admin");
+//        webDriver.findElement(By.id("username")).sendKeys("admin");
+//        webDriver.findElement(By.id("password")).sendKeys("admin");
+
+        System.out.println("USERNAME VALUE: " + find("#username").getValue());
+        System.out.println("PASSWORD VALUE: " + find("#password").getValue());
+
         //Lähetä lomake
         submit(find("#loginForm"));
 
         //Nyt ollaan etusivulla
-        assertTrue("\nError: ei löydy 'Syöte' -tekstiä \nUSERNAME: " + find("#username").getValue() + "\nPASSWORD: " + find("#password").getValue() + "\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'Syöte' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         //Klikkaa "plus" -nappia
         click(find("#uploadBtn").first());

@@ -66,12 +66,16 @@ public class LoginTest extends FluentTest {
 //        fill(find("#password")).with("admin");
         webDriver.findElement(By.id("username")).sendKeys("admin");
         webDriver.findElement(By.id("password")).sendKeys("admin");
+
+        System.out.println("USERNAME VALUE: " + find("#username").getValue());
+        System.out.println("PASSWORD VALUE: " + find("#password").getValue());
+
         submit(find("#loginForm"));
 
         //Nuku vähän aikaa
         Thread.sleep(500);
 
-        assertTrue("\nError: ei löydy 'syöte' -tekstiä\nUSERNAME: " + find("#username").getValue() + "\nPASSWORD: " + find("#password").getValue() + "\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'syöte' -tekstiä" + "\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         webDriver.findElement(By.id("logout")).click();
 
