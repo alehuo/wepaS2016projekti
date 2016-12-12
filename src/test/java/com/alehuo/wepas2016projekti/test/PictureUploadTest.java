@@ -82,7 +82,7 @@ public class PictureUploadTest extends FluentTest {
         submit(find("#loginForm"));
 
         //Nyt ollaan etusivulla
-        assertTrue("\nError: ei löydy 'Syöte' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'Syöte' -tekstiä \nUSERNAME: " + find("#username").getValue() + "\nPASSWORD: " + find("#password").getValue() + "\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         //Klikkaa "plus" -nappia
         click(find("#uploadBtn").first());

@@ -38,7 +38,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginTest extends FluentTest {
-    
+
     @Autowired
     private InitService initService;
 
@@ -54,14 +54,14 @@ public class LoginTest extends FluentTest {
 
     @Test
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
-        
+
         goTo("http://localhost:" + port);
 
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         //Nuku vähän aikaa
         Thread.sleep(4000);
-        
+
         fill(find("#username")).with("admin");
         fill(find("#password")).with("admin");
         submit(find("#loginForm"));
@@ -69,7 +69,7 @@ public class LoginTest extends FluentTest {
         //Nuku vähän aikaa
         Thread.sleep(500);
 
-        assertTrue("\nError: ei löydy 'syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'syöte' -tekstiä\nUSERNAME: " + find("#username").getValue() + "\nPASSWORD: " + find("#password").getValue() + "\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         webDriver.findElement(By.id("logout")).click();
 
