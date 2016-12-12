@@ -62,8 +62,10 @@ public class LoginTest extends FluentTest {
         //Nuku vähän aikaa
         Thread.sleep(4000);
 
-        fill(find("#username")).with("admin");
-        fill(find("#password")).with("admin");
+        //        fill(find("#username")).with("admin");
+//        fill(find("#password")).with("admin");
+        webDriver.findElement(By.id("username")).sendKeys("admin");
+        webDriver.findElement(By.id("password")).sendKeys("admin");
         submit(find("#loginForm"));
 
         //Nuku vähän aikaa

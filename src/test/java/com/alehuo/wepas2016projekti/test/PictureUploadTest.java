@@ -76,8 +76,10 @@ public class PictureUploadTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         //admin -tunnuksilla sisään
-        fill(find("#username")).with("admin");
-        fill(find("#password")).with("admin");
+//        fill(find("#username")).with("admin");
+//        fill(find("#password")).with("admin");
+        webDriver.findElement(By.id("username")).sendKeys("admin");
+        webDriver.findElement(By.id("password")).sendKeys("admin");
         //Lähetä lomake
         submit(find("#loginForm"));
 
