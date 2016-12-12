@@ -17,9 +17,8 @@
 package com.alehuo.wepas2016projekti.test;
 
 import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
+import com.alehuo.wepas2016projekti.service.InitService;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.fluentlenium.adapter.FluentTest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,6 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -38,6 +38,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginTest extends FluentTest {
+    
+    @Autowired
+    private InitService initService;
 
     public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.getDefault(), true);
 
@@ -51,6 +54,8 @@ public class LoginTest extends FluentTest {
 
     @Test
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
+        initService.resetApplicationState();
+        
         goTo("http://localhost:" + port);
 
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
