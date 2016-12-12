@@ -56,7 +56,7 @@ public class LoginTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
+        fill(find("#password")).with("admin");
         submit(find("#loginForm"));
 
         //Nuku vähän aikaa
@@ -71,7 +71,7 @@ public class LoginTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("vaaratunnus");
-        fill(find("#passwd")).with("vaaratunnus");
+        fill(find("#password")).with("vaaratunnus");
         submit(find("form").first());
 
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));

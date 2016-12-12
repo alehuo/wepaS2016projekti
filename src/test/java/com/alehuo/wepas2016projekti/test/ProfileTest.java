@@ -55,7 +55,7 @@ public class ProfileTest extends FluentTest {
         assertTrue(pageSource().contains("Kirjaudu sisään"));
 
         fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
+        fill(find("#password")).with("admin");
         submit(find("#loginForm"));
 
         //Nuku vähän aikaa

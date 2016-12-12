@@ -52,18 +52,18 @@ public class SearchTest extends FluentTest {
         goTo("http://localhost:" + port);
         
         fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
+        fill(find("#password")).with("admin");
         submit(find("#loginForm"));
         
         webDriver.findElement(By.id("haku")).click();
         assertTrue("\nError: ei löydy 'Hae käyttäjiä' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Hae käyttäjiä"));
         
-        fill(find("#usrname")).with("user");
+        fill(find("#username")).with("user");
         submit(find("#searchForm")); 
         System.out.println(pageSource());
         assertTrue("\nError: ei löydy 'href=\"/profile/user\"' -tekstiä \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));
         
-        fill(find("#usrname")).with("eiuser");
+        fill(find("#username")).with("eiuser");
         submit(find("#searchForm"));
         
         assertFalse("\nError: löytyy 'href=\"/profile/user\"' -teksti \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));

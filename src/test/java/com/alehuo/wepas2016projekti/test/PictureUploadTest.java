@@ -77,7 +77,7 @@ public class PictureUploadTest extends FluentTest {
 
         //admin -tunnuksilla sisään
         fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
+        fill(find("#password")).with("admin");
         //Lähetä lomake
         submit(find("#loginForm"));
 
@@ -119,7 +119,7 @@ public class PictureUploadTest extends FluentTest {
 
         //admin -tunnuksilla sisään
         fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
+        fill(find("#password")).with("admin");
         //Lähetä lomake
         submit(find("#loginForm"));
 

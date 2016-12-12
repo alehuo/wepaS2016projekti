@@ -55,7 +55,7 @@ public class RegisterTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Rekisteröidy' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröidy"));
         
         fill(find("#username")).with("matti");
-        fill(find("#passwd")).with("meikalainen");
+        fill(find("#password")).with("meikalainen");
         fill(find("#email")).with("matti.meikalainen@localhost.fi");
         submit(find("#registerForm"));
         
@@ -64,7 +64,7 @@ public class RegisterTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
         
         fill(find("#username")).with("matti");
-        fill(find("#passwd")).with("meikalainen");
+        fill(find("#password")).with("meikalainen");
         submit(find("#loginForm"));
         
         Thread.sleep(500);
