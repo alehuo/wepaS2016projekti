@@ -19,7 +19,6 @@ package com.alehuo.wepas2016projekti.controller;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
-import com.alehuo.wepas2016projekti.repository.CommentRepository;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.InitService;
 import com.alehuo.wepas2016projekti.service.UserService;

@@ -28,7 +28,7 @@ import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -60,7 +60,7 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<Comment> lastThreeComments;
 
-    @OneToOne(cascade = ALL, fetch = LAZY)
+    @OneToOne(cascade = ALL, fetch = EAGER)
     private File file;
 
     @NotBlank
