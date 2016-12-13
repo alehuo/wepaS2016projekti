@@ -16,6 +16,7 @@
  */
 package com.alehuo.wepas2016projekti.configuration;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @Profile({"default","development"})
 @EnableWebSecurity
+@EnableCaching
 public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
 
     /**

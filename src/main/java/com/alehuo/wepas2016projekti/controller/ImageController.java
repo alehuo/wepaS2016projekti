@@ -33,6 +33,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,10 +46,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("img")
 public class ImageController {
-    
+
     @Autowired
     private ImageService imageService;
-    
+
     @Autowired
     private UserService userService;
 
@@ -60,18 +61,22 @@ public class ImageController {
      */
     @RequestMapping(value = "/{imageUuid}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<byte[]> getImage(@PathVariable String imageUuid) {
+    public ResponseEntity<byte[]> getImage(@PathVariable String imageUuid, @RequestHeader(required = false, value = "If-None-Match") String ifNoneMatch) {
+        if (ifNoneMatch != null) {
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
         Image i = imageService.findOneImageByUuid(imageUuid);
         if (i != null) {
-            HttpHeaders headers = new HttpHeaders();
+            final HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType(i.getContentType()));
             headers.setContentLength(i.getImageData().length);
             headers.setCacheControl("public");
-            headers.setETag("\"" + imageUuid + "\"");
             headers.setExpires(Long.MAX_VALUE);
-            return new ResponseEntity(i.getImageData(), headers, HttpStatus.CREATED);
+            headers.setETag("\"" + imageUuid + "\"");
+            
+            return new ResponseEntity<>(i.getImageData(), headers, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
