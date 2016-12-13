@@ -25,6 +25,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -41,10 +45,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("img")
 public class ImageController {
-
+    
     @Autowired
     private ImageService imageService;
-
+    
     @Autowired
     private UserService userService;
 
@@ -52,25 +56,23 @@ public class ImageController {
      * Hakee tietokannasta kuvan
      *
      * @param imageUuid Kuvan UUID
-     * @param response HttpServletResponse
      * @return Kuva
-     * @throws IOException
      */
     @RequestMapping(value = "/{imageUuid}", method = RequestMethod.GET)
     @ResponseBody
-    public String getImage(@PathVariable String imageUuid, HttpServletResponse response) throws IOException {
+    public ResponseEntity<byte[]> getImage(@PathVariable String imageUuid) {
         Image i = imageService.findOneImageByUuid(imageUuid);
         if (i != null) {
-            response.setContentType(i.getContentType());
-            response.setContentLength(i.getImageData().length);
-            ByteArrayInputStream in = new ByteArrayInputStream(i.getImageData());
-            IOUtils.copy(in, response.getOutputStream());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(i.getContentType()));
+            headers.setContentLength(i.getImageData().length);
+            headers.setCacheControl("public");
+            headers.setETag("\"" + imageUuid + "\"");
+            headers.setExpires(Long.MAX_VALUE);
+            return new ResponseEntity(i.getImageData(), headers, HttpStatus.CREATED);
         } else {
-            response.setStatus(404);
-            return "Image not found";
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
         }
-        response.setStatus(200);
-        return "";
     }
 
     /**
@@ -82,7 +84,7 @@ public class ImageController {
      */
     @RequestMapping(value = "/like", method = RequestMethod.POST)
     @ResponseBody
-    public String likeImage(Authentication a, @RequestParam String imageUuid, HttpServletResponse response) {
+    public ResponseEntity<String> likeImage(Authentication a, @RequestParam String imageUuid, HttpServletResponse response) {
         //Käyttäjän autentikoiminen
         UserAccount u = userService.getUserByUsername(a.getName());
         if (u != null) {
@@ -92,16 +94,17 @@ public class ImageController {
                     i.removeLike(u);
                     imageService.saveImage(i);
                     response.setStatus(200);
-                    return "unlike";
+                    return new ResponseEntity("unlike", HttpStatus.OK);
                 } else {
                     i.addLike(u);
                     imageService.saveImage(i);
                     response.setStatus(200);
-                    return "like";
+                    return new ResponseEntity("like", HttpStatus.OK);
                 }
+            } else {
+                return new ResponseEntity("", HttpStatus.BAD_REQUEST);
             }
         }
-        response.setStatus(400);
-        return "";
+        return new ResponseEntity("", HttpStatus.BAD_REQUEST);
     }
 }

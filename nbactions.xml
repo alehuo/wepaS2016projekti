@@ -12,6 +12,7 @@
             <properties>
                 <exec.args>-classpath %classpath com.alehuo.wepas2016projekti.Application</exec.args>
                 <exec.executable>java</exec.executable>
+                <spring.profiles.active>development</spring.profiles.active>
             </properties>
         </action>
         <action>
@@ -116,6 +117,22 @@
                 <goal>clean</goal>
             </goals>
             <properties>
+                <spring.profiles.active>development</spring.profiles.active>
+            </properties>
+        </action>
+        <action>
+            <actionName>run.single.main</actionName>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.classpathScope>${classPathScope}</exec.classpathScope>
                 <spring.profiles.active>development</spring.profiles.active>
             </properties>
         </action>
