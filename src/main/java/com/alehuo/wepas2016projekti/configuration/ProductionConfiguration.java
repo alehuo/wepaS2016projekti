@@ -19,6 +19,7 @@ package com.alehuo.wepas2016projekti.configuration;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @Profile("production")
 @EnableWebSecurity
+@EnableCaching
 public class ProductionConfiguration extends WebMvcConfigurerAdapter {
 
     /**
