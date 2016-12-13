@@ -224,7 +224,7 @@ function validateLogin() {
     if (password.length < 4) {
         valid = 0;
         password_validation.innerHTML = "Salasana liian lyhyt";
-    } 
+    }
 
     if (valid === 0) {
         return false;
