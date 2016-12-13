@@ -22,6 +22,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -40,6 +41,7 @@ public class Comment extends AbstractPersistable<Long> {
 
     @Column(name = "timestamp")
     @Type(type = "timestamp")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate;
 
     public UserAccount getUser() {

@@ -206,3 +206,36 @@ var previewFile = function (event) {
     }
 
 };
+
+function validateLogin() {
+    var valid = 1;
+    var username = document.getElementById('username');
+    var username_validation = document.getElementById("username_validation");
+    var password = document.getElementById('password');
+    var password_validation = document.getElementById("password_validation");
+
+    if (username.length > 25) {
+        valid = 0;
+        username_validation.innerHTML = "Nimi liian pitkä";
+    } else if (username.length < 4) {
+        username_validation.innerHTML = "Nimi liian lyhyt";
+    }
+
+    if (password.length < 4) {
+        valid = 0;
+        password_validation.innerHTML = "Salasana liian lyhyt";
+    }
+
+    if (valid === 0) {
+        return false;
+    }
+    return true;
+}
+
+function validateSearch() {
+
+}
+
+function validateUpload() {
+
+}

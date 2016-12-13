@@ -21,12 +21,13 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
  * @author alehuo
  */
-public class CommentTest {
+public class CommentDomainTest {
 
     @Test
     public void testaaAsetaKaikki() {

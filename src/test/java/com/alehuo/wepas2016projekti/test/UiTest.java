@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 alehuo
+ * Copyright (C) 2016 Pivotal Software, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@ import java.util.UUID;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -38,18 +40,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 
 /**
  *
- * @author alehuo
+ * @author ahuotala
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PictureUploadTest extends FluentTest {
+public class UiTest extends FluentTest {
 
-    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
+    public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.getDefault(), true);
 
     @Autowired
     private ImageService imageService;
@@ -67,6 +67,125 @@ public class PictureUploadTest extends FluentTest {
 
     @LocalServerPort
     private Integer port;
+
+    @Test
+    public void kirjautuminenSisaanJaUlosToimii() throws Exception {
+
+        goTo("http://localhost:" + port);
+
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
+
+        //Nuku vähän aikaa
+        Thread.sleep(4000);
+
+        //        fill(find("#username")).with("admin");
+//        fill(find("#password")).with("admin");
+        webDriver.findElement(By.id("username")).sendKeys("admin");
+        webDriver.findElement(By.id("password")).sendKeys("admin");
+
+        System.out.println("USERNAME VALUE: " + find("#username").getValue());
+        System.out.println("PASSWORD VALUE: " + find("#password").getValue());
+
+        submit(find("#loginForm"));
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+
+        System.out.println("\n\n\n\n\n\n\n\n" + webDriver.getCurrentUrl() + "\n\n\n\n\n\n\n\n");
+
+        assertFalse("Sovellus ei kirjaudu sisään / ohjaa oikein etusivulle", webDriver.getCurrentUrl().contains("/login"));
+
+        assertTrue("\nError: ei löydy 'syöte' -tekstiä" + "\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+
+        webDriver.findElement(By.id("logout")).click();
+
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
+
+        fill(find("#username")).with("vaaratunnus");
+        fill(find("#password")).with("vaaratunnus");
+        submit(find("form").first());
+
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
+    }
+
+    @Test
+    public void rekisteroityminenToimii() throws Exception {
+        goTo("http://localhost:" + port);
+
+        webDriver.findElement(By.name("register")).click();
+
+        assertTrue("\nError: ei löydy 'Rekisteröidy' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröidy"));
+
+        fill(find("#username")).with("matti");
+        fill(find("#password")).with("meikalainen");
+        fill(find("#email")).with("matti.meikalainen@localhost.fi");
+        submit(find("#registerForm"));
+
+        Thread.sleep(500);
+
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
+
+        fill(find("#username")).with("matti");
+        fill(find("#password")).with("meikalainen");
+        submit(find("#loginForm"));
+
+        Thread.sleep(500);
+
+        assertTrue("\nError: ei löydy 'Syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+
+    }
+
+    @Test
+    public void profiiliSivunSelaaminenToimii1() throws Exception {
+
+        //Aiempi testi testaa jo siirtymisen kirjautumissivulle
+        goTo("http://localhost:" + port);
+
+        assertTrue(pageSource().contains("Kirjaudu sisään"));
+
+        fill(find("#username")).with("admin");
+        fill(find("#password")).with("admin");
+        submit(find("#loginForm"));
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+        System.out.println("\n\n\n\n\n\n\n\n" + pageSource() + "\n\n\n\n\n\n\n\n");
+        assertTrue(pageSource().contains("Syöte"));
+
+        goTo("http://localhost:" + port + "/profile/user");
+
+        String parsedPageSource = Jsoup.parse(pageSource()).text();
+        assertTrue(parsedPageSource.contains("Käyttäjän user jakamat kuvat"));
+
+        goTo("http://localhost:" + port + "/profile/user2");
+        assertTrue(pageSource().contains("Profiilia ei löydy"));
+
+        webDriver.findElement(By.id("profiili")).click();
+        parsedPageSource = Jsoup.parse(pageSource()).text();
+        assertTrue(parsedPageSource.contains("Käyttäjän admin jakamat kuvat"));
+    }
+
+    @Test
+    public void hakuToimii() throws Exception {
+        goTo("http://localhost:" + port);
+
+        fill(find("#username")).with("admin");
+        fill(find("#password")).with("admin");
+        submit(find("#loginForm"));
+
+        webDriver.findElement(By.id("haku")).click();
+        assertTrue("\nError: ei löydy 'Hae käyttäjiä' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Hae käyttäjiä"));
+
+        fill(find("#username")).with("user");
+        submit(find("#searchForm"));
+        System.out.println(pageSource());
+        assertTrue("\nError: ei löydy 'href=\"/profile/user\"' -tekstiä \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));
+
+        fill(find("#username")).with("eiuser");
+        submit(find("#searchForm"));
+
+        assertFalse("\nError: löytyy 'href=\"/profile/user\"' -teksti \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));
+    }
 
     @Test
     public void uudenKuvanJakaminenToimii() {
@@ -111,12 +230,13 @@ public class PictureUploadTest extends FluentTest {
 
         //Nyt ollaan etusivulla, tarkistetaan että kuva lisättiin onnistuneesti
         assertTrue("\nError: ei löydy ladatun kuvan kuvausta \n" + pageSource() + "\n", pageSource().contains(description));
+
+        assertEquals("\nError: kuvia ei ole listassa kuusi \n" + pageSource() + "\n", 6, imageService.findAllImages().size());
     }
 
     @Test
     public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
-        //Nollaa tila
         initService.resetApplicationState();
 
         //Etusivu
@@ -191,4 +311,5 @@ public class PictureUploadTest extends FluentTest {
         assertEquals("\nError: kommenttia ei löytynyt sivulta\n" + pageSource() + "\n", "HelloWorldTestiKommentti", i.getComments().get(0).getBody());
 
     }
+
 }
