@@ -88,6 +88,7 @@ public class PictureUploadTest extends FluentTest {
         submit(find("#loginForm"));
 
         //Nyt ollaan etusivulla
+        System.out.println("\n\n\n\n\n\n\n\n" + pageSource() + "\n\n\n\n\n\n\n\n");
         assertTrue("\nError: ei löydy 'Syöte' -tekstiä \n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         //Klikkaa "plus" -nappia

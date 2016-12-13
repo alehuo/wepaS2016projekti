@@ -66,7 +66,7 @@ public class ProfileTest extends FluentTest {
 
         //Nuku vähän aikaa
         Thread.sleep(500);
-
+        System.out.println("\n\n\n\n\n\n\n\n" + pageSource() + "\n\n\n\n\n\n\n\n");
         assertTrue(pageSource().contains("Syöte"));
 
         goTo("http://localhost:" + port + "/profile/user");
