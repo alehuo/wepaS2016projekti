@@ -24,22 +24,21 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-//import org.fluentlenium.adapter.FluentTest;
-//import org.jsoup.Jsoup;
-//import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-//import org.openqa.selenium.By;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
  * @author alehuo
  */
-public class ImageTest {
+public class ImageDomainTest {
 
     @Test
     public void testaaAsetaKaikki() {
@@ -102,24 +101,4 @@ public class ImageTest {
         assertNotEquals("equals() ei toimi oikein: objektin tyyppi", i, new String());
     }
 
-    /*@Test
-    public void tarkistaKuvienMaara() {
-        
-        goTo("http://localhost:" + port);
-
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
-
-        fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
-        submit(find("form").first());
-
-        assertTrue(pageSource().contains("Syöte"));
-        
-        String parsedPageSource = Jsoup.parse(pageSource()).text();
-        assertTrue(parsedPageSource.contains("Testikuva 1"));
-        assertTrue(parsedPageSource.contains("Testikuva 2"));
-        assertTrue(parsedPageSource.contains("Testikuva 3"));
-        assertTrue(parsedPageSource.contains("Testikuva 4"));
-        assertTrue(parsedPageSource.contains("Testikuva 5"));
-    }*/
 }

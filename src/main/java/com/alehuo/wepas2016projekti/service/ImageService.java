@@ -59,6 +59,11 @@ public class ImageService {
         return imageRepo.findAllByImageOwnerOrderByIdDesc(u);
     }
 
+    @Transactional
+    public List<Image> findAllImages() {
+        return imageRepo.findAll();
+    }
+
     public Image saveImage(Image i) {
         imageRepo.save(i);
         return i;
