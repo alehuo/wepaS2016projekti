@@ -20,7 +20,6 @@ import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
 import com.alehuo.wepas2016projekti.service.InitService;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.fluentlenium.adapter.FluentTest;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +37,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginTest extends FluentTest {
-    
+
     @Autowired
     private InitService initService;
 
@@ -54,23 +53,33 @@ public class LoginTest extends FluentTest {
 
     @Test
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
-        initService.resetApplicationState();
-        
+
         goTo("http://localhost:" + port);
 
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
-        fill(find("#username")).with("admin");
-        fill(find("#password")).with("admin");
+        //Nuku vähän aikaa
+        Thread.sleep(4000);
+
+        //        fill(find("#username")).with("admin");
+//        fill(find("#password")).with("admin");
+        webDriver.findElement(By.id("username")).sendKeys("admin");
+        webDriver.findElement(By.id("password")).sendKeys("admin");
+
+        System.out.println("USERNAME VALUE: " + find("#username").getValue());
+        System.out.println("PASSWORD VALUE: " + find("#password").getValue());
+
         submit(find("#loginForm"));
 
         //Nuku vähän aikaa
         Thread.sleep(500);
+
         
         System.out.println("\n\n\n\n\n\n\n\n" + webDriver.getCurrentUrl() + "\n\n\n\n\n\n\n\n");
-        assertFalse("Sovellus ei ohjaa oikein etusivulle", webDriver.getCurrentUrl().contains("/login"));
+      
+        assertFalse("Sovellus ei kirjaudu sisään / ohjaa oikein etusivulle", webDriver.getCurrentUrl().contains("/login"));
 
-        assertTrue("\nError: ei löydy 'syöte' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+        assertTrue("\nError: ei löydy 'syöte' -tekstiä" + "\n" + pageSource() + "\n", pageSource().contains("Syöte"));
 
         webDriver.findElement(By.id("logout")).click();
 

@@ -78,6 +78,12 @@ public class PictureUploadTest extends FluentTest {
         //admin -tunnuksilla sisään
         fill(find("#username")).with("admin");
         fill(find("#password")).with("admin");
+//        webDriver.findElement(By.id("username")).sendKeys("admin");
+//        webDriver.findElement(By.id("password")).sendKeys("admin");
+
+        System.out.println("USERNAME VALUE: " + find("#username").getValue());
+        System.out.println("PASSWORD VALUE: " + find("#password").getValue());
+
         //Lähetä lomake
         submit(find("#loginForm"));
 
