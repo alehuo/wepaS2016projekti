@@ -20,7 +20,6 @@ import com.alehuo.wepas2016projekti.CustomHtmlUnitDriver;
 import com.alehuo.wepas2016projekti.service.InitService;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.fluentlenium.adapter.FluentTest;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
