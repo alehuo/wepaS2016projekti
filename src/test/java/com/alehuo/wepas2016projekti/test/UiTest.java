@@ -30,6 +30,7 @@ import org.jsoup.Jsoup;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -39,7 +40,15 @@ import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+// mm. mockMvc:n get- ja post-metodit
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  *
@@ -65,6 +74,16 @@ public class UiTest extends FluentTest {
         return webDriver;
     }
 
+    @Autowired
+    private WebApplicationContext webAppContext;
+
+    private MockMvc mockMvc;
+
+    @Before
+    public void setUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+    }
+
     @LocalServerPort
     private Integer port;
 
@@ -76,7 +95,7 @@ public class UiTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
         //Nuku vähän aikaa
-        Thread.sleep(4000);
+        Thread.sleep(800);
 
         //        fill(find("#username")).with("admin");
 //        fill(find("#password")).with("admin");
@@ -125,6 +144,21 @@ public class UiTest extends FluentTest {
 
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
 
+        webDriver.findElement(By.name("register")).click();
+
+        assertTrue("\nError: ei löydy 'Rekisteröidy' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröidy"));
+
+        fill(find("#username")).with("admin");
+        fill(find("#password")).with("meikalainen");
+        fill(find("#email")).with("matti.meikalainen@localhost.fi");
+        submit(find("#registerForm"));
+
+        Thread.sleep(500);
+
+        assertTrue("\nError: ei löydy 'Rekisteröityminen epäonnistui' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröityminen epäonnistui"));
+
+        goTo("http://localhost:" + port);
+
         fill(find("#username")).with("matti");
         fill(find("#password")).with("meikalainen");
         submit(find("#loginForm"));
@@ -137,6 +171,11 @@ public class UiTest extends FluentTest {
 
     @Test
     public void profiiliSivunSelaaminenToimii1() throws Exception {
+
+        //Varmistetaan että profiilia ei pääse selaamaan ilman että on kirjautunut sisään
+        goTo("http://localhost:" + port + "/profile/user");
+
+        assertTrue(pageSource().contains("Kirjaudu sisään"));
 
         //Aiempi testi testaa jo siirtymisen kirjautumissivulle
         goTo("http://localhost:" + port);
@@ -310,6 +349,37 @@ public class UiTest extends FluentTest {
         assertEquals("\nError: Kommentteja ei ole tasan yksi\n" + pageSource() + "\n", 1, i.getComments().size());
         assertEquals("\nError: kommenttia ei löytynyt sivulta\n" + pageSource() + "\n", "HelloWorldTestiKommentti", i.getComments().get(0).getBody());
 
+    }
+
+    @Test
+    public void kuvanHakuToimii() throws Exception {
+
+        //Etusivu
+        goTo("http://localhost:" + port);
+
+        assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
+
+        //admin -tunnuksilla sisään
+        fill(find("#username")).with("admin");
+        fill(find("#password")).with("admin");
+        //Lähetä lomake
+        submit(find("#loginForm"));
+
+        //Nuku vähän aikaa
+        Thread.sleep(500);
+
+        //Nyt ollaan etusivulla
+        assertTrue("\nError: ei löydy 'Syöte' tekstiä\n" + pageSource() + "\n", pageSource().contains("Syöte"));
+
+        List<Image> kuvat = imageService.findAllImages();
+
+        for (Image image : kuvat) {
+            String imageUuid = image.getUuid();
+            MvcResult res = mockMvc.perform(get("/img/" + imageUuid)).andReturn();
+            assertEquals("Kuvan tyyppi on väärä: " + res.getResponse().getHeader("Content-Type"), image.getContentType(), res.getResponse().getHeader("Content-Type"));
+            assertEquals("Kuvan koko on väärä: " + res.getResponse().getHeader("Content-Length"), image.getImageData().length, Integer.parseInt(res.getResponse().getHeader("Content-Length")));
+            assertEquals("Kuvan ETag on väärä: " + res.getResponse().getHeader("ETag"), "\""+imageUuid+"\"", res.getResponse().getHeader("ETag"));
+        }
     }
 
 }

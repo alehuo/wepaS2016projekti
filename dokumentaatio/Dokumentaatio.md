@@ -30,4 +30,4 @@ TODO list
 * CSRF protection käyttöön (ja tarkista että JavaScript -koodit toimivat tämän kanssa hyvin) [OK]
 * Syötteiden validointi []
 * Käyttäjän toimintojen logitus ja seuranta []
-* Loput testeistä valmiiksi (Lisäksi korjaa Travis -palvelussa kaatuvat testit) []
+* Loput testeistä valmiiksi []
