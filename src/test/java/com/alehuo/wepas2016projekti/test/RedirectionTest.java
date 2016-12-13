@@ -49,7 +49,6 @@ public class RedirectionTest {
     }
 
     @Test
-    @Ignore
     public void sovellusOhjaaKirjautumisIkkunaan() throws Exception {
         mockMvc.perform(get("/")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrlPattern("**/login"));
     }

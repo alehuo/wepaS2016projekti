@@ -48,6 +48,7 @@ public class RegisterTest extends FluentTest {
     private Integer port;
     
     @Test
+    @Ignore
     public void rekisteroityminenToimii() throws Exception {
         goTo("http://localhost:" + port);
         

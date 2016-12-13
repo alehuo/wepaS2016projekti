@@ -97,24 +97,4 @@ public class ImageTest {
         assertNotEquals("equals() ei toimi oikein: objektin tyyppi", i, new String());
     }
 
-    /*@Test
-    public void tarkistaKuvienMaara() {
-        
-        goTo("http://localhost:" + port);
-
-        assertTrue(pageSource().contains("Kirjaudu sisään"));
-
-        fill(find("#username")).with("admin");
-        fill(find("#passwd")).with("admin");
-        submit(find("form").first());
-
-        assertTrue(pageSource().contains("Syöte"));
-        
-        String parsedPageSource = Jsoup.parse(pageSource()).text();
-        assertTrue(parsedPageSource.contains("Testikuva 1"));
-        assertTrue(parsedPageSource.contains("Testikuva 2"));
-        assertTrue(parsedPageSource.contains("Testikuva 3"));
-        assertTrue(parsedPageSource.contains("Testikuva 4"));
-        assertTrue(parsedPageSource.contains("Testikuva 5"));
-    }*/
 }
