@@ -16,9 +16,9 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +34,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -70,6 +71,7 @@ public class Image extends AbstractPersistable<Long> {
 
     @Column(name = "timestamp")
     @Type(type = "timestamp")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate;
 
     private String uuid = UUID.randomUUID().toString();
