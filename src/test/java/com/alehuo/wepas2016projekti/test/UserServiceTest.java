@@ -51,16 +51,6 @@ public class UserServiceTest {
     @Autowired
     private ImageService imageService;
 
-    @Before
-    public void init() {
-        //Tyhjennetään kommenttitaulu
-        commentService.deleteAllComments();
-        //Tyhjennetään kuvat
-        imageService.deleteAllImages();
-        //Tyhjennetään käyttäjätaulu
-        userService.deleteAllUsers();
-    }
-
     /**
      * Testi testaa, että käyttäjätilin lisäys toimii userServicen kautta
      */
@@ -92,10 +82,10 @@ public class UserServiceTest {
 
         List<UserAccount> users = userService.getAllUsers();
 
-        assertEquals("Käyttäjätilejä ei palautunut tarvittava määrä", 3, users.size());
-        assertTrue(kayttajatilitSamoja(randomUser1, users.get(0)));
-        assertTrue(kayttajatilitSamoja(randomUser2, users.get(1)));
-        assertTrue(kayttajatilitSamoja(randomUser3, users.get(2)));
+        assertEquals("Käyttäjätilejä ei palautunut tarvittava määrä", 5, users.size());
+        assertTrue(users.contains(randomUser1));
+        assertTrue(users.contains(randomUser2));
+        assertTrue(users.contains(randomUser3));
     }
 
     @Test
@@ -104,17 +94,6 @@ public class UserServiceTest {
         UserAccount randomUser1 = generateAndSaveRandomUser();
 
         assertEquals(randomUser1, userService.getUserById(randomUser1.getId()));
-    }
-
-    /**
-     * Tarkistaa ovatko kaksi käyttäjätiliä samoja
-     *
-     * @param ua1
-     * @param ua2
-     * @return
-     */
-    public boolean kayttajatilitSamoja(UserAccount ua1, UserAccount ua2) {
-        return (ua1.equals(ua2));
     }
 
     /**
