@@ -22,6 +22,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import org.fluentlenium.adapter.FluentTest;
 import org.jsoup.Jsoup;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -53,6 +54,7 @@ public class ProfileTest extends FluentTest {
     private InitService initService;
 
     @Test
+    @Ignore
     public void profiiliSivunSelaaminenToimii1() throws Exception {
 
         //Aiempi testi testaa jo siirtymisen kirjautumissivulle

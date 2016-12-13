@@ -69,6 +69,7 @@ public class PictureUploadTest extends FluentTest {
     private Integer port;
 
     @Test
+    @Ignore
     public void uudenKuvanJakaminenToimii() {
 
         goTo("http://localhost:" + port);
@@ -114,6 +115,7 @@ public class PictureUploadTest extends FluentTest {
     }
 
     @Test
+    @Ignore
     public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
         //Nollaa tila
