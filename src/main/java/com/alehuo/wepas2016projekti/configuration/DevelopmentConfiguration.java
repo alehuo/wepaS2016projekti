@@ -27,7 +27,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author alehuo
  */
 @Configuration
-@Profile("development")
+@Profile({"default","development"})
 @EnableWebSecurity
 public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
 
