@@ -22,12 +22,14 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
  * @author alehuo
  */
-public class UserAccountTest {
+public class UserAccountDomainTest {
 
     @Test
     public void kayttajatunnuksenAsettaminenToimii() {
