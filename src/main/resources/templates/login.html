@@ -29,9 +29,15 @@
 
         <div class="container">
             <h3>Kirjaudu sisään</h3>
+            <div th:if="${param.error}" style='color: red;'>
+                Väärä käyttäjätunnus tai salasana.
+            </div>
+            <div th:if="${param.logout}" style='color: green;'>
+                Kirjauduttu ulos.
+            </div>
             <div class="row">
                 <form class="col s12" th:action="@{/login}" id="loginForm" method="POST" onsubmit="return validateLogin();" enctype="multipart/form-data">
-                <!--<form action="@{/login}" method="POST" id="loginForm" onsubmit="var text = document.getElementById('username').value; if(text.length < 4) { alert('Käyttäjänimen täytyy olla yli 4 merkkiä'); return false; } return true;"-->
+                    <!--<form action="@{/login}" method="POST" id="loginForm" onsubmit="var text = document.getElementById('username').value; if(text.length < 4) { alert('Käyttäjänimen täytyy olla yli 4 merkkiä'); return false; } return true;"-->
                     <div class="row">
                         <div class="input-field">
 
@@ -83,11 +89,5 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
-        <script th:if="${param.error}" type="text/javascript">
-            Materialize.toast('Kirjautuminen epäonnistui', 4000);
-        </script>
-        <script th:if="${param.logout}" type="text/javascript">
-            Materialize.toast('Kirjauduttu ulos', 4000);
-        </script>
     </body>
 </html>

@@ -36,7 +36,9 @@ $(document).ready(function () {
             $('.grid').masonry({
                 itemSelector: '.grid-item',
                 columnWidth: 280,
-                isFitWidth: true
+                isFitWidth: true,
+                gutter : 5,
+                transitionDuration: '0.6s'
             });
         });
     });

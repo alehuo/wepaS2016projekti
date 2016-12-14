@@ -40,7 +40,6 @@ import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -48,7 +47,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 // mm. mockMvc:n get- ja post-metodit
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  *
@@ -155,7 +153,7 @@ public class UiTest extends FluentTest {
 
         Thread.sleep(500);
 
-        assertTrue("\nError: ei löydy 'Rekisteröityminen epäonnistui' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Rekisteröityminen epäonnistui"));
+        assertTrue("\nError: ei löydy 'Käyttäjätunnus on joko varattu tai virheellisen kokoinen.' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Käyttäjätunnus on joko varattu tai virheellisen kokoinen."));
 
         goTo("http://localhost:" + port);
 

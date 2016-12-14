@@ -24,13 +24,15 @@ import com.alehuo.wepas2016projekti.service.InitService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Oletuskontrolleri
@@ -39,13 +41,13 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class DefaultController {
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private ImageRepository imageRepo;
-    
+
     @Autowired
     private InitService initService;
 
@@ -56,7 +58,7 @@ public class DefaultController {
     public void init() {
         initService.resetApplicationState();
     }
-    
+
     @RequestMapping("/")
     public String index(Authentication a, Model m) {
         List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
@@ -65,23 +67,31 @@ public class DefaultController {
         m.addAttribute("images", images);
         return "index";
     }
-    
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
-    
+
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String register() {
+    public String register(Model m) {
+        m.addAttribute("userAccount", new UserAccount());
         return "register";
     }
-    
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+    public String register(@Valid @ModelAttribute("userAccount") UserAccount userAccount, BindingResult bindingResult) {
+        String username = userAccount.getUsername();
+        String email = userAccount.getEmail();
+        String password = userAccount.getPassword();
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
         if (userService.getUserByUsernameIgnoreCase(username) == null) {
             userService.createNewUser(username, password, email, Role.USER);
         } else {
-            return "redirect:/register?error";
+            bindingResult.rejectValue("username", "error.username", "Käyttäjätunnus on jo käytössä.");
+            return "register";
         }
         return "redirect:/login";
     }
