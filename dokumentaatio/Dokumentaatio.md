@@ -29,6 +29,6 @@ TODO list
 * Kuvien tallennus tietokantaan toimii [OK]
 * PostgreSQL -tietokantajärjestelmä Herokussa toimii [OK]
 * CSRF protection käyttöön (ja tarkista että JavaScript -koodit toimivat tämän kanssa hyvin) [OK]
-* Syötteiden validointi [OK]
-* Käyttäjän toimintojen logitus ja seuranta []
+* Syötteiden validointi [OK, KATSO VIELÄ KUVAN LÄHETYKSEN VALIDOINTI]
+* Käyttäjän toimintojen logitus ja seuranta [OK]
 * Loput testeistä valmiiksi []
