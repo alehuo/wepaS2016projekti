@@ -20,7 +20,8 @@ import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
-import javax.servlet.http.HttpServletResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,23 +43,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("img")
 public class ImageController {
-
+    
     @Autowired
     private ImageService imageService;
-
+    
     @Autowired
     private UserService userService;
+    
+    private static final Logger LOG = Logger.getLogger(ImageController.class.getName());
 
     /**
      * Hakee tietokannasta kuvan
      *
+     * @param a
      * @param imageUuid Kuvan UUID
+     * @param ifNoneMatch
      * @return Kuva
      */
     @RequestMapping(value = "/{imageUuid}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<byte[]> getImage(@PathVariable String imageUuid, @RequestHeader(required = false, value = "If-None-Match") String ifNoneMatch) {
+    public ResponseEntity<byte[]> getImage(Authentication a, @PathVariable String imageUuid, @RequestHeader(required = false, value = "If-None-Match") String ifNoneMatch) {
         if (ifNoneMatch != null) {
+//            LOG.log(Level.INFO, "Kuva ''{0}'' loytyy kayttajan selaimen valimuistista eika sita tarvitse ladata. Kuvaa pyysi kayttaja ''{1}''", new Object[]{imageUuid, a.getName()});
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         Image i = imageService.findOneImageByUuid(imageUuid);
@@ -69,9 +75,10 @@ public class ImageController {
             headers.setCacheControl("public");
             headers.setExpires(Long.MAX_VALUE);
             headers.setETag("\"" + imageUuid + "\"");
-            
+//            LOG.log(Level.INFO, "Kuva ''{0}'' loytyi tietokannasta, ja sita pyysi kayttaja ''{1}''", new Object[]{imageUuid, a.getName()});
             return new ResponseEntity<>(i.getImageData(), headers, HttpStatus.CREATED);
         } else {
+            LOG.log(Level.WARNING, "Kuvaa ''{0}'' ei loytynyt tietokannasta, ja sita pyysi kayttaja ''{1}''", new Object[]{imageUuid, a.getName()});
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -92,18 +99,22 @@ public class ImageController {
             Image i = imageService.findOneImageByUuid(imageUuid);
             if (i != null) {
                 if (i.getLikedBy().contains(u)) {
+                    LOG.log(Level.INFO, "Kayttaja ''{0}'' poisti tykkayksen kuvasta ''{1}''", new Object[]{a.getName(), imageUuid});
                     i.removeLike(u);
                     imageService.saveImage(i);
                     return new ResponseEntity("unlike", HttpStatus.OK);
                 } else {
                     i.addLike(u);
+                    LOG.log(Level.INFO, "Kayttaja ''{0}'' tykkasi kuvasta ''{1}''", new Object[]{a.getName(), imageUuid});
                     imageService.saveImage(i);
                     return new ResponseEntity("like", HttpStatus.OK);
                 }
             } else {
+                LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti tykata kuvaa, mita ei ole olemassa. ({1})", new Object[]{a.getName(), imageUuid});
                 return new ResponseEntity("", HttpStatus.BAD_REQUEST);
             }
         }
+        LOG.log(Level.WARNING, "Yritettiin tykata kuvaa kirjautumatta sisaan ({0})", a.getName());
         return new ResponseEntity("", HttpStatus.BAD_REQUEST);
     }
 }
