@@ -16,6 +16,7 @@ Tietokantataulut
 * Kuvat
 * Kommentit
 * Tykkäykset (liitostaulu)
+* Kommentit (liitostaulu)
 
 
 Testaus
@@ -28,6 +29,6 @@ TODO list
 * Kuvien tallennus tietokantaan toimii [OK]
 * PostgreSQL -tietokantajärjestelmä Herokussa toimii [OK]
 * CSRF protection käyttöön (ja tarkista että JavaScript -koodit toimivat tämän kanssa hyvin) [OK]
-* Syötteiden validointi []
+* Syötteiden validointi [OK]
 * Käyttäjän toimintojen logitus ja seuranta []
 * Loput testeistä valmiiksi []
