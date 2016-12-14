@@ -22,9 +22,9 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.CommentService;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +49,7 @@ public class CommentController {
     private CommentService commentService;
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
-    public String addComment(Authentication a, @PathVariable String uuid, @RequestParam String comment) {
+    public String addComment(Authentication a, @PathVariable String uuid, @RequestParam String comment, HttpServletRequest request) {
         Image img = imageService.findOneImageByUuid(uuid);
         UserAccount u = userService.getUserByUsername(a.getName());
         Comment comm = commentService.addComment(comment, u);
@@ -58,6 +58,7 @@ public class CommentController {
 
         userService.saveUser(u);
         imageService.saveImage(img);
-        return "redirect:/#" + uuid;
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 }

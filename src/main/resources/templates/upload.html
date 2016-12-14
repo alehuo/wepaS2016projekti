@@ -13,7 +13,6 @@
         <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}" media="screen,projection"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
-
         <style type="text/css">
             /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
             #sidenav-overlay {
@@ -61,23 +60,26 @@
         </form>
         <div class="container">
             <h3>Jaa kuva</h3>
-            <form th:action="@{/upload}" id="uploadform" method="POST" enctype="multipart/form-data">
+            <form th:action="@{'/upload?' + ${_csrf.parameterName} + '=' + ${_csrf.token}}" id="uploadform" method="POST" th:object="${imageUploadFormData}" enctype="multipart/form-data">
                 <div class="input-field">
-                    <input id="imageDesc" type="text" name="description" class="validate" length="24"/>
+                    <input id="imageDesc" type="text" name="description" th:field="*{description}" class="validate" length="24"/>
                     <label for="imageDesc">Kuvaus</label>
+                </div>
+                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                    Kuvaus ei saa olla tyhjä tai yli 24 merkkiä pitkä.
                 </div>
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Lisää kuva</span>
-                        <input type="file" accept="image/*;capture=camera" name="imageFile" id="imgUploadInput" onchange="previewFile(event)"/>
+                        <input type="file" accept="image/*;capture=camera" th:field="*{file}" name="imageFile" id="imgUploadInput" onchange="previewFile(event)"/>
                     </div>
                     <div class="file-path-wrapper">
                         <input class="file-path validate" type="text"/>
                     </div>
                 </div>
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
+                <div th:if="${#fields.hasErrors('file')}" th:errors="*{file}">
+                    Virhe
+                </div>
                 <div class="input-field">
                     <button class="btn waves-effect waves-light" type="submit" id="uploadSubmitBtn" name="action">Lataa
                         <i class="material-icons right">send</i>

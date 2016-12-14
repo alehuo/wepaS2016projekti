@@ -30,34 +30,46 @@
         <div class="container">
             <h3>Rekisteröidy</h3>
             <div class="row">
-                <form class="col s12" id="registerForm" th:action="@{/register}" method="POST">
+                <form class="col s12" id="registerForm" th:action="@{/register}" th:object="${userAccount}" method="POST">
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">account_circle</i>
-                            <input id="username" type="text" name="username" class="validate"/>
+                            <input id="username" type="text" th:field="*{username}" name="username" class="validate"/>
                             <label for="username">Käyttäjätunnus</label>
                         </div>
+                        <div th:if="${#fields.hasErrors('username')}" style='color: red;'>
+                            Käyttäjätunnus on joko varattu tai virheellisen kokoinen.<br/>Sen on oltava 4-25 merkkiä pitkä.
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">lock</i>
-                            <input id="password" type="password" name="password" class="validate"/>
+                            <input id="password" type="password" th:field="*{password}" name="password" class="validate"/>
                             <label for="password">Salasana</label>
                         </div>
+                        <div th:if="${#fields.hasErrors('password')}" style='color: red;'>
+                            Salasana on virheellinen.<br/>Se ei saa olla tyhjä tai yli 255 merkkiä pitkä.
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">markunread_mailbox</i>
-                            <input id="email" type="text" name="email" class="validate"/>
+                            <input id="email" type="text" th:field="*{email}" name="email" class="validate"/>
                             <label for="email">Sähköposti</label>
                         </div>
+                        <div th:if="${#fields.hasErrors('email')}" style='color: red;'>
+                            Sähköpostiosoite on virheellinen.
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="input-field">
                             <button type="submit" class="btn btn-primary">Rekisteröidy</button>
                         </div>
                     </div>
-                    
+
                 </form>
             </div>
 
@@ -65,8 +77,5 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
-        <script th:if="${param.error}" type="text/javascript">
-            Materialize.toast('Rekisteröityminen epäonnistui', 4000);
-        </script>
     </body>
 </html>

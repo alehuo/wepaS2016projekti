@@ -13,7 +13,10 @@
         <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}" media="screen,projection"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
-
+        <!-- CSRF -->
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <!-- default header name is X-CSRF-TOKEN -->
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
         <style type="text/css">
             /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
             #sidenav-overlay {
@@ -22,6 +25,7 @@
             /*Masonry kuvan leveys*/
             .grid-item { 
                 width: 280px; float: left; 
+                margin-bottom: 5px;
             }
             .grid {
                 margin: 0 auto;
@@ -80,7 +84,26 @@
                 <h3>Käyttäjän <b><span th:text="${userProfile.username}">Käyttäjänimi</span></b> jakamat kuvat</h3>
                 <!--Cards-->
                 <div class="grid">
-                    <div class="grid-item" th:each="image : ${userImages}"><img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}" width="280"/></div>
+                    <div class="grid-item card" th:each="image : ${userImages}">
+                        <div class="card-image">
+                            <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}" width="280"/>
+                        </div>
+                        <div class="card-content">
+                            <p><span class="card-title large" th:text="${image.description}"></span></p>
+                            Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
+                            <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:text="${image.commentsAmount}">0</span> kommenttia</span>
+                            <p>
+                                <ul>
+                                    <li th:each="comment : ${image.lastThreeComments}">
+                                        <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
+                                    </li>  
+                                </ul>
+                                <a th:href="@{'/photo/' + ${image.uuid}}">Näytä kaikki kommentit</a>
+                            </p>
+                        </div>
+                        <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>
+                            <a href="#!" th:onclick="'createCommentModal(\'' + ${image.uuid} + '\');'">Kommentoi</a></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -55,10 +55,6 @@ public class UserAccount extends AbstractPersistable<Long> {
     @NotBlank
     private String password;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     /**
      * Sähköpostiosoite
      */
@@ -66,6 +62,10 @@ public class UserAccount extends AbstractPersistable<Long> {
     @NotBlank
     @Email
     private String email;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
@@ -113,8 +113,8 @@ public class UserAccount extends AbstractPersistable<Long> {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    
-    public void addComment(Comment c){
+
+    public void addComment(Comment c) {
         comments.add(c);
     }
 

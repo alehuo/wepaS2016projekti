@@ -17,20 +17,21 @@
 package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.UserAccount;
+import com.alehuo.wepas2016projekti.domain.form.ImageUploadFormData;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -51,26 +52,38 @@ public class UploadController {
     public String upload(Authentication a, Model m) {
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
+        m.addAttribute("imageUploadFormData", new ImageUploadFormData());
         return "upload";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String processUpload(Authentication a, @RequestParam("imageFile") MultipartFile file, @RequestParam String description, HttpServletResponse response) {
+    public String processUpload(Authentication a, Model m, @Valid @ModelAttribute ImageUploadFormData formData, BindingResult bs) {
         //Hae autentikointi
         UserAccount u = userService.getUserByUsername(a.getName());
-        try {
-            //Tiedostomuodon tarkistus. Tarkista että onko oikea toteutustapa..
-            if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/bmp") || file.getContentType().equals("image/gif"))) {
-                response.setStatus(400);
-                return "redirect:/";
-            }
-            //Tallenna kuva
-            imageService.addImage(u, file.getBytes(), file.getContentType(), description);
-            response.setStatus(201);
-        } catch (IOException ex) {
-            response.setStatus(500);
-            Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+        m.addAttribute("user", u);
+        if (bs.hasErrors()) {
+            return "upload";
         }
+        MultipartFile file = formData.getFile();
+        String description = formData.getDescription();
+
+        //Tiedostomuodon tarkistus
+        if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/bmp") || file.getContentType().equals("image/gif"))) {
+            bs.rejectValue("file", "error.file", "Tiedostomuotoa ei sallita.");
+            if (bs.hasErrors()) {
+                return "upload";
+            }
+        } else {
+            try {
+                //Tallenna kuva
+                imageService.addImage(u, file.getBytes(), file.getContentType(), description);
+            } catch (IOException ex) {
+                Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+                bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
+                return "upload";
+            }
+        }
+
         return "redirect:/";
     }
 }
