@@ -22,6 +22,8 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.CommentService;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -38,16 +40,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("comment")
 public class CommentController {
-
+    
     @Autowired
     private UserService userService;
-
+    
     @Autowired
     private ImageService imageService;
-
+    
+    private static final Logger LOG = Logger.getLogger(CommentController.class.getName());
+    
     @Autowired
     private CommentService commentService;
-
+    
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
     public String addComment(Authentication a, @PathVariable String uuid, @RequestParam String comment, HttpServletRequest request) {
         Image img = imageService.findOneImageByUuid(uuid);
@@ -55,7 +59,7 @@ public class CommentController {
         Comment comm = commentService.addComment(comment, u);
         img.addComment(comm);
         u.addComment(comm);
-
+        LOG.log(Level.INFO, "Kayttaja {0} kommentoi kuvaan {1} viestin sisallolla \"{2}\"", new Object[]{a.getName(), uuid, comment});
         userService.saveUser(u);
         imageService.saveImage(img);
         String referer = request.getHeader("Referer");

@@ -23,6 +23,8 @@ import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.InitService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,8 @@ public class DefaultController {
 
     @Autowired
     private InitService initService;
+    
+    private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     /**
      * Alustus
@@ -85,11 +89,14 @@ public class DefaultController {
         String email = userAccount.getEmail();
         String password = userAccount.getPassword();
         if (bindingResult.hasErrors()) {
+            LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti rekisteroitya sivustolle, mutta syotteita ei validoitu onnistuneesti.", username);
             return "register";
         }
         if (userService.getUserByUsernameIgnoreCase(username) == null) {
             userService.createNewUser(username, password, email, Role.USER);
+            LOG.log(Level.INFO, "Kayttaja ''{0}'' rekisteroityi onnistuneesti sivustolle.", username);
         } else {
+            LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti rekisteroitya sivustolle, mutta kayttajatunnus oli jo kaytossa.", username);
             bindingResult.rejectValue("username", "error.username", "Käyttäjätunnus on jo käytössä.");
             return "register";
         }

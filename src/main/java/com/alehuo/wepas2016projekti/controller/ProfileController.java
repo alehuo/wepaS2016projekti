@@ -23,6 +23,8 @@ import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,8 @@ public class ProfileController {
     @Autowired
     private UserService userService;
 
+    private static final Logger LOG = Logger.getLogger(ProfileController.class.getName());
+
     @Autowired
     private ImageService imageService;
 
@@ -47,7 +51,6 @@ public class ProfileController {
     public String viewProfile(Authentication a, @PathVariable String username, Model m) throws UnsupportedEncodingException {
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
-
         String profileUsername = URLDecoder.decode(username, "UTF-8");
         UserAccount u = userService.getUserByUsername(profileUsername);
         m.addAttribute("userProfile", u);
@@ -56,6 +59,7 @@ public class ProfileController {
             m.addAttribute("userImages", images);
         }
 
+        LOG.log(Level.INFO, "Kayttaja ''{0}'' selasi kayttajan ''{1}'' profiilia.", new Object[]{a.getName(), username});
         return "profile";
     }
 
@@ -63,8 +67,9 @@ public class ProfileController {
     public String viewPhoto(Authentication a, @PathVariable String uuid, Model m) throws UnsupportedEncodingException {
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
-        
         m.addAttribute("image", imageService.findOneImageByUuid(uuid));
+
+        LOG.log(Level.INFO, "Kayttaja ''{0}'' selasi kuvaa ''{2}''.", new Object[]{a.getName(), uuid});
         return "image";
     }
 
