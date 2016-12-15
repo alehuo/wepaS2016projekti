@@ -22,8 +22,14 @@ import com.alehuo.wepas2016projekti.domain.form.ImageUploadFormData;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.IOException;
+//import java.awt.image.BufferedImage;
+//import java.io.ByteArrayInputStream;
+//import java.io.ByteArrayOutputStream;
+//import org.imgscalr.Scalr;
+//import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+//import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,15 +48,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("upload")
 public class UploadController {
-    
+
     @Autowired
     private UserService userService;
-    
+
     private static final Logger LOG = Logger.getLogger(UploadController.class.getName());
-    
+
     @Autowired
     private ImageService imageService;
-    
+
     @RequestMapping(method = RequestMethod.GET)
     public String upload(Authentication a, Model m) {
         UserAccount u = userService.getUserByUsername(a.getName());
@@ -58,7 +64,7 @@ public class UploadController {
         m.addAttribute("imageUploadFormData", new ImageUploadFormData());
         return "upload";
     }
-    
+
     @RequestMapping(method = RequestMethod.POST)
     public String processUpload(Authentication a, Model m, @Valid @ModelAttribute ImageUploadFormData formData, BindingResult bs) {
         //Hae autentikointi
@@ -79,18 +85,43 @@ public class UploadController {
                 return "upload";
             }
         } else {
+            //Tallenna kuva
+//            BufferedImage resized;
+//            try {
+//                resized = Scalr.resize(ImageIO.read(new ByteArrayInputStream(file.getBytes())),
+//                        Scalr.Method.QUALITY,
+//                        Scalr.Mode.FIT_TO_WIDTH,
+//                        1024, 1024, Scalr.OP_ANTIALIAS);
+//            } catch (IOException ex) {
+//                LOG.log(Level.SEVERE, null, ex);
+//                LOG.log(Level.SEVERE, "Kayttaja ''{0}'' yritti ladata kuvaa palveluun, mutta tapahtui palvelinvirhe.", a.getName());
+//                bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
+//                return "upload";
+//            }
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            try {
+//                ImageIO.write(resized, file.getContentType(), baos);
+//            } catch (IOException ex) {
+//                LOG.log(Level.SEVERE, null, ex);
+//                
+//                bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
+//                return "upload";
+//            }
+//            byte[] bytes = baos.toByteArray();
+//            Image i = imageService.addImage(u, bytes, file.getContentType(), description);
+            Image i;
             try {
-                //Tallenna kuva
-                Image i = imageService.addImage(u, file.getBytes(), file.getContentType(), description);
+                i = imageService.addImage(u, file.getBytes(), file.getContentType(), description);
                 LOG.log(Level.INFO, "Kayttaja ''{0}'' latasi uuden kuvan palveluun. Kuvan tunniste: ''{1}''", new Object[]{a.getName(), i.getUuid()});
             } catch (IOException ex) {
-                Logger.getLogger(UploadController.class.getName()).log(Level.SEVERE, null, ex);
+                LOG.log(Level.SEVERE, null, ex);
                 LOG.log(Level.SEVERE, "Kayttaja ''{0}'' yritti ladata kuvaa palveluun, mutta tapahtui palvelinvirhe.", a.getName());
                 bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
                 return "upload";
             }
+
         }
-        
+
         return "redirect:/";
     }
 }

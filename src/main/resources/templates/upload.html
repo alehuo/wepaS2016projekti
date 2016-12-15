@@ -68,6 +68,7 @@
                 <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
                     Kuvaus ei saa olla tyhjä tai yli 24 merkkiä pitkä.
                 </div>
+                <span style="font-weight: bold;">HUOM. Kuvan maksimikoko on 12 megatavua.</span>
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Lisää kuva</span>
