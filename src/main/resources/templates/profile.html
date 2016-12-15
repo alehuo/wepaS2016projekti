@@ -90,6 +90,9 @@
                     <div class="grid-item card" th:each="image : ${userImages}">
                         <div class="card-image">
                             <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}" width="280"/>
+                            <noscript>
+                                <img th:src="@{'/img/' + ${image.uuid}}"/>
+                            </noscript>
                         </div>
                         <div class="card-content">
                             <p><span class="card-title large" th:text="${image.description}"></span></p>
