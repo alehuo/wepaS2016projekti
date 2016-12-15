@@ -60,7 +60,7 @@
         <div class="container">
             <h3 th:text="${image.description}"></h3>
             <div class="card">
-                <div class="card-image center-align">
+                <div class="card-image">
                     <a th:id="${image.uuid}"></a>
                     <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
                     <span class="card-title"></span>
