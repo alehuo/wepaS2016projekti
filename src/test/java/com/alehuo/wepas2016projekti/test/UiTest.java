@@ -186,7 +186,7 @@ public class UiTest extends FluentTest {
 
         //Nuku vähän aikaa
         Thread.sleep(500);
-        System.out.println("\n\n\n\n\n\n\n\n" + pageSource() + "\n\n\n\n\n\n\n\n");
+//        System.out.println("\n\n\n\n\n\n\n\n" + pageSource() + "\n\n\n\n\n\n\n\n");
         assertTrue(pageSource().contains("Syöte"));
 
         goTo("http://localhost:" + port + "/profile/user");
@@ -215,7 +215,7 @@ public class UiTest extends FluentTest {
 
         fill(find("#username")).with("user");
         submit(find("#searchForm"));
-        System.out.println(pageSource());
+//        System.out.println(pageSource());
         assertTrue("\nError: ei löydy 'href=\"/profile/user\"' -tekstiä \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));
 
         fill(find("#username")).with("eiuser");
@@ -297,8 +297,8 @@ public class UiTest extends FluentTest {
         UserAccount u = userService.getUserByUsername("admin");
         List<Image> images = imageService.findAllByUserAccount(u);
 
-        System.out.println(images.size());
-        assertTrue("\nError: kuvia ei ole listassa viisi\n", images.size() == 5);
+//        System.out.println(images.size());
+        assertTrue("\nError: kuvia ei ole listassa tarpeeksi\n", images.size() == 5);
 
         //Suorita JavaScript -funktio jolla tykätään kuvasta
         ((JavascriptExecutor) webDriver).executeScript("likeImage('" + images.get(0).getUuid() + "')");
