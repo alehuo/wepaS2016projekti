@@ -119,7 +119,8 @@ function createCommentModal(imageUuid) {
 
         //Textarean input field
         var textAreaInputField = document.createElement("div");
-        textAreaInputField.className = "input-field col s6";
+        textAreaInputField.className = "input-field";
+        textAreaInputField.style = "width: 98%;";
 
         //Textarean ikoni
         var textAreaIcon = document.createElement("i");

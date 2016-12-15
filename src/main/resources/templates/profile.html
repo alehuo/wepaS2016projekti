@@ -82,6 +82,9 @@
             </div>
             <div th:unless="${userProfile == null}">
                 <h3>Käyttäjän <b><span th:text="${userProfile.username}">Käyttäjänimi</span></b> jakamat kuvat</h3>
+                <div th:if="${#lists.isEmpty(userImages)}">
+                    Käyttäjä ei ole vielä jakanut kuvia.
+                </div>
                 <!--Cards-->
                 <div class="grid">
                     <div class="grid-item card" th:each="image : ${userImages}">
