@@ -1,8 +1,10 @@
 #Web-palvelinohjelmoinnin projekti 2016
 
-Kurssin projektityönä on kuvaalvelu, johon käyttäjä voi lisätä kuvia.
+Kurssin projektityönä on kuvapalvelu, johon käyttäjä voi lisätä kuvia.
 Muut käyttäjät pystyvät kommentoimaan ja tykkäämään kuvista sekä selaamaan toisien profiileja.
 Sivut on toteutettu responsiivisesti eli ne toimivat sekä selaimessa että mobiililaitteella hyvin.
+
+Sovelluksen linkki: https://hummingbird-66191.herokuapp.com/
 
 * Kuvien lataus
 * Kuvien tykkäys ja kommentointi
