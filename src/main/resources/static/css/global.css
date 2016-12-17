@@ -1,0 +1,72 @@
+/*
+Copyright (C) 2016 Pivotal Software, Inc.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/* 
+    Created on : 17.12.2016, 18:12:45
+    Author     : alehuo
+*/
+/*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
+#sidenav-overlay {
+    z-index: 996; 
+}
+.likeForm {
+    display: inline-block;
+}
+.likeForm button[type="submit"]{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #616161;
+    margin-right: 20px;
+    transition: color .3s ease;
+    text-transform: uppercase;
+}
+/*Masonry kuvan leveys*/
+.grid-item { 
+    width: 280px; float: left; 
+    margin-bottom: 5px;
+}
+.grid {
+    margin: 0 auto;
+}
+/* clearfix */
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.likeForm {
+    display: inline-block;
+}
+.likeForm button[type="submit"]{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #616161;
+    margin-right: 20px;
+    transition: color .3s ease;
+    text-transform: uppercase;
+}
+/*Tämä korjaa kuvien skaalauksen mobiililaitteilla*/
+.card .autoscale {
+    max-width:900px;
+    max-height:500px;
+    width: auto;
+    height: auto;
+}
+
+
+

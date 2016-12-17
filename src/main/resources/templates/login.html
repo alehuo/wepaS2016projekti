@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Kuvapalvelu</title>
+        <title>Kirjaudu sisään - Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
@@ -13,12 +13,8 @@
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
         <!--Import Google Icon Font-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-        <style type="text/css">
-            /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
-            #sidenav-overlay {
-                z-index: 996; 
-            }
-        </style>
+        <!--Style-->
+        <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>
     <body>
         <nav>
@@ -28,7 +24,7 @@
         </nav>
 
         <div class="container">
-            <h3>Kirjaudu sisään</h3>
+            <h3 class="center-align">Kirjaudu sisään</h3>
             <div th:if="${param.error}" style='color: red;'>
                 Väärä käyttäjätunnus tai salasana.
             </div>
@@ -36,40 +32,19 @@
                 Kirjauduttu ulos.
             </div>
             <div class="row">
-                <form class="col s12" th:action="@{/login}" id="loginForm" method="POST" onsubmit="return validateLogin();" enctype="multipart/form-data">
-                    <!--<form action="@{/login}" method="POST" id="loginForm" onsubmit="var text = document.getElementById('username').value; if(text.length < 4) { alert('Käyttäjänimen täytyy olla yli 4 merkkiä'); return false; } return true;"-->
+                <form class="col s10 offset-s1" th:action="@{/login}" id="loginForm" method="POST" onsubmit="return validateLogin();" enctype="multipart/form-data">
                     <div class="row">
                         <div class="input-field">
-
-
                             <i class="material-icons prefix">account_circle</i>
                             <input id="username" type="text" name="username" class="validate"/>
                             <label for="username">Käyttäjätunnus</label>
-                            <!--                            <i class="material-icons prefix">account_circle</i>
-                                                        <label class="required" for="username"></label><br />
-                                                        <input id="username" name="username" type="text"/><br />
-                                                        <span id="username_validation" class="error"></span>-->
-
-
-
-
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field">
-
-
                             <i class="material-icons prefix">lock</i>
                             <input id="password" type="password" name="password" class="validate"/>
                             <label for="password">Salasana</label>
-
-                            <!--                            <i class="material-icons prefix">lock</i>
-                                                        <label class="required" for="password"></label><br />
-                                                        <input id="password" name="password" type="password"/><br />
-                                                        <span id="password_validation" class="error"></span>-->
-
-
-
                         </div>
                     </div>
                     <input type="hidden"
@@ -80,7 +55,6 @@
                             <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
                             <a th:href="@{/register}" class="btn" name="register">Rekisteröidy</a>
                         </div>
-
                     </div>
                 </form>
             </div>

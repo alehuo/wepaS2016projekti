@@ -19,11 +19,11 @@
  * @type type
  */
 $(document).ready(function () {
-    //Käynnistä sideNav
+//Käynnistä sideNav
     $(".button-collapse").sideNav();
     //Ladataan sivun kuvat asynkronisesti
     $('.autoload').each(function (i, obj) {
-        //Preloader esiin
+//Preloader esiin
         $(this).parent().find(".imgpreloader").show();
         $(this).hide();
         //Ladataan kuva (Eli siirretään data-original src:hen)
@@ -98,95 +98,127 @@ function createCommentModal(imageUuid) {
         var elementDiv = document.createElement("div");
         elementDiv.id = "commentModal_" + imageUuid;
         elementDiv.className = "modal";
-
         //Modalin sisältö
         var modalContentDiv = document.createElement("div");
         modalContentDiv.className = "modal-content";
-
         //Modalin footer
         var modalFooterDiv = document.createElement("div");
         modalFooterDiv.className = "modal-footer";
-
         //Otsikko
         var modalHeader = document.createElement("h4");
         modalHeader.textContent = "Kommentoi";
-
         //Modalin lomake
         var commentForm = document.createElement("form");
         commentForm.id = "commentForm_" + imageUuid;
         commentForm.action = "/comment/" + imageUuid;
         commentForm.method = "POST";
-
+        commentForm.onsubmit = "event.preventDefault();";
         //Lomakkeen rivi
         var commentFormRow = document.createElement("div");
         commentFormRow.className = "row";
-
         //Textarean input field
         var textAreaInputField = document.createElement("div");
         textAreaInputField.className = "input-field";
         textAreaInputField.style = "width: 98%;";
-
         //Textarean ikoni
         var textAreaIcon = document.createElement("i");
         textAreaIcon.className = "material-icons prefix";
         textAreaIcon.textContent = "mode_edit";
-
         //Textarean label
         var textAreaLabel = document.createElement("label");
         textAreaLabel.for = "commentModalTextarea_" + imageUuid;
         textAreaLabel.textContent = "Kommentti";
-
         //Lomakkeen textarea
         var textArea = document.createElement("textarea");
         textArea.id = "commentModalTextarea_" + imageUuid;
         textArea.name = "comment";
         textArea.className = "materialize-textarea";
+        textArea.minlength = 1;
+        textArea.maxlength = 40;
 
         var hiddenInput = document.createElement("input");
         hiddenInput.type = "hidden";
         hiddenInput.name = "_csrf";
         hiddenInput.value = $("meta[name='_csrf']").attr("content");
-
         //Lomakkeen lähetä -nappi
         var submitBtn = document.createElement("a");
         submitBtn.href = "#!";
         submitBtn.id = "commentModalSubmitBtn_" + imageUuid;
         submitBtn.className = "modal-action waves-effect waves-green btn-flat";
         submitBtn.textContent = "Kommentoi";
-        $(submitBtn).on("click", function () {
-            $(commentForm).submit();
-        });
 
+        //Kun Submit -nappia painetaan, luodaan JavaScriptillä POST -pyyntö
+        $(submitBtn).on("click", function () {
+            //XMLHttpRequest
+            var xmlHttp = new XMLHttpRequest();
+            //Pyynnön osoite
+            var commentUrl = "/comment/" + imageUuid;
+            //Kommentin sisältö
+            var comment = $("#commentForm_" + imageUuid).find('textarea[name="comment"]').val();
+            if (comment.length > 0 && comment.length <= 40) {
+//Nykyinen käyttäjä, joka on kirjautunut sisään (Käytetään vain kohdassa jossa lisätään listaan kommentti).
+                var currentUser = $("#currentUser").text();
+                //Parametrit
+                var params = "comment=" + comment;
+                //Avaa POST -pyyntö
+                xmlHttp.open("POST", commentUrl, true);
+                //Aseta Content-type
+                xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                //Aseta CSRF token
+                xmlHttp.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+                //Lähetä data
+                xmlHttp.send(params);
+                //Poista käytöstä textarea
+                $(textArea).attr("disabled", "disabled");
+                //Poista käytöstä lähetä -nappi
+                $(submitBtn).attr("disabled", "disabled");
+                //Loader
+                $(modalContentDiv).append("<div class='preloader-wrapper small active'><div class='spinner-layer spinner-blue-only'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div></div>");
+                //Tarkista vastaus
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState === 4) {
+                        //Jos kommentin lisäys on OK
+                        if (xmlHttp.status === 200) {
+                            //Lisää kommentti listaan
+                            $("#comments_" + imageUuid).append('<li><p><a href="/profile/' + stripTags(currentUser) + '"><span style="font-weight: bold;">' + stripTags(currentUser) + '</span></a> <span>' + stripTags(comment) + '</span></p></li>');
+                            //Kasvata kommenttien määrää
+                            var imageCommentCount = document.getElementById("imageComments_" + imageUuid);
+                            imageCommentCount.innerHTML++;
+                        }
+                        //Sulje modal
+                        $(elementDiv).modal('close');
+                        //Tyhjää textarea
+                        $(textArea).val("");
+                        //Tuhoa elementti
+                        elementDiv.parentNode.removeChild(elementDiv);
+                    }
+                };
+            } else {
+                alert("Kommentin tulee olla 1-40 kirjaimen pituinen.");
+            }
+        });
         //Lomakkeen peruuta -nappi
         var cancelBtn = document.createElement("a");
         cancelBtn.href = "#!";
         cancelBtn.id = "commentModalCancelBtn_" + imageUuid;
         cancelBtn.className = "modal-action modal-close waves-effect waves-green btn-flat";
         cancelBtn.textContent = "Peruuta";
-
-
         //Input fieldin sisälle ikoni, textarea ja label
         textAreaInputField.appendChild(textAreaIcon);
         textAreaInputField.appendChild(textArea);
         textAreaInputField.appendChild(textAreaLabel);
-
         //Rivin sisälle inputField
         commentFormRow.appendChild(textAreaInputField);
-
         //Lisää lomakkeeseen rivi
         commentForm.appendChild(commentFormRow);
         commentForm.appendChild(hiddenInput);
-
         //Lisää otsikko sisältöön
         modalContentDiv.appendChild(modalHeader);
-
         //Lisää lomake sisältöön
         modalContentDiv.appendChild(commentForm);
-
         //Lisää modal footeriin napit
         modalFooterDiv.appendChild(submitBtn);
         modalFooterDiv.appendChild(cancelBtn);
-
         //Lisää sisältö elementtiin
         elementDiv.appendChild(modalContentDiv);
         elementDiv.appendChild(modalFooterDiv);
@@ -200,7 +232,6 @@ function createCommentModal(imageUuid) {
     }
 }
 ;
-
 /* global URL */
 
 var previewFile = function (event) {
@@ -214,35 +245,9 @@ var previewFile = function (event) {
 
 };
 
-function validateLogin() {
-    var valid = 1;
-    var username = document.getElementById('username');
-    var username_validation = document.getElementById("username_validation");
-    var password = document.getElementById('password');
-    var password_validation = document.getElementById("password_validation");
-
-    if (username.length > 25) {
-        valid = 0;
-        username_validation.innerHTML = "Nimi liian pitkä";
-    } else if (username.length < 4) {
-        username_validation.innerHTML = "Nimi liian lyhyt";
-    }
-
-    if (password.length < 4) {
-        valid = 0;
-        password_validation.innerHTML = "Salasana liian lyhyt";
-    }
-
-    if (valid === 0) {
-        return false;
-    }
-    return true;
-}
-
-function validateSearch() {
-
-}
-
-function validateUpload() {
-
+function stripTags(string) {
+    var container = document.createElement('div');
+    var text = document.createTextNode(string);
+    container.appendChild(text);
+    return container.innerHTML;
 }

@@ -179,7 +179,7 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public List<Comment> getLastThreeComments() {
-        Collections.reverse(lastThreeComments);
+//        Collections.reverse(lastThreeComments);
         return lastThreeComments;
     }
 
