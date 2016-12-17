@@ -23,6 +23,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
@@ -67,7 +68,7 @@ public class UserAccount extends AbstractPersistable<Long> {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     public UserAccount() {
