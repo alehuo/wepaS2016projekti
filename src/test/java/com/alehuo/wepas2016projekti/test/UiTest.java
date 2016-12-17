@@ -80,6 +80,7 @@ public class UiTest extends FluentTest {
     @Before
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        initService.resetApplicationState();
     }
 
     @LocalServerPort
@@ -274,8 +275,6 @@ public class UiTest extends FluentTest {
     @Test
     public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
-        initService.resetApplicationState();
-
         //Etusivu
         goTo("http://localhost:" + port);
 
@@ -298,7 +297,7 @@ public class UiTest extends FluentTest {
         List<Image> images = imageService.findAllByUserAccount(u);
 
 //        System.out.println(images.size());
-        assertTrue("\nError: kuvia ei ole listassa tarpeeksi\n", images.size() == 6);
+        assertTrue("\nError: kuvia ei ole listassa tarpeeksi\n", images.size() == 5);
 
         //Suorita JavaScript -funktio jolla tykätään kuvasta
         ((JavascriptExecutor) webDriver).executeScript("likeImage('" + images.get(0).getUuid() + "')");

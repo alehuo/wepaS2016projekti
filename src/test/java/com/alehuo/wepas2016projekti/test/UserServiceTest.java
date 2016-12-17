@@ -20,12 +20,14 @@ import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.CommentService;
 import com.alehuo.wepas2016projekti.service.ImageService;
+import com.alehuo.wepas2016projekti.service.InitService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
 import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,14 @@ public class UserServiceTest {
 
     @Autowired
     private ImageService imageService;
+    
+    @Autowired
+    private InitService initService;
+    
+    @Before
+    public void setUp() {
+        initService.resetApplicationState();
+    }
 
     /**
      * Testi testaa, että käyttäjätilin lisäys toimii userServicen kautta
@@ -81,7 +91,7 @@ public class UserServiceTest {
 
         List<UserAccount> users = userService.getAllUsers();
 
-        assertEquals("Käyttäjätilejä ei palautunut tarvittava määrä", 6, users.size());
+        assertEquals("Käyttäjätilejä ei palautunut tarvittava määrä", 5, users.size());
         assertTrue(users.contains(randomUser1));
         assertTrue(users.contains(randomUser2));
         assertTrue(users.contains(randomUser3));

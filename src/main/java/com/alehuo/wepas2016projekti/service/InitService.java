@@ -32,6 +32,7 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.transaction.Transactional;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,11 +54,33 @@ public class InitService {
     private ImageRepository imageRepo;
 
     //Kuvan leveys ja korkeus
-    private int widthHeight = 800;
+    private final int widthHeight = 800;
 
-    private boolean scaleImages = false;
+    //Skaalataanko kuvat haluttuihin mittoihin?
+    private final boolean scaleImages = false;
 
+    /**
+     * Tämä metodi nollaa sovelluksen tilan
+     */
+    @Transactional
     public void resetApplicationState() {
+
+        //Poista kuvien kommenttiviittaukset
+        for (Image i : imageRepo.findAll()) {
+            i.getComments().clear();
+        }
+
+        //Poista käyttäjätilien kommenttiviittaukset
+        for (UserAccount ua : userService.getAllUsers()) {
+            ua.getComments().clear();
+        }
+
+        //Poista kommentit
+        commentRepo.deleteAll();
+        //Poista kuvat
+        imageRepo.deleteAll();
+        //Poista käyttäjätilit
+        userService.deleteAllUsers();
 
         if (userService.getUserByUsername("user") == null) {
             userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
