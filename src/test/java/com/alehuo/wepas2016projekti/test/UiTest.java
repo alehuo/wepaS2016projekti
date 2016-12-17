@@ -298,7 +298,7 @@ public class UiTest extends FluentTest {
         List<Image> images = imageService.findAllByUserAccount(u);
 
 //        System.out.println(images.size());
-        assertTrue("\nError: kuvia ei ole listassa tarpeeksi\n", images.size() == 5);
+        assertTrue("\nError: kuvia ei ole listassa tarpeeksi\n", images.size() == 6);
 
         //Suorita JavaScript -funktio jolla tykätään kuvasta
         ((JavascriptExecutor) webDriver).executeScript("likeImage('" + images.get(0).getUuid() + "')");

@@ -82,7 +82,7 @@ public class UserServiceTest {
 
         List<UserAccount> users = userService.getAllUsers();
 
-        assertEquals("Käyttäjätilejä ei palautunut tarvittava määrä", 5, users.size());
+        assertEquals("Käyttäjätilejä ei palautunut tarvittava määrä", 6, users.size());
         assertTrue(users.contains(randomUser1));
         assertTrue(users.contains(randomUser2));
         assertTrue(users.contains(randomUser3));
