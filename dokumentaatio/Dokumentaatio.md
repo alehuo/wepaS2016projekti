@@ -14,11 +14,12 @@ Sovelluksen linkki: https://hummingbird-66191.herokuapp.com/
 
 Tietokantataulut
 
-* Käyttäjät
-* Kuvat
-* Kommentit
-* Tykkäykset (liitostaulu)
-* Kommentit (liitostaulu)
+* Käyttäjät -taulu
+* Kuvat -taulu
+* Kuvan data -taulu
+* Kommentit -taulu
+* Kuvan tykkäykset -liitostaulu
+* Kuvan kommentit -liitostaulu
 
 
 Testaus
@@ -34,6 +35,17 @@ TODO list
 * Syötteiden validointi [OK, KATSO VIELÄ KUVAN LÄHETYKSEN VALIDOINTI]
 * Käyttäjän toimintojen logitus ja seuranta [OK]
 * Tykkäys toimii ilman JavaScriptiä [OK]
+* Uloskirjautuminen toimii ilman JavaScriptiä [OK]
 * Kommentoiti toimii ilman JavaScriptiä []
-* Uloskirjautuminen toimii ilman JavaScriptiä []
 * Loput testeistä valmiiksi []
+
+
+[Users]1-*[Images]
+[Users]1-*[Images_liked_by]
+[Images_liked_by]*-1[Images]
+[Images]1-1[File]
+[Users]1-*[Users_Comments]
+[Users_Comments]*-1[Comments]
+[Comments]1-*[Comment_Image]
+[Images]1-*[Comment_Image]
+[Comment_Image]

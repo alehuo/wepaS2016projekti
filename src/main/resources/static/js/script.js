@@ -32,7 +32,7 @@ $(document).ready(function () {
             $(this).parent().find(".imgpreloader").hide();
             $(this).fadeIn(1500);
             //Materialbox
-            $(this).materialbox();
+//            $(this).materialbox();
             $('.grid').masonry({
                 itemSelector: '.grid-item',
                 columnWidth: 280,

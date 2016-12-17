@@ -19,6 +19,7 @@ package com.alehuo.wepas2016projekti.service;
 import com.alehuo.wepas2016projekti.controller.DefaultController;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.Role;
+import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.CommentRepository;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import java.awt.image.BufferedImage;
@@ -57,6 +58,16 @@ public class InitService {
     private boolean scaleImages = false;
 
     public void resetApplicationState() {
+
+        //Ensin poistetaan viittaukset
+        //1. Kuvan kommentit
+        imageRepo.findAll().stream().forEach((i) -> {
+            i.getComments().clear();
+        });
+        //2. Käyttäjään liitetyt kommentit
+        for (UserAccount ua : userService.getAllUsers()) {
+            ua.getComments().clear();
+        }
         commentRepo.deleteAll();
         imageRepo.deleteAll();
         userService.deleteAllUsers();
