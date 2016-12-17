@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Jaa kuva - Kuvapalvelu</title>
+        <title>Lisää kommentti - Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <!--Theme color-->
@@ -13,6 +13,10 @@
         <link rel="stylesheet" th:href="@{'~/' + 'css/materialize.css'}" media="screen,projection"/>
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
+        <!-- CSRF -->
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <!-- default header name is X-CSRF-TOKEN -->
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
         <!--Style-->
         <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>
@@ -55,44 +59,18 @@
                    th:value="${_csrf.token}"/>
         </form>
         <div class="container">
-            <h3>Jaa kuva</h3>
-            <form th:action="@{'/upload?' + ${_csrf.parameterName} + '=' + ${_csrf.token}}" id="uploadform" method="POST" th:object="${imageUploadFormData}" enctype="multipart/form-data">
-                <div class="input-field">
-                    <input id="imageDesc" type="text" name="description" th:field="*{description}" class="validate" length="24"/>
-                    <label for="imageDesc">Kuvaus</label>
-                </div>
-                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
-                    Kuvaus ei saa olla tyhjä tai yli 24 merkkiä pitkä.
-                </div>
-                <span style="font-weight: bold;">HUOM. Kuvan maksimikoko on 12 megatavua.</span>
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span>Lisää kuva</span>
-                        <input type="file" accept="image/*;capture=camera" th:field="*{file}" name="imageFile" id="imgUploadInput" onchange="previewFile(event)"/>
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text"/>
-                    </div>
-                </div>
-                <div th:if="${#fields.hasErrors('file')}" th:errors="*{file}">
-                    Virhe
-                </div>
-                <div class="input-field">
-                    <button class="btn waves-effect waves-light" type="submit" id="uploadSubmitBtn" name="action">Lataa
-                        <i class="material-icons right">send</i>
-                    </button>
+            <h3>Lisää kommentti</h3>
 
-                </div>
-
-            </form>
-            <p>
-                <img id="preview" src="#" style="display: none;" width="70%"/> 
-            </p>
-
+            <!--Floating add-->
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large red waves-effect waves-light" id="uploadBtn" th:href="@{/upload}">
+                    <i class="large material-icons">add</i>
+                </a>
+            </div>
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
-        <script th:inline="javascript" th:src="@{'~/' + 'js/script.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
+        <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
     </body>
 </html>

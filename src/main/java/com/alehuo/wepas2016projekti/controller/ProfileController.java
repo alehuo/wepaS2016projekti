@@ -69,7 +69,7 @@ public class ProfileController {
         m.addAttribute("user", loggedInUser);
         m.addAttribute("image", imageService.findOneImageByUuid(uuid));
 
-        LOG.log(Level.INFO, "Kayttaja ''{0}'' selasi kuvaa ''{2}''.", new Object[]{a.getName(), uuid});
+        LOG.log(Level.INFO, "Kayttaja ''{0}'' selasi kuvaa ''{1}''.", new Object[]{a.getName(), uuid});
         return "image";
     }
 

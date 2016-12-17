@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,29 +41,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("comment")
 public class CommentController {
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private ImageService imageService;
-    
+
     private static final Logger LOG = Logger.getLogger(CommentController.class.getName());
-    
+
     @Autowired
     private CommentService commentService;
-    
+
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
     public String addComment(Authentication a, @PathVariable String uuid, @RequestParam String comment, HttpServletRequest request) {
-        Image img = imageService.findOneImageByUuid(uuid);
-        UserAccount u = userService.getUserByUsername(a.getName());
-        Comment comm = commentService.addComment(comment, u);
-        img.addComment(comm);
-        u.addComment(comm);
-        LOG.log(Level.INFO, "Kayttaja {0} kommentoi kuvaan {1} viestin sisallolla \"{2}\"", new Object[]{a.getName(), uuid, comment});
-        userService.saveUser(u);
-        imageService.saveImage(img);
+        //Validoidaan syöte tässä
+        if (comment.length() > 0 && comment.length() <= 40) {
+            Image img = imageService.findOneImageByUuid(uuid);
+            UserAccount u = userService.getUserByUsername(a.getName());
+            Comment comm = commentService.addComment(comment, u);
+            img.addComment(comm);
+            u.addComment(comm);
+            LOG.log(Level.INFO, "Kayttaja ''{0}'' kommentoi kuvaan ''{1}'' viestin sisallolla \"{2}\"", new Object[]{a.getName(), uuid, comment});
+            userService.saveUser(u);
+            imageService.saveImage(img);
+        } else {
+            LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti kommentoida kuvaa ''{1}'' viestin sisallolla \"{2}\", mutta viesti oli liian pitkä.", new Object[]{a.getName(), uuid, comment});
+        }
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
+    }
+
+    /**
+     *
+     * @param a
+     * @param uuid
+     * @return
+     */
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+    public String addComment(Authentication a, Model m, @PathVariable String uuid) {
+        UserAccount u = userService.getUserByUsername(a.getName());
+        m.addAttribute("user", u);
+        return "addcomment";
     }
 }

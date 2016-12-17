@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Kuvapalvelu</title>
+        <title>Selaa kuvia - Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
@@ -17,12 +17,8 @@
         <meta name="_csrf" th:content="${_csrf.token}"/>
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-        <style type="text/css">
-            /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
-            #sidenav-overlay {
-                z-index: 996; 
-            }
-        </style>
+        <!--Style-->
+        <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>
     <body>
         <div class="navbar-fixed">
@@ -33,7 +29,7 @@
                     <ul class="right hide-on-med-and-down">
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i>Haku</a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
                         <li><a th:href="@{/logout}" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
@@ -59,40 +55,51 @@
         </div>
         <div class="container">
             <h3 th:text="${image.description}"></h3>
-            <div class="card">
-                <div class="card-image">
-                    <a th:id="${image.uuid}"></a>
-                    <img class="autoload" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
-                    <span class="card-title"></span>
-                    <div class="preloader-wrapper big active imgpreloader" style="display: none;">
-                        <div class="spinner-layer spinner-blue-only">
-                            <div class="circle-clipper left">
-                                <div class="circle"></div>
-                            </div><div class="gap-patch">
-                                <div class="circle"></div>
-                            </div><div class="circle-clipper right">
-                                <div class="circle"></div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-image center-align">
+                            <a th:id="${image.uuid}"></a>
+                            <img class="autoload autoscale" th:attr="data-original=@{'/img/' + ${image.uuid}}"/>
+                            <span class="card-title"></span>
+                            <div class="preloader-wrapper big active imgpreloader" style="display: none;">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
                             </div>
+                            <noscript>
+                                <img class="autoscale" th:src="@{'/img/' + ${image.uuid}}"/>
+                            </noscript>
+                        </div>
+                        <div class="card-content">
+                            <p><span class="card-title large" th:text="${image.description}"></span></p>
+                            Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
+                            <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:id="${'imageComments_' + image.uuid}" th:text="${image.commentsAmount}">0</span> kommenttia</span>
+                            <p>
+                                <ul th:id="${'comments_' + image.uuid}">
+                                    <li th:if="${not #lists.isEmpty(image.comments)}" th:each="comment : ${image.comments}">
+                                        <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
+                                    </li>  
+                                </ul>
+                            </p>
+                        </div>  
+                        <div class="card-action">
+                            <form th:action="@{/img/like}" th:onsubmit="'event.preventDefault();'" method="POST" class="likeForm">
+                                <input type="hidden" name="imageUuid" th:value="${image.uuid}"/>
+                                <input type="hidden" name="redirect" value="1"/>
+                                <button type="submit" name="like">Tykkää</button>
+                            </form>
+                            <a th:href="@{'/comment/' + ${image.uuid}}" th:onclick="'event.preventDefault(); createCommentModal(\'' + ${image.uuid} + '\');'">Kommentoi</a>
                         </div>
                     </div>
-                    <noscript>
-                        <img th:src="@{'/img/' + ${image.uuid}}"/>
-                    </noscript>
                 </div>
-                <div class="card-content">
-                    <!--<p><span class="card-title large" th:text="${image.description}"></span></p>-->
-                    Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
-                    <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:text="${image.commentsAmount}">0</span> kommenttia</span>
-                    <p>
-                        <ul>
-                            <li th:each="comment : ${image.comments}">
-                                <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
-                            </li>  
-                        </ul>
-                    </p>
-                </div>  
-                <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>
-                    <a href="#!" th:onclick="'createCommentModal(\'' + ${image.uuid} + '\');'">Kommentoi</a></div>
+
             </div>
             <!--Floating add-->
             <div class="fixed-action-btn">

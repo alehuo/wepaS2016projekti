@@ -23,7 +23,9 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -37,6 +39,8 @@ public class Comment extends AbstractPersistable<Long> {
     @ManyToOne(cascade = CascadeType.ALL)
     private UserAccount user;
 
+    @NotNull
+    @Length(min = 1, max = 40)
     private String body;
 
     @Column(name = "timestamp")

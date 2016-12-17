@@ -52,7 +52,7 @@ public class DefaultController {
 
     @Autowired
     private InitService initService;
-    
+
     private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     /**
@@ -75,6 +75,13 @@ public class DefaultController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
+    }
+
+    @RequestMapping(value = "/logout/confirm", method = RequestMethod.GET)
+    public String logout(Authentication a, Model m) {
+        UserAccount u = userService.getUserByUsername(a.getName());
+        m.addAttribute("user", u);
+        return "logoutconfirm";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)

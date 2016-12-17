@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Kuvapalvelu</title>
+        <title>Haku - Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
@@ -17,12 +17,8 @@
         <meta name="_csrf" th:content="${_csrf.token}"/>
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-        <style type="text/css">
-            /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
-            #sidenav-overlay {
-                z-index: 996; 
-            }
-        </style>
+        <!--Style-->
+        <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>
     <body>
         <div class="navbar-fixed">

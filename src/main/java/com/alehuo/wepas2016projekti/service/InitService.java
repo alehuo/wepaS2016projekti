@@ -54,6 +54,8 @@ public class InitService {
     //Kuvan leveys ja korkeus
     private int widthHeight = 800;
 
+    private boolean scaleImages = false;
+
     public void resetApplicationState() {
         commentRepo.deleteAll();
         imageRepo.deleteAll();
@@ -63,11 +65,11 @@ public class InitService {
         userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
         try {
             if (imageRepo.findAllByImageOwnerOrderByIdDesc(userService.getUserByUsername("admin")).isEmpty()) {
-                addImage("src/main/resources/kuvat/1.jpg", "image/jpg", "Testikuva 1", "admin", false);
-                addImage("src/main/resources/kuvat/2.jpg", "image/jpg", "Testikuva 2", "admin", false);
-                addImage("src/main/resources/kuvat/3.jpg", "image/jpg", "Testikuva 3", "admin", false);
-                addImage("src/main/resources/kuvat/4.jpg", "image/jpg", "Testikuva 4", "admin", false);
-                addImage("src/main/resources/kuvat/5.jpg", "image/jpg", "Testikuva 5", "admin", false);
+                addImage("src/main/resources/kuvat/1.jpg", "image/jpg", "Testikuva 1", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/2.jpg", "image/jpg", "Testikuva 2", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/3.jpg", "image/jpg", "Testikuva 3", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/4.jpg", "image/jpg", "Testikuva 4", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/5.jpg", "image/jpg", "Testikuva 5", "admin", scaleImages);
             }
 
         } catch (IOException ex) {
@@ -83,7 +85,7 @@ public class InitService {
                     Scalr.Mode.FIT_TO_HEIGHT,
                     widthHeight, widthHeight, Scalr.OP_ANTIALIAS);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(resized, type, baos);
+            ImageIO.write(resized, "jpg", baos);
             return baos.toByteArray();
         } catch (IOException ex) {
             return null;
@@ -93,7 +95,7 @@ public class InitService {
     public void addImage(String fPath, String type, String description, String poster, boolean resize) throws IOException {
         Path path = Paths.get(fPath);
         Image i = new Image();
-        i.setImageContentType("image/jpg");
+        i.setImageContentType(type);
         if (resize) {
             i.setImageData(resizeImage(Files.readAllBytes(path), type, widthHeight));
         } else {

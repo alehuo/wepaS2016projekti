@@ -33,4 +33,7 @@ TODO list
 * CSRF protection käyttöön (ja tarkista että JavaScript -koodit toimivat tämän kanssa hyvin) [OK]
 * Syötteiden validointi [OK, KATSO VIELÄ KUVAN LÄHETYKSEN VALIDOINTI]
 * Käyttäjän toimintojen logitus ja seuranta [OK]
+* Tykkäys toimii ilman JavaScriptiä [OK]
+* Kommentoiti toimii ilman JavaScriptiä []
+* Uloskirjautuminen toimii ilman JavaScriptiä []
 * Loput testeistä valmiiksi []

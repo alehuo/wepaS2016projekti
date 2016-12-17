@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head>
-        <title>Kuvapalvelu</title>
+        <title>Profiili - Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
@@ -17,26 +17,8 @@
         <meta name="_csrf" th:content="${_csrf.token}"/>
         <!-- default header name is X-CSRF-TOKEN -->
         <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-        <style type="text/css">
-            /*Tällä korjataan se että tummennus piirtää sivuvalikon päälle*/
-            #sidenav-overlay {
-                z-index: 996; 
-            }
-            /*Masonry kuvan leveys*/
-            .grid-item { 
-                width: 280px; float: left; 
-                margin-bottom: 5px;
-            }
-            .grid {
-                margin: 0 auto;
-            }
-            /* clearfix */
-            .grid:after {
-                content: '';
-                display: block;
-                clear: both;
-            }
-        </style>
+        <!--Style-->
+        <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>
     <body>        
         <div class="navbar-fixed">
@@ -47,7 +29,7 @@
                     <ul class="right hide-on-med-and-down">
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i>Haku</a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
                         <li><a onclick="$('#logoutForm').submit();" href="#!" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
@@ -97,17 +79,22 @@
                         <div class="card-content">
                             <p><span class="card-title large" th:text="${image.description}"></span></p>
                             Käyttäjältä <a th:href="@{'/profile/' + ${image.imageOwner.username}}"><b th:text="${image.imageOwner.username}">Omistaja</b></a>, <span th:text="${#dates.format(image.creationDate, 'dd.MM.yyyy HH:mm')}"></span><br/>
-                            <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:text="${image.commentsAmount}">0</span> kommenttia</span>
+                            <span style="color: gray;"><span th:text="${image.likes}" th:id="${'imageLikes_' + image.uuid}" style="font-weight: bold;">0</span> tykkäystä &nbsp;<span style="font-weight: bold;" th:id="${'imageComments_' + image.uuid}" th:text="${image.commentsAmount}">0</span> kommenttia</span>
                             <p>
-                                <ul>
+                                <ul th:id="${'comments_' + image.uuid}">
                                     <li th:each="comment : ${image.lastThreeComments}">
                                         <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
                                     </li>  
                                 </ul>
-                                <a th:href="@{'/photo/' + ${image.uuid}}">Näytä kaikki kommentit</a>
                             </p>
+                            <a th:href="@{'/photo/' + ${image.uuid}}">Näytä kuvasivu ja loput kommentit</a>
                         </div>
-                        <div class="card-action"><a th:onclick="'likeImage(\'' + ${image.uuid} + '\');'" href="javascript:void(0);" class="likebutton">Tykkää</a>
+                        <div class="card-action">
+                            <form th:action="@{/img/like}" th:onsubmit="'event.preventDefault();'" method="POST" class="likeForm">
+                                <input type="hidden" name="imageUuid" th:value="${image.uuid}"/>
+                                <input type="hidden" name="redirect" value="1"/>
+                                <button type="submit" name="like">Tykkää</button>
+                            </form>
                             <a href="#!" th:onclick="'createCommentModal(\'' + ${image.uuid} + '\');'">Kommentoi</a></div>
                     </div>
                 </div>

@@ -333,6 +333,9 @@ public class UiTest extends FluentTest {
 
         //Lähetä kommentti
         webDriver.findElement(By.id("commentModalSubmitBtn_" + images.get(0).getUuid())).click();
+        
+        Thread.sleep(500);
+        webDriver.navigate().refresh();
 
         assertTrue("\nError: Ei löydetty 'HelloWorldTestiKommentti' -tekstiä\n" + pageSource() + "\n",
                 pageSource().contains("HelloWorldTestiKommentti")
