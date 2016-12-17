@@ -20,6 +20,7 @@ import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.CommentService;
 import com.alehuo.wepas2016projekti.service.ImageService;
+import com.alehuo.wepas2016projekti.service.InitService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
 import java.util.UUID;
@@ -50,6 +51,14 @@ public class UserServiceTest {
 
     @Autowired
     private ImageService imageService;
+    
+    @Autowired
+    private InitService initService;
+    
+    @Before
+    public void setUp() {
+        initService.resetApplicationState();
+    }
 
     /**
      * Testi testaa, että käyttäjätilin lisäys toimii userServicen kautta

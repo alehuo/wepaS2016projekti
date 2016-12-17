@@ -20,6 +20,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,7 +37,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Table(name = "Comments")
 public class Comment extends AbstractPersistable<Long> {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserAccount user;
 
     @NotNull

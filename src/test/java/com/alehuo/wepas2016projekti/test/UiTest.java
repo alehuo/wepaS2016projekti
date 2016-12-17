@@ -80,6 +80,7 @@ public class UiTest extends FluentTest {
     @Before
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        initService.resetApplicationState();
     }
 
     @LocalServerPort
@@ -274,8 +275,6 @@ public class UiTest extends FluentTest {
     @Test
     public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
-        initService.resetApplicationState();
-
         //Etusivu
         goTo("http://localhost:" + port);
 
@@ -333,7 +332,7 @@ public class UiTest extends FluentTest {
 
         //Lähetä kommentti
         webDriver.findElement(By.id("commentModalSubmitBtn_" + images.get(0).getUuid())).click();
-        
+
         Thread.sleep(500);
         webDriver.navigate().refresh();
 
@@ -379,7 +378,7 @@ public class UiTest extends FluentTest {
             MvcResult res = mockMvc.perform(get("/img/" + imageUuid)).andReturn();
             assertEquals("Kuvan tyyppi on väärä: " + res.getResponse().getHeader("Content-Type"), image.getContentType(), res.getResponse().getHeader("Content-Type"));
             assertEquals("Kuvan koko on väärä: " + res.getResponse().getHeader("Content-Length"), image.getImageData().length, Integer.parseInt(res.getResponse().getHeader("Content-Length")));
-            assertEquals("Kuvan ETag on väärä: " + res.getResponse().getHeader("ETag"), "\""+imageUuid+"\"", res.getResponse().getHeader("ETag"));
+            assertEquals("Kuvan ETag on väärä: " + res.getResponse().getHeader("ETag"), "\"" + imageUuid + "\"", res.getResponse().getHeader("ETag"));
         }
     }
 
