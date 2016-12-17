@@ -1,4 +1,7 @@
 language: java
+sudo: required
+before_install:
+    - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 deploy:
   provider: heroku
   api_key:
