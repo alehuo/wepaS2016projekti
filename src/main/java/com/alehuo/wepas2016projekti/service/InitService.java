@@ -59,32 +59,21 @@ public class InitService {
 
     public void resetApplicationState() {
 
-        //Ensin poistetaan viittaukset
-        //1. Kuvan kommentit
-        imageRepo.findAll().stream().forEach((i) -> {
-            i.getComments().clear();
-        });
-        //2. Käyttäjään liitetyt kommentit
-        for (UserAccount ua : userService.getAllUsers()) {
-            ua.getComments().clear();
+        if (userService.getUserByUsername("user") == null) {
+            userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
         }
-        commentRepo.deleteAll();
-        imageRepo.deleteAll();
-        userService.deleteAllUsers();
-
-        userService.createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
-        userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
-        try {
-            if (imageRepo.findAllByImageOwnerOrderByIdDesc(userService.getUserByUsername("admin")).isEmpty()) {
+        if (userService.getUserByUsername("admin") == null) {
+            userService.createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
+            try {
                 addImage("src/main/resources/kuvat/1.jpg", "image/jpg", "Testikuva 1", "admin", scaleImages);
                 addImage("src/main/resources/kuvat/2.jpg", "image/jpg", "Testikuva 2", "admin", scaleImages);
                 addImage("src/main/resources/kuvat/3.jpg", "image/jpg", "Testikuva 3", "admin", scaleImages);
                 addImage("src/main/resources/kuvat/4.jpg", "image/jpg", "Testikuva 4", "admin", scaleImages);
                 addImage("src/main/resources/kuvat/5.jpg", "image/jpg", "Testikuva 5", "admin", scaleImages);
+            } catch (IOException ex) {
+                Logger.getLogger(InitService.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (IOException ex) {
-            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
