@@ -22,6 +22,8 @@ import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,13 +45,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("img")
 public class ImageController {
-    
+
     @Autowired
     private ImageService imageService;
-    
+
     @Autowired
     private UserService userService;
-    
+
     private static final Logger LOG = Logger.getLogger(ImageController.class.getName());
 
     /**
@@ -88,13 +90,16 @@ public class ImageController {
      *
      * @param a Authentication
      * @param imageUuid Kuvan UUID
+     * @param redirect
+     * @param res
+     * @param req
      * @return Onnistuiko pyyntö vai ei (sekä sen tyyppi; unlike vai like).
      */
     @RequestMapping(value = "/like", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<String> likeImage(Authentication a, @RequestParam String imageUuid) {
+    public ResponseEntity<String> likeImage(Authentication a, @RequestParam String imageUuid, @RequestParam int redirect, HttpServletRequest req) {
         //Käyttäjän autentikoiminen
         UserAccount u = userService.getUserByUsername(a.getName());
+        final HttpHeaders h = new HttpHeaders();
         if (u != null) {
             Image i = imageService.findOneImageByUuid(imageUuid);
             if (i != null) {
@@ -102,19 +107,31 @@ public class ImageController {
                     LOG.log(Level.INFO, "Kayttaja ''{0}'' poisti tykkayksen kuvasta ''{1}''", new Object[]{a.getName(), imageUuid});
                     i.removeLike(u);
                     imageService.saveImage(i);
-                    return new ResponseEntity("unlike", HttpStatus.OK);
+                    h.add("LikeType", "unlike");
+                    if (redirect == 1) {
+                        String referer = req.getHeader("Referer");
+                        h.add("Location", req.getHeader("Referer"));
+                        return new ResponseEntity<>(h, HttpStatus.FOUND);
+                    }
+                    return new ResponseEntity<>(h, HttpStatus.OK);
                 } else {
                     i.addLike(u);
                     LOG.log(Level.INFO, "Kayttaja ''{0}'' tykkasi kuvasta ''{1}''", new Object[]{a.getName(), imageUuid});
                     imageService.saveImage(i);
-                    return new ResponseEntity("like", HttpStatus.OK);
+                    h.add("LikeType", "like");
+                    if (redirect == 1) {
+                        String referer = req.getHeader("Referer");
+                        h.add("Location", req.getHeader("Referer"));
+                        return new ResponseEntity<>(h, HttpStatus.FOUND);
+                    }
+                    return new ResponseEntity<>(h, HttpStatus.OK);
                 }
             } else {
                 LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti tykata kuvaa, mita ei ole olemassa. ({1})", new Object[]{a.getName(), imageUuid});
-                return new ResponseEntity("", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(h, HttpStatus.BAD_REQUEST);
             }
         }
         LOG.log(Level.WARNING, "Yritettiin tykata kuvaa kirjautumatta sisaan ({0})", a.getName());
-        return new ResponseEntity("", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(h, HttpStatus.UNAUTHORIZED);
     }
 }

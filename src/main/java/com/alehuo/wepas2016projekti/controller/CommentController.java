@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,18 +41,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("comment")
 public class CommentController {
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private ImageService imageService;
-    
+
     private static final Logger LOG = Logger.getLogger(CommentController.class.getName());
-    
+
     @Autowired
     private CommentService commentService;
-    
+
     @RequestMapping(value = "/{uuid}", method = RequestMethod.POST)
     public String addComment(Authentication a, @PathVariable String uuid, @RequestParam String comment, HttpServletRequest request) {
         Image img = imageService.findOneImageByUuid(uuid);
@@ -64,5 +65,18 @@ public class CommentController {
         imageService.saveImage(img);
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
+    }
+
+    /**
+     *
+     * @param a
+     * @param uuid
+     * @return
+     */
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+    public String addComment(Authentication a, Model m, @PathVariable String uuid) {
+        UserAccount u = userService.getUserByUsername(a.getName());
+        m.addAttribute("user", u);
+        return "addcomment";
     }
 }

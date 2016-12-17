@@ -37,7 +37,7 @@ $(document).ready(function () {
                 itemSelector: '.grid-item',
                 columnWidth: 280,
                 isFitWidth: true,
-                gutter : 5,
+                gutter: 5,
                 transitionDuration: '0.6s'
             });
         });
@@ -48,12 +48,16 @@ $(document).ready(function () {
  * @param {type} imageUuid
  * @returns {undefined}
  */
+$('.likeForm').submit(function (event) {
+    var imageUuid = $(this).find('input[name="imageUuid"]').val();
+    likeImage(imageUuid);
+});
 function likeImage(imageUuid) {
     var xmlHttp = new XMLHttpRequest();
     //Pyynnön osoite
     var likeUrl = "/img/like/";
     //Parametrit
-    var params = "imageUuid=" + imageUuid;
+    var params = "imageUuid=" + imageUuid + "&redirect=0";
     //Avaa POST -pyyntö
     xmlHttp.open("POST", likeUrl, true);
     //Aseta Content-type
@@ -66,7 +70,7 @@ function likeImage(imageUuid) {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status === 200) {
-                var response = xmlHttp.responseText;
+                var response = xmlHttp.getResponseHeader("LikeType");
                 if (response === "like") {
                     Materialize.toast("Tykkäsit kuvasta", 3000);
                     document.getElementById("imageLikes_" + imageUuid).innerHTML++;
