@@ -137,6 +137,7 @@
                         <exclude>**/Development*.java</exclude>
                         <exclude>**/Production*.java</exclude>
                         <exclude>**/Application.java</exclude>
+                        <exclude>**/CustomHtmlUnit*.java</exclude>
                     </excludes>
                 </configuration>
                 <executions>
