@@ -6,7 +6,7 @@ deploy:
   app:
     secure: "AkEQr9mMeEXqR4ftu3gWTG6piTG08eXJqgzHmrnJnaEPykno3QI5CulGNyxKm4VralxMJgxiGrXqoJUMY3/UW6tEKN82CoMuZQQJVOe2aRQdCV/G16iGLiXghdb6umWlwbwl9g4GU4zoBHAJMFLEws680WkO+OHSZ5lVKTp2y0B7Lsfzf0rrosMJPnHj4yLybI5PjldXzvKmgjsonrsayv/WA5Qf52QB85V13cuPI1JKRvr1qmluM6ipoZcD7atWd2XGOjGqOLi7GnWorHjBPFUiMHy/3As2Li5t+118pzO83u2y2B3VZmU1KdrpKEo1uqo18vdj1YW+5zbbr+cg69IMTwQDBlvQaWSc+mWLOq6M/S+hekdMFBqNyLXbWda8yzHTAUrwLj5iyQgnxGykFRVBeVGprT6evF+BD/AHjXbBq2uK0urSMlrSgufxnGpip+twIb4rOR47OIdujjfLpV2mbfjGo0uyyPJuOj9+nzalTLgeDtPcOr2ZJk6+2UzjY8TB6VZpTYAcwBlSCkyv9r3A0+w6RYpVNwHmaYPAd5JD4pRhUyeNPrTbmF1VwWiP0ElhY5Ivj+3fLdwbp4cDRCvvNZh/mEdpZB0raSnwY1HNtUA33ja0d3v8iir/NG6iRx7H9cQcCBPyt8Sj7SvPYzNF+gsoC5N9UuFRSmVCbF8="
   run:
-    - pg:reset
+    - heroku pg:reset
     - restart
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script: "mvn clean test -Dspring.profiles.active=development jacoco:report coveralls:report -B"
