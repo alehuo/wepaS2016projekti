@@ -34,6 +34,6 @@ TODO list
 * Syötteiden validointi [OK, KATSO VIELÄ KUVAN LÄHETYKSEN VALIDOINTI]
 * Käyttäjän toimintojen logitus ja seuranta [OK]
 * Tykkäys toimii ilman JavaScriptiä [OK]
+* Uloskirjautuminen toimii ilman JavaScriptiä [OK]
 * Kommentoiti toimii ilman JavaScriptiä []
-* Uloskirjautuminen toimii ilman JavaScriptiä []
 * Loput testeistä valmiiksi []
