@@ -57,7 +57,7 @@ Klikkaamalla pyöreää, punaista "+" -nappia käyttäjälle näytetään kuvan 
 
 Kuvan maksimikoko on 12 megatavua ja sallittuja tiedostomuotoja ovat .jpg, .jpeg, .png ja .gif .
 
-Kuvalle annetaan otsikko ja valitaan sopiva kuvatiedosto jonka jälkeen painetaan "Lisää kuva" -nappia.
+Kuvalle annetaan otsikko ja valitaan sopiva kuvatiedosto jonka jälkeen painetaan ![Lataa](lataanappi.png) -nappia.
 
 ![Kuvan jakaminen 2](kuvan_jakaminen2.png)
 
