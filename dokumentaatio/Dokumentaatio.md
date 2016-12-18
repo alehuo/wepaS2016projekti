@@ -65,7 +65,7 @@ Lisäksi käyttäjä voi halutessaan klikata käyttäjien nimiä päästäkseen 
 
 ### 4. Käyttäjä haluaa jakaa kuvan
 
-Klikkaamalla pyöreää, punaista ![Plus](lisaanappi.png) -nappia käyttäjälle näytetään kuvan jakamissivu.
+Klikkaamalla pyöreää, punaista ![Plus](img/lisaanappi.png) -nappia käyttäjälle näytetään kuvan jakamissivu.
 
 ![Kuvan jakaminen 1](img/kuvan_jakaminen.png)
 
@@ -75,7 +75,7 @@ Kuvalle annetaan otsikko ja valitaan sopiva kuvatiedosto.
 
 ![Kuvan jakaminen 2](img/kuvan_jakaminen2.png)
 
-Sen jälkeen painetaan ![Lataa](lataanappi.png) -nappia. Toiminnossa kestää hetki jonka jälkeen käyttäjä
+Sen jälkeen painetaan ![Lataa](img/lataanappi.png) -nappia. Toiminnossa kestää hetki jonka jälkeen käyttäjä
 
 ohjataan sovelluksen etusivulle. Ladattu kuva ilmestyy etusivulle.
 
@@ -83,7 +83,7 @@ ohjataan sovelluksen etusivulle. Ladattu kuva ilmestyy etusivulle.
 
 Klikkaamalla "Haku" -nappia navigointipalkista aukeaa hakusivu.
 
-Kenttään syötetään haluttu hakusana ja painetaan ![Hae](haenappi.png) -nappia.
+Kenttään syötetään haluttu hakusana ja painetaan ![Hae](img/haenappi.png) -nappia.
 
 ![Haku 1](img/haku1.png)
 
