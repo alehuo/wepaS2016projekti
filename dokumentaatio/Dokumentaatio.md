@@ -92,6 +92,12 @@ Lisäksi on mahdollisuus avata yksittäisen kuvan kuvasivu.
 
 ![Kuvasivu](kuvasivu.png)
 
+### 7. Käyttäjä haluaa kommentoida kuvaa
+
+Käyttäjä voi kommentoida kuvaa suoraan klikkaamalla "Kommentoi" -linkkiä kuvakortin alapuolella:
+
+![Kommentointi](kommentointi_animation.gif)
+
 (Loput käyttötapaukset täydentyvät tähän toiseen deadlineen mennessä.)
 
 ## Tietokantataulut
