@@ -4,6 +4,16 @@ Kurssin projektityönä on kuvapalvelu, johon käyttäjä voi lisätä kuvia.
 Muut käyttäjät pystyvät kommentoimaan ja tykkäämään kuvista sekä selaamaan toisien profiileja.
 Sivut on toteutettu responsiivisesti eli ne toimivat sekä selaimessa että mobiililaitteella hyvin.
 
+Huomioitavaa on, että projekti ei vaadi JavaScript -tukea selaimelta, mutta se on vahvasti suositeltavaa.
+
+Mobiililaitteilla sivuvalikko ei avaudu, jos JavaScript ei ole päällä (pohdimme tälle ratkaisua).
+
+Muuten projekti on täysin toimiva. Kuvien lisäys, kuvien selaaminen, kuvien kommentointi 
+
+ja kuvista tykkääminen toimivat ilman JavaScriptiä.
+
+
+
 ## Sovelluksen linkki: https://hummingbird-66191.herokuapp.com/
 
 ## Toiminnallisuus
@@ -98,7 +108,13 @@ Käyttäjä voi kommentoida kuvaa suoraan klikkaamalla "Kommentoi" -linkkiä kuv
 
 ![Kommentointi](kommentointi_animation.gif)
 
-(Loput käyttötapaukset täydentyvät tähän toiseen deadlineen mennessä.)
+### 7. Käyttäjä haluaa tykätä kuvasta
+
+Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin alapuolella:
+
+![Tykkääminen](kuvasta_tykkaaminen.gif)
+
+(Parannuksia / lisää juttuja toiseen deadlineen mennessä.)
 
 ## Tietokantataulut
 
