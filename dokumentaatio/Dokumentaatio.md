@@ -69,7 +69,7 @@ ohjataan sovelluksen etusivulle. Ladattu kuva ilmestyy etusivulle.
 
 Klikkaamalla "Haku" -nappia navigointipalkista aukeaa hakusivu.
 
-Kenttään syötetään haluttu hakusana ja painetaan "Hae" -nappia.
+Kenttään syötetään haluttu hakusana ja painetaan ![Hae](haenappi.png) -nappia.
 
 ![Haku 1](haku1.png)
 
