@@ -25,10 +25,10 @@
 
         <div class="container">
             <h3 class="center-align">Kirjaudu sisään</h3>
-            <div th:if="${param.error}" style='color: red;'>
+            <div th:if="${param.error}" style='color: red; font-weight: bold;' class="center-align">
                 Väärä käyttäjätunnus tai salasana.
             </div>
-            <div th:if="${param.logout}" style='color: green;'>
+            <div th:if="${param.logout}" style='color: green; font-weight: bold;' class="center-align">
                 Kirjauduttu ulos.
             </div>
             <div class="row">

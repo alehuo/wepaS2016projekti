@@ -25,6 +25,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -68,6 +69,10 @@ public class UserAccount extends AbstractPersistable<Long> {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    /**
+     * Kommentit (OneToMany: Käyttäjä voi omistaa monta kommenttia mutta yksi
+     * kommentti vastaa yhtä käyttäjää)
+     */
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
