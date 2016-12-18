@@ -51,7 +51,7 @@ Lisäksi käyttäjä voi halutessaan klikata käyttäjien nimiä päästäkseen 
 
 ### 4. Käyttäjä haluaa jakaa kuvan
 
-Klikkaamalla pyöreää, punaista "+" -nappia käyttäjälle näytetään kuvan jakamissivu.
+Klikkaamalla pyöreää, punaista ![Plus](plusnappi.png) -nappia käyttäjälle näytetään kuvan jakamissivu.
 
 ![Kuvan jakaminen 1](kuvan_jakaminen.png)
 
