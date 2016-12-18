@@ -57,11 +57,11 @@ Klikkaamalla pyöreää, punaista ![Plus](lisaanappi.png) -nappia käyttäjälle
 
 Kuvan maksimikoko on 12 megatavua ja sallittuja tiedostomuotoja ovat .jpg, .jpeg, .png ja .gif .
 
-Kuvalle annetaan otsikko ja valitaan sopiva kuvatiedosto jonka jälkeen painetaan ![Lataa](lataanappi.png) -nappia.
+Kuvalle annetaan otsikko ja valitaan sopiva kuvatiedosto.
 
 ![Kuvan jakaminen 2](kuvan_jakaminen2.png)
 
-Sen jälkeen painetaan "Lataa" -nappia. Toiminnossa kestää hetki jonka jälkeen käyttäjä
+Sen jälkeen painetaan ![Lataa](lataanappi.png) -nappia. Toiminnossa kestää hetki jonka jälkeen käyttäjä
 
 ohjataan sovelluksen etusivulle. Ladattu kuva ilmestyy etusivulle.
 
