@@ -48,7 +48,7 @@
                         <li><a th:href="@{/}" id="syote"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons green-text">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons blue-text">face</i>Profiili</a></li>
-                        <li><a onclick="$('#logoutForm').submit();" href="#!" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
+                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
                     </ul>            
                 </div>
             </nav>
@@ -59,8 +59,22 @@
                    th:value="${_csrf.token}"/>
         </form>
         <div class="container">
-            <h3>Lisää kommentti</h3>
-
+            <h3>Kommentoi</h3>
+            <form th:action="@{/comment}" method="POST">
+                <input type="hidden" name="imageUuid" th:value="${imageUuid}"/>
+                <div class="row">
+                    <div class="input-field">
+                        <i class="material-icons prefix">mode_edit</i>
+                        <textarea name="comment" class="materialize-textarea" placeholder="Kommentti"></textarea>
+                        <!--<label>Kommentti</label>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field">
+                        <button type="submit" class="btn btn-primary">Kommentoi</button>
+                    </div>
+                </div>
+            </form>
             <!--Floating add-->
             <div class="fixed-action-btn">
                 <a class="btn-floating btn-large red waves-effect waves-light" id="uploadBtn" th:href="@{/upload}">

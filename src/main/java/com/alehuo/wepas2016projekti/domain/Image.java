@@ -30,6 +30,7 @@ import javax.persistence.FetchType;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -47,25 +48,38 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Table(name = "Images")
 public class Image extends AbstractPersistable<Long> {
 
+    /**
+     * Kuvan omistaja (Monta kuvaa yhdellä käyttäjällä mutta yksi kuva vastaa
+     * yhtä käyttäjää)
+     */
     @ManyToOne
     private UserAccount imageOwner;
 
+    /**
+     * Tykkäykset (Kuvalla monta tykkäystä ja käyttäjä voi tykätä monta kuvaa)
+     */
     @ManyToMany
     private List<UserAccount> likedBy;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @ManyToMany
-    private List<Comment> lastThreeComments;
-
+    /**
+     * Kuvadata (One to one)
+     */
     @OneToOne(cascade = ALL, fetch = EAGER)
     private File file;
 
+    /**
+     * Kuvan otsikko
+     */
     @NotBlank
     @Length(min = 4, max = 64)
     private String description;
 
+    /**
+     * Kuvan tyyppi
+     */
     private String contentType;
 
     @Column(name = "timestamp")
@@ -77,7 +91,6 @@ public class Image extends AbstractPersistable<Long> {
 
     public Image() {
         comments = new ArrayList<>();
-        lastThreeComments = new ArrayList<>();
         likedBy = new ArrayList<>();
         file = new File();
     }
@@ -145,11 +158,6 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public void setComments(List<Comment> comments) {
-        if (comments.size() > 3) {
-            this.lastThreeComments = comments.subList(comments.size() - 3, comments.size());
-        } else {
-            this.lastThreeComments = comments;
-        }
         this.comments = comments;
     }
 
@@ -158,10 +166,6 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public void addComment(Comment c) {
-        if (comments.size() >= 3) {
-            this.lastThreeComments.remove(0);
-        }
-        lastThreeComments.add(c);
         comments.add(c);
     }
 
@@ -178,12 +182,17 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     public List<Comment> getLastThreeComments() {
-//        Collections.reverse(lastThreeComments);
-        return lastThreeComments;
-    }
-
-    public void setLastThreeComments(List<Comment> lastThreeComments) {
-        this.lastThreeComments = lastThreeComments;
+        //Jos kommentteja on >= 3 niin palautetaan sublist
+        if (comments.size() >= 3) {
+            return comments.subList(comments.size() - 3, comments.size());
+        }
+        //Jos näin ei ole, käydään kommenttilista läpi for -loopilla
+        //Esim. jos koko on kaksi, käydään läpi indeksit 1 ja 0
+        List<Comment> tmpComments = new ArrayList<>();
+        for (int i = comments.size() - 1; i >= 0; i--) {
+            tmpComments.add(comments.get(i));
+        }
+        return tmpComments;
     }
 
     @Override

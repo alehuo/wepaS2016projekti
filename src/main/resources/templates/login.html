@@ -25,10 +25,10 @@
 
         <div class="container">
             <h3 class="center-align">Kirjaudu sisään</h3>
-            <div th:if="${param.error}" style='color: red;'>
+            <div th:if="${param.error}" style='color: red; font-weight: bold;' class="center-align">
                 Väärä käyttäjätunnus tai salasana.
             </div>
-            <div th:if="${param.logout}" style='color: green;'>
+            <div th:if="${param.logout}" style='color: green; font-weight: bold;' class="center-align">
                 Kirjauduttu ulos.
             </div>
             <div class="row">
@@ -36,15 +36,15 @@
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">account_circle</i>
-                            <input id="username" type="text" name="username" class="validate"/>
-                            <label for="username">Käyttäjätunnus</label>
+                            <input id="username" type="text" name="username" placeholder="Käyttäjätunnus" class="validate"/>
+                            <!--<label for="username">Käyttäjätunnus</label>-->
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">lock</i>
-                            <input id="password" type="password" name="password" class="validate"/>
-                            <label for="password">Salasana</label>
+                            <input id="password" type="password" name="password" placeholder="Salasana" class="validate"/>
+                            <!--<label for="password">Salasana</label>-->
                         </div>
                     </div>
                     <input type="hidden"

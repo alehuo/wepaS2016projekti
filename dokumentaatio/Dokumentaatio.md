@@ -36,8 +36,8 @@ TODO list
 * Käyttäjän toimintojen logitus ja seuranta [OK]
 * Tykkäys toimii ilman JavaScriptiä [OK]
 * Uloskirjautuminen toimii ilman JavaScriptiä [OK]
-* Kommentoiti toimii ilman JavaScriptiä []
-* Loput testeistä valmiiksi []
+* Kommentoiti toimii ilman JavaScriptiä [OK]
+* Loput testeistä valmiiksi. Nyt testataan ~80% koko sivun toiminnallisuudesta. []
 
 
 [Users]1-*[Images]

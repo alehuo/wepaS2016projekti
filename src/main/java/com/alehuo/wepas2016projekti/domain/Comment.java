@@ -37,13 +37,22 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Table(name = "Comments")
 public class Comment extends AbstractPersistable<Long> {
 
+    /**
+     * Käyttäjä
+     */
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserAccount user;
 
+    /**
+     * Viestin sisältö
+     */
     @NotNull
     @Length(min = 1, max = 40)
     private String body;
 
+    /**
+     * Viestin luomisaikaleima
+     */
     @Column(name = "timestamp")
     @Type(type = "timestamp")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)

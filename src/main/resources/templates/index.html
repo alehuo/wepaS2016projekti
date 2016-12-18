@@ -30,7 +30,7 @@
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
-                        <li><a onclick="$('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
+                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
                         <li><div class="userView">
@@ -48,7 +48,7 @@
                         <li><a th:href="@{/}" id="syote"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons green-text">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons blue-text">face</i>Profiili</a></li>
-                        <li><a onclick="$('#logoutForm').submit();" href="#!" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
+                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
                     </ul>            
                 </div>
             </nav>
