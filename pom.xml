@@ -134,11 +134,8 @@
                 <version>0.7.7.201606060606</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/DevelopmentConfiguration.class</exclude>
-                        <exclude>**/DevelopmentLocalConfiguration.class</exclude>
-                        <exclude>**/DevelopmentSecurityConfiguration.class</exclude>
-                        <exclude>**/ProductionConfiguration.class</exclude>
-                        <exclude>**/ProductionSecurityConfiguration.class</exclude>
+                        <exclude>**/Development*.class</exclude>
+                        <exclude>**/Production*.class</exclude>
                         <exclude>**/Application.class</exclude>
                         <exclude>**/CustomHtmlUnitDriver.class</exclude>
                     </excludes>
