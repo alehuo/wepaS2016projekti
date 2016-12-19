@@ -34,6 +34,14 @@ public class ImageService {
     @Autowired
     private ImageRepository imageRepo;
 
+    /**
+     *
+     * @param u
+     * @param imageData
+     * @param imageType
+     * @param description
+     * @return
+     */
     @Transactional
     public Image addImage(UserAccount u, byte[] imageData, String imageType, String description) {
         Image i = new Image();
@@ -44,31 +52,58 @@ public class ImageService {
         return saveImage(i);
     }
 
+    /**
+     *
+     * @param imageId
+     * @return
+     */
     @Transactional
     public Image findOneImageById(Long imageId) {
         return imageRepo.findOne(imageId);
     }
 
+    /**
+     *
+     * @param uuid
+     * @return
+     */
     @Transactional
     public Image findOneImageByUuid(String uuid) {
         return imageRepo.findOneByUuid(uuid);
     }
 
+    /**
+     *
+     * @param u
+     * @return
+     */
     @Transactional
     public List<Image> findAllByUserAccount(UserAccount u) {
         return imageRepo.findAllByImageOwnerOrderByIdDesc(u);
     }
 
+    /**
+     *
+     * @return
+     */
     @Transactional
     public List<Image> findAllImages() {
         return imageRepo.findAll();
     }
 
+    /**
+     *
+     * @param i
+     * @return
+     */
     public Image saveImage(Image i) {
         imageRepo.save(i);
         return i;
     }
 
+    /**
+     *
+     */
     public void deleteAllImages() {
         imageRepo.deleteAll();
     }

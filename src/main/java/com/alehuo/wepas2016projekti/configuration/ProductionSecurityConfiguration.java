@@ -33,6 +33,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ *
+ * @author Aleksi
+ */
 @Profile("production")
 @Configuration
 @EnableWebSecurity
@@ -41,6 +45,11 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
@@ -52,11 +61,20 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
 
     }
 
+    /**
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

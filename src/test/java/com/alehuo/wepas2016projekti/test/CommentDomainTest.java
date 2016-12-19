@@ -19,8 +19,8 @@ package com.alehuo.wepas2016projekti.test;
 import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.Date;
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  *

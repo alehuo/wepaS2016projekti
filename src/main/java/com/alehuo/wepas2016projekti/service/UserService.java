@@ -42,6 +42,7 @@ public class UserService {
      * @param username Käyttäjätunnus
      * @param password Salasana
      * @param email Sähköpostiosoite
+     * @param role
      * @return Luotu käyttäjätunnus
      */
     @Transactional
@@ -56,30 +57,62 @@ public class UserService {
         return saveUser(u);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<UserAccount> getAllUsers() {
         return userRepo.findAll();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public UserAccount getUserById(Long id) {
         return userRepo.findOne(id);
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     public UserAccount getUserByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     public UserAccount getUserByUsernameIgnoreCase(String username) {
         return userRepo.findByUsernameIgnoreCase(username);
     }
 
+    /**
+     *
+     * @param u
+     * @return
+     */
     public UserAccount saveUser(UserAccount u) {
         return userRepo.save(u);
     }
 
+    /**
+     *
+     */
     public void deleteAllUsers() {
         userRepo.deleteAll();
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     public List<UserAccount> getUsersByUsernameLike(String username) {
         return userRepo.findByUsernameIgnoreCaseContaining(username);
     }

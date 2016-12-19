@@ -19,9 +19,9 @@ package com.alehuo.wepas2016projekti.test;
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.UUID;
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  *

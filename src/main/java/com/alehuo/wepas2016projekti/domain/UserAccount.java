@@ -16,6 +16,8 @@
  */
 package com.alehuo.wepas2016projekti.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -25,7 +27,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -76,50 +77,123 @@ public class UserAccount extends AbstractPersistable<Long> {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
+    /**
+     *
+     */
     public UserAccount() {
         comments = new ArrayList();
     }
 
+    /**
+     * Palauttaa käyttäjätilin ID:n
+     *
+     * @return Käyttäjätilin ID
+     */
+    @JsonIgnore
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
+
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
+    @Override
+    public boolean isNew() {
+        return super.isNew();
+    }
+
+    /**
+     *
+     * @return
+     */
+    @JsonProperty("username")
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param role
+     */
     public void setRole(Role role) {
         this.role = role;
     }
 
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
     public Role getRole() {
         return role;
     }
 
+    /**
+     *
+     * @return
+     */
+    @JsonIgnore
     public List<Comment> getComments() {
         return comments;
     }
 
+    /**
+     *
+     * @param comments
+     */
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
+    /**
+     *
+     * @param c
+     */
     public void addComment(Comment c) {
         comments.add(c);
     }

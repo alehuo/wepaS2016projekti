@@ -43,10 +43,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-// mm. mockMvc:n get- ja post-metodit
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
  *
@@ -56,6 +55,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UiTest extends FluentTest {
 
+    /**
+     *
+     */
     public WebDriver webDriver = new CustomHtmlUnitDriver(BrowserVersion.getDefault(), true);
 
     @Autowired
@@ -67,25 +69,38 @@ public class UiTest extends FluentTest {
     @Autowired
     private InitService initService;
 
-    @Override
-    public WebDriver getDefaultDriver() {
-        return webDriver;
-    }
 
     @Autowired
     private WebApplicationContext webAppContext;
 
     private MockMvc mockMvc;
 
+
+    @LocalServerPort
+    private Integer port;
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public WebDriver getDefaultDriver() {
+        return webDriver;
+    }
+
+    /**
+     *
+     */
     @Before
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
         initService.resetApplicationState();
     }
 
-    @LocalServerPort
-    private Integer port;
-
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void kirjautuminenSisaanJaUlosToimii() throws Exception {
 
@@ -126,6 +141,10 @@ public class UiTest extends FluentTest {
         assertTrue("\nError: ei löydy 'Kirjaudu sisään' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Kirjaudu sisään"));
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void rekisteroityminenToimii() throws Exception {
         goTo("http://localhost:" + port);
@@ -168,6 +187,10 @@ public class UiTest extends FluentTest {
 
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void profiiliSivunSelaaminenToimii1() throws Exception {
 
@@ -203,6 +226,10 @@ public class UiTest extends FluentTest {
         assertTrue(parsedPageSource.contains("Käyttäjän admin jakamat kuvat"));
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void hakuToimii() throws Exception {
         goTo("http://localhost:" + port);
@@ -225,6 +252,9 @@ public class UiTest extends FluentTest {
         assertFalse("\nError: löytyy 'href=\"/profile/user\"' -teksti \n" + pageSource() + "\n", pageSource().contains("href=\"/profile/user\""));
     }
 
+    /**
+     *
+     */
     @Test
     public void uudenKuvanJakaminenToimii() {
 
@@ -272,6 +302,10 @@ public class UiTest extends FluentTest {
         assertEquals("\nError: kuvia ei ole listassa kuusi \n" + pageSource() + "\n", 6, imageService.findAllImages().size());
     }
 
+    /**
+     *
+     * @throws InterruptedException
+     */
     @Test
     public void kuvanTykkaaminenJaKommentointiToimii() throws InterruptedException {
 
@@ -351,6 +385,10 @@ public class UiTest extends FluentTest {
 
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void kuvanHakuToimii() throws Exception {
 
@@ -383,3 +421,4 @@ public class UiTest extends FluentTest {
     }
 
 }
+// mm. mockMvc:n get- ja post-metodit

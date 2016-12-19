@@ -29,10 +29,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     UserAccount findByUsername(String username);
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     UserAccount findByUsernameIgnoreCase(String username);
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     List<UserAccount> findByUsernameIgnoreCaseContaining(String username);
 
 }

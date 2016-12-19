@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2016 alehuo
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+
 package com.alehuo.wepas2016projekti.domain;
 
 import java.util.ArrayList;
@@ -30,7 +15,6 @@ import javax.persistence.FetchType;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -89,6 +73,9 @@ public class Image extends AbstractPersistable<Long> {
 
     private String uuid = UUID.randomUUID().toString();
 
+    /**
+     *
+     */
     public Image() {
         comments = new ArrayList<>();
         likedBy = new ArrayList<>();
@@ -103,84 +90,164 @@ public class Image extends AbstractPersistable<Long> {
         creationDate = new Date();
     }
 
+    /**
+     *
+     * @return
+     */
     public byte[] getImageData() {
         return file.getFile();
     }
 
+    /**
+     *
+     * @param imageData
+     */
     public void setImageData(byte[] imageData) {
         file.setFile(imageData);
     }
 
+    /**
+     *
+     * @param imageOwner
+     */
     public void setImageOwner(UserAccount imageOwner) {
         this.imageOwner = imageOwner;
     }
 
+    /**
+     *
+     * @return
+     */
     public UserAccount getImageOwner() {
         return imageOwner;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     *
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     *
+     * @param u
+     */
     public void addLike(UserAccount u) {
         likedBy.add(u);
     }
 
+    /**
+     *
+     * @param u
+     */
     public void removeLike(UserAccount u) {
         if (likedBy.contains(u)) {
             likedBy.remove(u);
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<UserAccount> getLikedBy() {
         return likedBy;
     }
 
+    /**
+     *
+     * @param contentType
+     */
     public void setImageContentType(String contentType) {
         this.contentType = contentType;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getContentType() {
         return contentType;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLikes() {
         return likedBy.size();
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getCreationDate() {
         return creationDate;
     }
 
+    /**
+     *
+     * @param comments
+     */
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Comment> getComments() {
         return comments;
     }
 
+    /**
+     *
+     * @param c
+     */
     public void addComment(Comment c) {
         comments.add(c);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUuid() {
         return uuid;
     }
 
+    /**
+     *
+     * @param uuid
+     */
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCommentsAmount() {
         return comments.size();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Comment> getLastThreeComments() {
         //Jos kommentteja on >= 3 niin palautetaan sublist
         if (comments.size() >= 3) {
@@ -218,10 +285,7 @@ public class Image extends AbstractPersistable<Long> {
         if (!Objects.equals(this.contentType, other.contentType)) {
             return false;
         }
-        if (!Arrays.equals(this.getImageData(), other.getImageData())) {
-            return false;
-        }
-        return true;
+        return Arrays.equals(this.getImageData(), other.getImageData());
     }
 
 }

@@ -33,18 +33,34 @@ public class ImageUploadFormData {
     @NotNull
     private MultipartFile file;
 
+    /**
+     *
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     *
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     *
+     * @return
+     */
     public MultipartFile getFile() {
         return file;
     }
 
+    /**
+     *
+     * @param file
+     */
     public void setFile(MultipartFile file) {
         this.file = file;
     }

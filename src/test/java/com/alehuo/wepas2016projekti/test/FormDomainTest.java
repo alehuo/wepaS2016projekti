@@ -30,6 +30,9 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class FormDomainTest {
 
+    /**
+     *
+     */
     @Test
     public void parametrienAsetusToimii() {
         ImageUploadFormData fd = new ImageUploadFormData();

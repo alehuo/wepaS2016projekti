@@ -63,9 +63,8 @@
             <form id="searchForm" th:action="@{/search}" method="POST">
                 <div class="row">
                     <div class="input-field col s9">
-                        <input id="username" type="text" name="username" class="validate"/>
+                        <input id="username" type="text" name="username"/>
                         <label for="username">Käyttäjätunnus</label>
-
                     </div>
                     <input type="hidden"
                            name="${_csrf.parameterName}"
@@ -77,6 +76,9 @@
                     </div>
                 </div>
             </form>
+            Hakutulokset ilmestyvät alla olevaan listaan.
+            <ul id="searchResult">
+            </ul>
             <div th:each="u : ${userlist}">
                 <p><a th:href="@{'/profile/' + ${u.username}}"><span th:text="${u.username}" style="font-weight: bold;">Käyttäjätunnus</span></a></p>
             </div>
@@ -91,5 +93,41 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
+        <script>
+            $("input#username").on("change keyup paste", function () {
+                $("#searchResult").empty();
+                var usrName = $(this).val();
+                if (usrName.length === 0) {
+                    return;
+                } else {
+                    setTimeout(function () {
+                        search(usrName);
+                    }, 200);
+                }
+            });
+            function search(searchTerm) {
+                $.ajax({
+                    url: '/api/users',
+                    type: "POST",
+                    data: {
+                        "searchTerm": searchTerm,
+                        "_csrf": $("meta[name='_csrf']").attr("content")
+                    },
+                    success: function (result) {
+                        var data = result;
+                        var items = [];
+                        $.each(data, function (i, dataRow) {
+                            items.push('<li style="font-size: 12pt;"><a href="/user/' + dataRow.username + '">' + dataRow.username + '</a></li>');
+                            console.log(dataRow.username);
+                        });
+
+                        $("#searchResult").append(items.join(''));
+                    },
+                    error: function (req, status, err) {
+                        console.log('Something went wrong', status, err);
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

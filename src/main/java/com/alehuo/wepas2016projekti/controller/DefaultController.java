@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class DefaultController {
+    private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     @Autowired
     private UserService userService;
@@ -53,7 +54,6 @@ public class DefaultController {
     @Autowired
     private InitService initService;
 
-    private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     /**
      * Alustus
@@ -63,6 +63,12 @@ public class DefaultController {
         initService.resetApplicationState();
     }
 
+    /**
+     *
+     * @param a
+     * @param m
+     * @return
+     */
     @RequestMapping("/")
     public String index(Authentication a, Model m) {
         List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
@@ -72,11 +78,21 @@ public class DefaultController {
         return "index";
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
 
+    /**
+     *
+     * @param a
+     * @param m
+     * @return
+     */
     @RequestMapping(value = "/logout/confirm", method = RequestMethod.GET)
     public String logout(Authentication a, Model m) {
         UserAccount u = userService.getUserByUsername(a.getName());
@@ -84,12 +100,23 @@ public class DefaultController {
         return "logoutconfirm";
     }
 
+    /**
+     *
+     * @param m
+     * @return
+     */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(Model m) {
         m.addAttribute("userAccount", new UserAccount());
         return "register";
     }
 
+    /**
+     *
+     * @param userAccount
+     * @param bindingResult
+     * @return
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(@Valid @ModelAttribute("userAccount") UserAccount userAccount, BindingResult bindingResult) {
         String username = userAccount.getUsername();

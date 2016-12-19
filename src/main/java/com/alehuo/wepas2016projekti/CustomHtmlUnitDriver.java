@@ -57,6 +57,11 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
         super(bV, status);
     }
 
+    /**
+     *
+     * @param client
+     * @return
+     */
     @Override
     protected WebClient modifyWebClient(WebClient client) {
         WebClient modifiedClient = super.modifyWebClient(client);
