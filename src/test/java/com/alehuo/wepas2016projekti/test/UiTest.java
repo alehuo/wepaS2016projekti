@@ -69,12 +69,10 @@ public class UiTest extends FluentTest {
     @Autowired
     private InitService initService;
 
-
     @Autowired
     private WebApplicationContext webAppContext;
 
     private MockMvc mockMvc;
-
 
     @LocalServerPort
     private Integer port;
@@ -123,8 +121,6 @@ public class UiTest extends FluentTest {
 
         //Nuku vähän aikaa
         Thread.sleep(500);
-
-        System.out.println("\n\n\n\n\n\n\n\n" + webDriver.getCurrentUrl() + "\n\n\n\n\n\n\n\n");
 
         assertFalse("Sovellus ei kirjaudu sisään / ohjaa oikein etusivulle", webDriver.getCurrentUrl().contains("/login"));
 
@@ -347,40 +343,57 @@ public class UiTest extends FluentTest {
         String parsedPageSource = Jsoup.parse(pageSource()).text();
         assertTrue("\nError: kuvalle ei lisätty tykkäystä\n" + pageSource() + "\n", parsedPageSource.contains("1 tykkäystä"));
 
-        //Suorita JavaScript -funktio jolla avataan kommentointi-ikkuna
-        ((JavascriptExecutor) webDriver).executeScript("createCommentModal('" + images.get(0).getUuid() + "')");
+        //Suorita JavaScript -funktio jolla tykätään kuvasta
+        ((JavascriptExecutor) webDriver).executeScript("likeImage('" + images.get(0).getUuid() + "')");
 
         //Nuku vähän aikaa
         Thread.sleep(500);
 
-        ((JavascriptExecutor) webDriver).executeScript("$('#commentModal_" + images.get(0).getUuid() + "').modal('open');");
-
-        //Nuku vähän aikaa
-        Thread.sleep(500);
-
-        //Etsi textarea
-        assertTrue("\nError: Ei löydetty commentModalTextarea_" + images.get(0).getUuid() + "\n" + pageSource() + "\n", webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).isDisplayed());
-
-        //Kirjoita tekstiä
-        webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).sendKeys("HelloWorldTestiKommentti");
-
-        //Lähetä kommentti
-        webDriver.findElement(By.id("commentModalSubmitBtn_" + images.get(0).getUuid())).click();
-
-        Thread.sleep(500);
+        //Päivitä sivu varmuuden vuoksi (Tykkäyksen tulisi säilyä päivityksen yli)
         webDriver.navigate().refresh();
 
-        assertTrue("\nError: Ei löydetty 'HelloWorldTestiKommentti' -tekstiä\n" + pageSource() + "\n",
-                pageSource().contains("HelloWorldTestiKommentti")
-        );
-
+        //Nyt ollaan etusivulla, tarkistetaan että tykkäys rekisteröityi onnistuneesti
+        //Käytetään Jsoup -kirjastoa jotta saadaan pelkkä teksti sivulta.
         parsedPageSource = Jsoup.parse(pageSource()).text();
+        assertTrue("\nError: kuvalle ei lisätty tykkäystä\n" + pageSource() + "\n", parsedPageSource.contains("0 tykkäystä"));
 
-        assertTrue("\nError: kuvalle ei lisätty kommenttia\n" + pageSource() + "\n", parsedPageSource.contains("1 kommenttia"));
+        for (int i = 1; i < 6; i++) {
 
+            //Suorita JavaScript -funktio jolla avataan kommentointi-ikkuna
+            ((JavascriptExecutor) webDriver).executeScript("createCommentModal('" + images.get(0).getUuid() + "')");
+
+            //Nuku vähän aikaa
+            Thread.sleep(500);
+
+            ((JavascriptExecutor) webDriver).executeScript("$('#commentModal_" + images.get(0).getUuid() + "').modal('open');");
+
+            //Nuku vähän aikaa
+            Thread.sleep(500);
+
+            //Etsi textarea
+            assertTrue("\nError: Ei löydetty commentModalTextarea_" + images.get(0).getUuid() + "\n" + pageSource() + "\n", webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).isDisplayed());
+
+            //Kirjoita tekstiä
+            webDriver.findElement(By.id("commentModalTextarea_" + images.get(0).getUuid())).sendKeys("HelloWorldTestiKommentti");
+
+            //Lähetä kommentti
+            webDriver.findElement(By.id("commentModalSubmitBtn_" + images.get(0).getUuid())).click();
+
+            Thread.sleep(500);
+            webDriver.navigate().refresh();
+
+            assertTrue("\nError: Ei löydetty 'HelloWorldTestiKommentti' -tekstiä\n" + pageSource() + "\n",
+                    pageSource().contains("HelloWorldTestiKommentti")
+            );
+
+            parsedPageSource = Jsoup.parse(pageSource()).text();
+
+            assertTrue("\nError: kuvalle ei lisätty kommenttia\n" + pageSource() + "\n", parsedPageSource.contains(i + " kommenttia"));
+
+        }
         Image i = imageService.findOneImageByUuid(images.get(0).getUuid());
 
-        assertEquals("\nError: Kommentteja ei ole tasan yksi\n" + pageSource() + "\n", 1, i.getComments().size());
+        assertEquals("\nError: Kommentteja ei ole tasan viittä\n" + pageSource() + "\n", 5, i.getComments().size());
         assertEquals("\nError: kommenttia ei löytynyt sivulta\n" + pageSource() + "\n", "HelloWorldTestiKommentti", i.getComments().get(0).getBody());
 
     }
@@ -412,12 +425,18 @@ public class UiTest extends FluentTest {
         List<Image> kuvat = imageService.findAllImages();
 
         for (Image image : kuvat) {
+            assertEquals("ImageServicestä ei löydy kuvaa sen Id'n perusteella", image, imageService.findOneImageById(image.getId()));
             String imageUuid = image.getUuid();
             MvcResult res = mockMvc.perform(get("/img/" + imageUuid)).andReturn();
             assertEquals("Kuvan tyyppi on väärä: " + res.getResponse().getHeader("Content-Type"), image.getContentType(), res.getResponse().getHeader("Content-Type"));
             assertEquals("Kuvan koko on väärä: " + res.getResponse().getHeader("Content-Length"), image.getImageData().length, Integer.parseInt(res.getResponse().getHeader("Content-Length")));
             assertEquals("Kuvan ETag on väärä: " + res.getResponse().getHeader("ETag"), "\"" + imageUuid + "\"", res.getResponse().getHeader("ETag"));
         }
+        
+        //Poistetaan kaikki palvelun kuvat
+        imageService.deleteAllImages();
+        kuvat = imageService.findAllImages();
+        assertEquals("Kuvia on vielä jäljellä poiston jälkeen", kuvat.size(), 0);
     }
 
 }
