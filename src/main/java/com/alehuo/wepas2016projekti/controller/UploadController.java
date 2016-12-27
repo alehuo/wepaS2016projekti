@@ -22,6 +22,7 @@ import com.alehuo.wepas2016projekti.domain.form.ImageUploadFormData;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.IOException;
+import java.util.Locale;
 //import java.awt.image.BufferedImage;
 //import java.io.ByteArrayInputStream;
 //import java.io.ByteArrayOutputStream;
@@ -58,7 +59,7 @@ public class UploadController {
     private ImageService imageService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String upload(Authentication a, Model m) {
+    public String upload(Authentication a, Model m, Locale l) {
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
         m.addAttribute("imageUploadFormData", new ImageUploadFormData());

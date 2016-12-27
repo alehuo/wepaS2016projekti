@@ -17,6 +17,7 @@
 package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.service.UserService;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class SearchController {
     private UserService userService;
     
     @RequestMapping(method = RequestMethod.GET)
-    public String search(Authentication a, Model m) {
+    public String search(Authentication a, Model m, Locale l) {
         m.addAttribute("user", userService.getUserByUsername(a.getName()));
         return "search";
     }

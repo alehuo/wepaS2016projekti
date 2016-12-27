@@ -23,11 +23,14 @@ import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.service.InitService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,6 +56,9 @@ public class DefaultController {
     @Autowired
     private InitService initService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     /**
@@ -64,7 +70,9 @@ public class DefaultController {
     }
 
     @RequestMapping("/")
-    public String index(Authentication a, Model m) {
+    public String index(Authentication a, Model m, Locale l) {
+        System.out.println(l);
+        System.out.println(messageSource.getMessage("service.title", null, l));
         List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
@@ -78,7 +86,7 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "/logout/confirm", method = RequestMethod.GET)
-    public String logout(Authentication a, Model m) {
+    public String logout(Authentication a, Model m, Locale l) {
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
         return "logoutconfirm";

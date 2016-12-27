@@ -23,6 +23,7 @@ import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class ProfileController {
     private ImageService imageService;
 
     @RequestMapping("/profile/{username}")
-    public String viewProfile(Authentication a, @PathVariable String username, Model m) throws UnsupportedEncodingException {
+    public String viewProfile(Authentication a, @PathVariable String username, Model m, Locale l) throws UnsupportedEncodingException {
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
         String profileUsername = URLDecoder.decode(username, "UTF-8");
@@ -64,7 +65,7 @@ public class ProfileController {
     }
 
     @RequestMapping("/photo/{uuid}")
-    public String viewPhoto(Authentication a, @PathVariable String uuid, Model m) throws UnsupportedEncodingException {
+    public String viewPhoto(Authentication a, @PathVariable String uuid, Model m, Locale l) throws UnsupportedEncodingException {
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
         m.addAttribute("image", imageService.findOneImageByUuid(uuid));
