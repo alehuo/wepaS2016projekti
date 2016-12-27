@@ -79,13 +79,13 @@ function likeImage(imageUuid) {
             if (xmlHttp.status === 200) {
                 var response = xmlHttp.getResponseHeader("LikeType");
                 if (response === "like") {
-                    Materialize.toast("Tykkäsit kuvasta", 3000);
+                    Materialize.toast(likeSuccessText, 3000);
                     document.getElementById("imageLikes_" + imageUuid).innerHTML++;
                 } else if (response === "unlike") {
                     document.getElementById("imageLikes_" + imageUuid).innerHTML--;
                 }
             } else {
-                Materialize.toast("Palvelinvirhe (HTTP " + xmlHttp.status + ")", 3000);
+                Materialize.toast(serverError + " (HTTP " + xmlHttp.status + ")", 3000);
             }
 
         }
@@ -113,7 +113,7 @@ function createCommentModal(imageUuid) {
         modalFooterDiv.className = "modal-footer";
         //Otsikko
         var modalHeader = document.createElement("h4");
-        modalHeader.textContent = "Kommentoi";
+        modalHeader.textContent = modalCommentTitleText;
         //Modalin lomake
         var commentForm = document.createElement("form");
         commentForm.id = "commentForm_" + imageUuid;
@@ -141,7 +141,7 @@ function createCommentModal(imageUuid) {
         textArea.name = "comment";
         textArea.className = "materialize-textarea";
         textArea.length = 40;
-        textArea.placeholder = "Kommentti saa olla maksimissaan 40 merkkiä pitkä.";
+        textArea.placeholder = modalCaptionText;
 
         var hiddenInput = document.createElement("input");
         hiddenInput.type = "hidden";
@@ -158,14 +158,14 @@ function createCommentModal(imageUuid) {
         submitBtn.href = "#!";
         submitBtn.id = "commentModalSubmitBtn_" + imageUuid;
         submitBtn.className = "modal-action waves-effect waves-light btn-flat";
-        submitBtn.textContent = "Kommentoi";
+        submitBtn.textContent = modalCommentTitleText;
 
         //Lomakkeen peruuta -nappi
         var cancelBtn = document.createElement("a");
         cancelBtn.href = "#!";
         cancelBtn.id = "commentModalCancelBtn_" + imageUuid;
         cancelBtn.className = "modal-action modal-close waves-effect waves-green btn-flat";
-        cancelBtn.textContent = "Peruuta";
+        cancelBtn.textContent = modalCancelText;
         //Input fieldin sisälle ikoni, textarea ja label
         textAreaInputField.appendChild(textAreaIcon);
         textAreaInputField.appendChild(textArea);
@@ -230,10 +230,10 @@ function createCommentModal(imageUuid) {
                             var imageCommentCount = document.getElementById("imageComments_" + imageUuid);
                             imageCommentCount.innerHTML++;
                             //Toast -ilmoitus
-                            Materialize.toast("Kommentoit kuvaa", 3000);
+                            Materialize.toast(commentSuccessText, 3000);
                         } else {
                             //Toast -ilmoitus
-                            Materialize.toast("Kommentointi epäonnistui", 3000);
+                            Materialize.toast(commentFailureText, 3000);
                         }
                         //Sulje modal
                         $(elementDiv).modal('close');

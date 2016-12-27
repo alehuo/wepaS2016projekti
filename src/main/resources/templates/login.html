@@ -20,6 +20,10 @@
         <nav>
             <div class="nav-wrapper">
                 <a class="center brand-logo" th:href="@{/}" th:text="#{service.title}">Kuvapalvelu</a>
+                <ul class="right hide-on-med-and-down">
+                        <li><a th:href="@{'?lang=fi'}">Finnish</a></li>
+                        <li><a th:href="@{'?lang=en'}">English</a></li>
+                    </ul>
             </div>
         </nav>
 
