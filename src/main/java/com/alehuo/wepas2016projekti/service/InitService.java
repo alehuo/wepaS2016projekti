@@ -16,7 +16,6 @@
  */
 package com.alehuo.wepas2016projekti.service;
 
-import com.alehuo.wepas2016projekti.controller.DefaultController;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.Role;
 import com.alehuo.wepas2016projekti.domain.UserAccount;

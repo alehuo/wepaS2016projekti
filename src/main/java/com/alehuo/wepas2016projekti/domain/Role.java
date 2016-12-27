@@ -21,5 +21,14 @@ package com.alehuo.wepas2016projekti.domain;
  * @author alehuo
  */
 public enum Role {
-    USER, ADMINISTRATOR;
+
+    /**
+     *
+     */
+    USER, 
+
+    /**
+     *
+     */
+    ADMINISTRATOR;
 }

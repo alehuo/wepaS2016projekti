@@ -35,7 +35,7 @@ ja kuvista tykkääminen toimivat ilman JavaScriptiä.
 
 Käyttäjän navigoidessa sovelluksen sivulle häntä kehotetaan kirjautumaan sisään.
 
-![Kirjautumissivu](kirjautumissivu.png)
+![Kirjautumissivu](img/kirjautumissivu.png)
 
 ### 2. Käyttäjä kirjautuu ulos
 
@@ -45,7 +45,7 @@ Riippuen siitä onko käyttäjällä JavaScript päällä vai ei, klikkaamalla
 
 uloskirjautumiseen. Jos JavaScript ei ole päällä, näytetään tämä sivu:
 
-![Uloskirjautuminen](uloskirjautuminen.png)
+![Uloskirjautuminen](img/uloskirjautuminen.png)
 
 
 ### 3. Käyttäjä haluaa selata kuvia
@@ -60,22 +60,22 @@ Jos JavaScript ei ole päällä, kuvat latautuvat normaalisti.
 
 Lisäksi käyttäjä voi halutessaan klikata käyttäjien nimiä päästäkseen katsomaan heidän profiilejaan.
 
-![Uloskirjautuminen](syote.png)
+![Uloskirjautuminen](img/syote.png)
 
 
 ### 4. Käyttäjä haluaa jakaa kuvan
 
-Klikkaamalla pyöreää, punaista ![Plus](lisaanappi.png) -nappia käyttäjälle näytetään kuvan jakamissivu.
+Klikkaamalla pyöreää, punaista ![Plus](img/lisaanappi.png) -nappia käyttäjälle näytetään kuvan jakamissivu.
 
-![Kuvan jakaminen 1](kuvan_jakaminen.png)
+![Kuvan jakaminen 1](img/kuvan_jakaminen.png)
 
 Kuvan maksimikoko on 12 megatavua ja sallittuja tiedostomuotoja ovat .jpg, .jpeg, .png ja .gif .
 
 Kuvalle annetaan otsikko ja valitaan sopiva kuvatiedosto.
 
-![Kuvan jakaminen 2](kuvan_jakaminen2.png)
+![Kuvan jakaminen 2](img/kuvan_jakaminen2.png)
 
-Sen jälkeen painetaan ![Lataa](lataanappi.png) -nappia. Toiminnossa kestää hetki jonka jälkeen käyttäjä
+Sen jälkeen painetaan ![Lataa](img/lataanappi.png) -nappia. Toiminnossa kestää hetki jonka jälkeen käyttäjä
 
 ohjataan sovelluksen etusivulle. Ladattu kuva ilmestyy etusivulle.
 
@@ -83,13 +83,13 @@ ohjataan sovelluksen etusivulle. Ladattu kuva ilmestyy etusivulle.
 
 Klikkaamalla "Haku" -nappia navigointipalkista aukeaa hakusivu.
 
-Kenttään syötetään haluttu hakusana ja painetaan ![Hae](haenappi.png) -nappia.
+Kenttään syötetään haluttu hakusana ja painetaan ![Hae](img/haenappi.png) -nappia.
 
-![Haku 1](haku1.png)
+![Haku 1](img/haku1.png)
 
 Listaan alapuolelle ilmestyy hakusanaa vastaavat profiilit. Käyttäjätunnusta klikkaamalla pääsee selaamaan käyttäjän profiilia.
 
-![Haku 2](haku2.png)
+![Haku 2](img/haku2.png)
 
 ### 6. Käyttäjä selaa muun käyttäjän profiilia
 
@@ -99,24 +99,24 @@ kommenteissa tai kuvissa olevia käyttäjätunnuslinkkiä.
 
 Kuvat järjestetään oletuksena Masonry jQuery -kirjastolla "korttimosaiikiksi".
 
-![Profiili](profiili.png)
+![Profiili](img/profiili.png)
 
 Profiilisivulla on sama toiminnallisuus kuin "Syöte" -sivulla; kuvista pystyy tykkäämään ja niitä pystyy kommentoimaan.
 Lisäksi on mahdollisuus avata yksittäisen kuvan kuvasivu.
 
-![Kuvasivu](kuvasivu.png)
+![Kuvasivu](img/kuvasivu.png)
 
 ### 7. Käyttäjä haluaa kommentoida kuvaa
 
 Käyttäjä voi kommentoida kuvaa suoraan klikkaamalla "Kommentoi" -linkkiä kuvakortin alapuolella:
 
-![Kommentointi](kommentointi_animation.gif)
+![Kommentointi](img/kommentointi_animation.gif)
 
 ### 7. Käyttäjä haluaa tykätä kuvasta
 
 Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin alapuolella:
 
-![Tykkääminen](kuvasta_tykkaaminen.gif)
+![Tykkääminen](img/kuvasta_tykkaaminen.gif)
 
 (Parannuksia / lisää juttuja toiseen deadlineen mennessä.)
 

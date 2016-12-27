@@ -48,6 +48,11 @@ public class DevelopmentLocalConfiguration extends WebMvcConfigurerAdapter {
         super.addResourceHandlers(registry);
     }
 
+    /**
+     *
+     * @return
+     * @throws URISyntaxException
+     */
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
 
@@ -69,6 +74,10 @@ public class DevelopmentLocalConfiguration extends WebMvcConfigurerAdapter {
         return basicDataSource;
     }
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public JpaVendorAdapter jpaAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();

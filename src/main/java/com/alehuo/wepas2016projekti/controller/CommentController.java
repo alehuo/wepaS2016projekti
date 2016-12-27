@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("comment")
 public class CommentController {
+    private static final Logger LOG = Logger.getLogger(CommentController.class.getName());
 
     @Autowired
     private UserService userService;
@@ -49,7 +50,6 @@ public class CommentController {
     @Autowired
     private ImageService imageService;
 
-    private static final Logger LOG = Logger.getLogger(CommentController.class.getName());
 
     @Autowired
     private CommentService commentService;

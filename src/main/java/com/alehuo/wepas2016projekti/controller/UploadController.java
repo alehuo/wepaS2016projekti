@@ -30,7 +30,6 @@ import java.util.Locale;
 //import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -50,14 +49,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("upload")
 public class UploadController {
 
-    @Autowired
-    private UserService userService;
 
     private static final Logger LOG = Logger.getLogger(UploadController.class.getName());
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ImageService imageService;
 
+    /**
+     *
+     * @param a
+     * @param m
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String upload(Authentication a, Model m, Locale l) {
         UserAccount u = userService.getUserByUsername(a.getName());
@@ -66,6 +71,14 @@ public class UploadController {
         return "upload";
     }
 
+    /**
+     *
+     * @param a
+     * @param m
+     * @param formData
+     * @param bs
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String processUpload(Authentication a, Model m, @Valid @ModelAttribute ImageUploadFormData formData, BindingResult bs) {
         //Hae autentikointi
@@ -126,3 +139,9 @@ public class UploadController {
         return "redirect:/";
     }
 }
+//import java.awt.image.BufferedImage;
+//import java.io.ByteArrayInputStream;
+//import java.io.ByteArrayOutputStream;
+//import org.imgscalr.Scalr;
+//import java.io.IOException;
+//import javax.imageio.ImageIO;

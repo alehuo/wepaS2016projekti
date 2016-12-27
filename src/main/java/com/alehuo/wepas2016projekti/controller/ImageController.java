@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("img")
 public class ImageController {
+    private static final Logger LOG = Logger.getLogger(ImageController.class.getName());
 
     @Autowired
     private ImageService imageService;
@@ -51,7 +52,6 @@ public class ImageController {
     @Autowired
     private UserService userService;
 
-    private static final Logger LOG = Logger.getLogger(ImageController.class.getName());
 
     /**
      * Hakee tietokannasta kuvan
@@ -90,7 +90,6 @@ public class ImageController {
      * @param a Authentication
      * @param imageUuid Kuvan UUID
      * @param redirect
-     * @param res
      * @param req
      * @return Onnistuiko pyyntö vai ei (sekä sen tyyppi; unlike vai like).
      */

@@ -30,9 +30,23 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
+    /**
+     *
+     * @return
+     */
     List<Image> findTop10ByOrderByIdDesc();
 
+    /**
+     *
+     * @param uuid
+     * @return
+     */
     Image findOneByUuid(String uuid);
 
+    /**
+     *
+     * @param u
+     * @return
+     */
     List<Image> findAllByImageOwnerOrderByIdDesc(UserAccount u);
 }

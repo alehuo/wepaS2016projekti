@@ -58,26 +58,50 @@ public class Comment extends AbstractPersistable<Long> {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    /**
+     *
+     * @return
+     */
     public UserAccount getUser() {
         return user;
     }
 
+    /**
+     *
+     * @param user
+     */
     public void setUser(UserAccount user) {
         this.user = user;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBody() {
         return body;
     }
 
+    /**
+     *
+     * @param body
+     */
     public void setBody(String body) {
         this.body = body;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getCreationDate() {
         return creationDate;
     }
 
+    /**
+     *
+     * @param creationDate
+     */
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }

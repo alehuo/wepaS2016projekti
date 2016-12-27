@@ -40,14 +40,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ProfileController {
 
-    @Autowired
-    private UserService userService;
 
     private static final Logger LOG = Logger.getLogger(ProfileController.class.getName());
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ImageService imageService;
 
+    /**
+     *
+     * @param a
+     * @param username
+     * @param m
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping("/profile/{username}")
     public String viewProfile(Authentication a, @PathVariable String username, Model m, Locale l) throws UnsupportedEncodingException {
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());
@@ -64,6 +72,14 @@ public class ProfileController {
         return "profile";
     }
 
+    /**
+     *
+     * @param a
+     * @param uuid
+     * @param m
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping("/photo/{uuid}")
     public String viewPhoto(Authentication a, @PathVariable String uuid, Model m, Locale l) throws UnsupportedEncodingException {
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());

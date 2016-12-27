@@ -33,6 +33,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ *
+ * @author Aleksi
+ */
 @Profile({"default", "development", "development_local"})
 @Configuration
 @EnableWebSecurity
@@ -41,11 +45,21 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     *
+     * @param web
+     * @throws Exception
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
 
+    /**
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
@@ -58,11 +72,20 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     }
 
+    /**
+     *
+     * @param auth
+     * @throws Exception
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

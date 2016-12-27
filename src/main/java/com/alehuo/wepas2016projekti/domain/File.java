@@ -32,10 +32,18 @@ public class File extends AbstractPersistable<Long> {
     @Lob
     private byte[] file;
 
+    /**
+     *
+     * @return
+     */
     public byte[] getFile() {
         return file;
     }
 
+    /**
+     *
+     * @param file
+     */
     public void setFile(byte[] file) {
         this.file = file;
     }

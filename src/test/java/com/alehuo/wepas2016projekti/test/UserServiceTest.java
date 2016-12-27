@@ -55,6 +55,9 @@ public class UserServiceTest {
     @Autowired
     private InitService initService;
     
+    /**
+     *
+     */
     @Before
     public void setUp() {
         initService.resetApplicationState();
@@ -97,6 +100,9 @@ public class UserServiceTest {
         assertTrue(users.contains(randomUser3));
     }
 
+    /**
+     *
+     */
     @Test
     public void kayttajaTilinHakuToimiiIdlläUserServicenAvulla() {
         //Luodaan satunnainen käyttäjä

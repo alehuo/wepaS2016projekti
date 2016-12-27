@@ -41,12 +41,25 @@ public class SearchController {
     @Autowired
     private UserService userService;
     
+    /**
+     *
+     * @param a
+     * @param m
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String search(Authentication a, Model m, Locale l) {
         m.addAttribute("user", userService.getUserByUsername(a.getName()));
         return "search";
     }
     
+    /**
+     *
+     * @param a
+     * @param m
+     * @param username
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String doSearch(Authentication a, Model m, @RequestParam String username) {
         LOG.log(Level.INFO, "Kayttaja ''{0}'' haki hakusanalla ''{1}''.", new Object[]{a.getName(), username});

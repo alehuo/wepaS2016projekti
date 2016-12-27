@@ -36,6 +36,12 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
+    /**
+     *
+     * @param body
+     * @param u
+     * @return
+     */
     @Transactional
     public Comment addComment(String body, UserAccount u) {
         Comment c = new Comment();
@@ -45,6 +51,9 @@ public class CommentService {
         return commentRepository.save(c);
     }
 
+    /**
+     *
+     */
     public void deleteAllComments() {
         commentRepository.deleteAll();
     }
