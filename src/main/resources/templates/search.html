@@ -63,12 +63,12 @@
                    th:value="${_csrf.token}"/>
         </form>
         <div class="container">
-            <h3>Hae käyttäjiä</h3>
+            <h3 th:text="#{service.search}"></h3>
             <form id="searchForm" th:action="@{/search}" method="POST">
                 <div class="row">
                     <div class="input-field col s9">
                         <input id="username" type="text" name="username"/>
-                        <label for="username">Käyttäjätunnus</label>
+                        <label for="username" th:text="#{service.username}">Käyttäjätunnus</label>
                     </div>
                     <input type="hidden"
                            name="${_csrf.parameterName}"
@@ -80,7 +80,7 @@
                         </div></noscript>
                 </div>
             </form>
-            Hakutulokset ilmestyvät alla olevaan listaan.
+            <span th:text="#{service.searchresults}"></span>
             <ul id="searchResult">
             </ul>
             <div th:each="u : ${userlist}">
