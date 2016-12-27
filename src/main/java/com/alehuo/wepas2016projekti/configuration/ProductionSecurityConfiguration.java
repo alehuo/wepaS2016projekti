@@ -54,7 +54,7 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
         http.authorizeRequests()
-                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/register").permitAll().anyRequest().permitAll()
+                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();

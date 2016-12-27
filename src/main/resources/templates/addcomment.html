@@ -50,8 +50,8 @@
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i><span th:text="#{service.feed}">Syöte</span></a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i><span th:text="#{service.search}">Haku</span></a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
-                        <li><a th:href="@{'?lang=fi'}"><i class='material-icons left'><img th:src="@{'/fi_FI.png'}"/></i> <span th:text="#{service.finnish}"> Suomenkielinen</span></a></li>
-                        <li><a th:href="@{'?lang=en'}"><i class='material-icons left'><img th:src="@{'/en_EN.png'}"/></i> <span th:text="#{service.english}"> Englanninkielinen</span></a></li>
+                        <li><a th:href="@{'?lang=fi'}"><i class='material-icons left'><img th:src="@{'/fi_FI.png'}"/></i> <span th:text="#{service.finnish}">Suomi</span></a></li>
+                        <li><a th:href="@{'?lang=en'}"><i class='material-icons left'><img th:src="@{'/en_EN.png'}"/></i> <span th:text="#{service.english}">Englanti</span></a></li>
                         <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i><span th:text="#{service.logout}">Kirjaudu ulos</span></a></li>
                     </ul>            
                 </div>
@@ -63,19 +63,19 @@
                    th:value="${_csrf.token}"/>
         </form>
         <div class="container">
-            <h3>Kommentoi</h3>
+            <h3 th:text="#{service.comment}">Kommentoi</h3>
             <form th:action="@{/comment}" method="POST">
                 <input type="hidden" name="imageUuid" th:value="${imageUuid}"/>
                 <div class="row">
                     <div class="input-field">
                         <i class="material-icons prefix">mode_edit</i>
-                        <textarea name="comment" class="materialize-textarea" placeholder="Kommentti"></textarea>
+                        <textarea name="comment" class="materialize-textarea" th:placeholder="#{service.commentplaceholder}"></textarea>
                         <!--<label>Kommentti</label>-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field">
-                        <button type="submit" class="btn btn-primary">Kommentoi</button>
+                        <button type="submit" class="btn btn-primary" th:text="#{service.comment}">Kommentoi</button>
                     </div>
                 </div>
             </form>
@@ -90,15 +90,5 @@
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
-        <script th:inline="javascript">
-            /*Käännöksiä varten*/
-            var modalCommentTitleText = /*[[#{service.comment}]]*/ 'Kommentoi';
-            var modalCaptionText = /*[[#{service.commentcaption}]]*/ 'Kommentti saa olla maksimissaan 40 merkkiä pitkä.';
-            var modalCancelText = /*[[#{service.cancel}]]*/ 'Peruuta';
-            var commentSuccessText = /*[[#{service.commentsuccess}]]*/ 'Kommentoit kuvaa';
-            var commentFailureText = /*[[#{service.commentfailure}]]*/ 'Kommentointi epäonnistui';
-            var likeSuccessText = /*[[#{service.likesuccess}]]*/ 'Tykkäsit kuvasta';
-            var serverError = /*[[#{service.servererror}]]*/ 'Palvelinvirhe';
-        </script>
     </body>
 </html>
