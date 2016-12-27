@@ -49,7 +49,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("upload")
 public class UploadController {
 
-
     private static final Logger LOG = Logger.getLogger(UploadController.class.getName());
     @Autowired
     private UserService userService;
@@ -80,7 +79,7 @@ public class UploadController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String processUpload(Authentication a, Model m, @Valid @ModelAttribute ImageUploadFormData formData, BindingResult bs) {
+    public String processUpload(Authentication a, Model m, @Valid @ModelAttribute ImageUploadFormData formData, BindingResult bs, Locale l) {
         //Hae autentikointi
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
@@ -93,7 +92,12 @@ public class UploadController {
 
         //Tiedostomuodon tarkistus
         if (!(file.getContentType().equals("image/jpg") || file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/bmp") || file.getContentType().equals("image/gif"))) {
-            bs.rejectValue("file", "error.file", "Tiedostomuotoa ei sallita.");
+            if (l.toString().equals("fi")) {
+                bs.rejectValue("file", "error.file", "Tiedostomuotoa ei sallita.");
+            } else {
+                bs.rejectValue("file", "error.file", "File type not permitted.");
+            }
+
             if (bs.hasErrors()) {
                 LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti ladata kuvaa, mutta tiedostomuotoa ''{1}'' ei sallita.", new Object[]{a.getName(), file.getContentType()});
                 return "upload";
@@ -130,7 +134,12 @@ public class UploadController {
             } catch (IOException ex) {
                 LOG.log(Level.SEVERE, null, ex);
                 LOG.log(Level.SEVERE, "Kayttaja ''{0}'' yritti ladata kuvaa palveluun, mutta tapahtui palvelinvirhe.", a.getName());
-                bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
+                if (l.toString().equals("fi")) {
+                    bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
+                } else {
+                    bs.rejectValue("file", "error.file", "Image upload failed.");
+                }
+
                 return "upload";
             }
 

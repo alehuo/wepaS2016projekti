@@ -82,7 +82,7 @@
                         <input class="file-path validate" type="text"/>
                     </div>
                 </div>
-                <div th:if="${#fields.hasErrors('file')}" th:errors="*{file}">
+                <div th:if="${#fields.hasErrors('file')}" th:errors="*{file}" style="color: red;">
                     Virhe
                 </div>
                 <div class="input-field">
