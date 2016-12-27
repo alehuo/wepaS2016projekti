@@ -71,11 +71,11 @@
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>
-                    <div class="input-field col s3">
-                        <button class="btn waves-effect waves-light" type="submit" name="action">Hae
-                            <i class="material-icons right">search</i>
-                        </button>
-                    </div>
+                    <noscript><div class="input-field col s3">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Hae
+                                <i class="material-icons right">search</i>
+                            </button>
+                        </div></noscript>
                 </div>
             </form>
             Hakutulokset ilmestyvät alla olevaan listaan.
@@ -119,7 +119,7 @@
                         var data = result;
                         var items = [];
                         $.each(data, function (i, dataRow) {
-                            items.push('<li style="font-size: 12pt;"><a href="/user/' + dataRow.username + '">' + dataRow.username + '</a></li>');
+                            items.push('<li style="font-size: 12pt;"><a href="/profile/' + dataRow.username + '">' + dataRow.username + '</a></li>');
                             console.log(dataRow.username);
                         });
 
