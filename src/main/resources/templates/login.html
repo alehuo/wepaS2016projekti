@@ -19,32 +19,28 @@
     <body>
         <nav>
             <div class="nav-wrapper">
-                <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
+                <a class="center brand-logo" th:href="@{/}" th:text="#{service.title}">Kuvapalvelu</a>
             </div>
         </nav>
 
         <div class="container">
-            <h3 class="center-align">Kirjaudu sisään</h3>
-            <div th:if="${param.error}" style='color: red; font-weight: bold;' class="center-align">
-                Väärä käyttäjätunnus tai salasana.
-            </div>
-            <div th:if="${param.logout}" style='color: green; font-weight: bold;' class="center-align">
-                Kirjauduttu ulos.
-            </div>
+            <h3 class="center-align" th:text="#{service.login}">Kirjaudu sisään</h3>
+            <div th:if="${param.error}" style='color: red; font-weight: bold;' class="center-align" th:text="#{service.wrongcreds}"></div>            
+            <div th:if="${param.logout}" style='color: green; font-weight: bold;' class="center-align" th:text="#{service.loggedout}"></div>
             <div class="row">
                 <form class="col s10 offset-s1" th:action="@{/login}" id="loginForm" method="POST" onsubmit="return validateLogin();" enctype="multipart/form-data">
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">account_circle</i>
                             <input id="username" type="text" name="username" class="validate"/>
-                            <label for="username">Käyttäjätunnus</label>
+                            <label for="username" th:text="#{service.username}">Käyttäjätunnus</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">lock</i>
                             <input id="password" type="password" name="password" class="validate"/>
-                            <label for="password">Salasana</label>
+                            <label for="password" th:text="#{service.password}">Salasana</label>
                         </div>
                     </div>
                     <input type="hidden"
@@ -52,8 +48,8 @@
                            th:value="${_csrf.token}"/>
                     <div class="row">
                         <div class="input-field">
-                            <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
-                            <a th:href="@{/register}" class="btn" name="register">Rekisteröidy</a>
+                            <button type="submit" class="btn btn-primary" th:text="#{service.login}">Kirjaudu sisään</button>
+                            <a th:href="@{/register}" class="btn" name="register" th:text="#{service.register}">Rekisteröidy</a>
                         </div>
                     </div>
                 </form>

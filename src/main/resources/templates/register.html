@@ -19,22 +19,22 @@
     <body>
         <nav>
             <div class="nav-wrapper">
-                <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
+                <a class="center brand-logo" th:href="@{/}" th:text="#{service.title}">Kuvapalvelu</a>
             </div>
         </nav>
 
         <div class="container">
-            <h3>Rekisteröidy</h3>
+            <h3 style="center-align" th:text="#{service.register}"></h3>
             <div class="row">
                 <form class="col s12" id="registerForm" th:action="@{/register}" th:object="${userAccount}" method="POST">
                     <div class="row">
                         <div class="input-field">
                             <i class="material-icons prefix">account_circle</i>
                             <input id="username" type="text" th:field="*{username}" name="username" class="validate"/>
-                            <label for="username">Käyttäjätunnus</label>
+                            <label for="username" th:text="#{service.username}">Käyttäjätunnus</label>
                         </div>
                         <div th:if="${#fields.hasErrors('username')}" style='color: red;'>
-                            Käyttäjätunnus on joko varattu tai virheellisen kokoinen.<br/>Sen on oltava 4-25 merkkiä pitkä.
+                            <span th:text="#{service.notvalidusername}"></span>
                         </div>
                     </div>
 
@@ -42,10 +42,10 @@
                         <div class="input-field">
                             <i class="material-icons prefix">lock</i>
                             <input id="password" type="password" th:field="*{password}" name="password" class="validate"/>
-                            <label for="password">Salasana</label>
+                            <label for="password" th:text="#{service.password}">Salasana</label>
                         </div>
                         <div th:if="${#fields.hasErrors('password')}" style='color: red;'>
-                            Salasana on virheellinen.<br/>Se ei saa olla tyhjä tai yli 255 merkkiä pitkä.
+                            <span th:text="#{service.notvalidpassword}"></span>
                         </div>
                     </div>
 
@@ -53,16 +53,14 @@
                         <div class="input-field">
                             <i class="material-icons prefix">markunread_mailbox</i>
                             <input id="email" type="text" th:field="*{email}" name="email" class="validate"/>
-                            <label for="email">Sähköposti</label>
+                            <label for="email" th:text="#{service.email}">Sähköposti</label>
                         </div>
-                        <div th:if="${#fields.hasErrors('email')}" style='color: red;'>
-                            Sähköpostiosoite on virheellinen.
-                        </div>
+                        <div th:if="${#fields.hasErrors('email')}" style='color: red;' th:text="#{service.wrongemail}"></div>
                     </div>
 
                     <div class="row">
                         <div class="input-field">
-                            <button type="submit" class="btn btn-primary">Rekisteröidy</button>
+                            <button type="submit" class="btn btn-primary" th:text="#{service.register}">Rekisteröidy</button>
                         </div>
                     </div>
 

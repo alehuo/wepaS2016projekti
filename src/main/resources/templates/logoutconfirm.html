@@ -24,13 +24,15 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
+                    <a class="center brand-logo" th:href="@{/}" th:text="#{service.title}">Kuvapalvelu</a>
                     <a href="#" data-activates="mobileMenu" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i>Syöte</a></li>
-                        <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i>Haku</a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
-                        <li><a onclick="$('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i><span th:text="#{service.feed}">Syöte</span></a></li>
+                        <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i><span th:text="#{service.search}">Haku</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
+                        <li><a th:href="@{'?lang=fi'}"><img th:src="@{'/fi_FI.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
+                        <li><a th:href="@{'?lang=en'}"><img th:src="@{'/en_EN.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
+                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i><span th:text="#{service.logout}">Kirjaudu ulos</span></a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
                         <li><div class="userView">
@@ -48,7 +50,7 @@
                         <li><a th:href="@{/}" id="syote"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons green-text">search</i>Haku</a></li>
                         <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons blue-text">face</i>Profiili</a></li>
-                        <li><a onclick="$('#logoutForm').submit();" href="#!" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
+                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
                     </ul>            
                 </div>
             </nav>
@@ -60,13 +62,15 @@
                        th:name="${_csrf.parameterName}"
                        th:value="${_csrf.token}"/>
                 <div class="row">
-                    JavaScriptin ollessa pois päältä uloskirjautuminen<br/>
-                    hoidetaan tämän lomakkeen kautta. Ole hyvä ja vahvista uloskirjautuminen.
+                    <span th:text="#{service.logoutwithoutJscript}"></span>
+                </div>
+                <div class="row">
+                    <span th:text="#{service.logoutwithoutJscript2}"></span>
                 </div>
                 <div class="row">
                     <div class="input-field">
-                        <button type="submit" class="btn btn-primary">Kirjaudu ulos</button>
-                        <a th:href="@{/}" class="btn btn-primary">Peruuta</a>
+                        <button type="submit" class="btn btn-primary" th:text="#{service.logout}">Kirjaudu ulos</button>
+                        <a th:href="@{/}" class="btn btn-primary" th:text="#{service.cancel}">Peruuta</a>
                     </div>
                 </div>
             </form>
