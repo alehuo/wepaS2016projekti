@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class DefaultController {
+    
     private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     @Autowired
@@ -59,8 +60,6 @@ public class DefaultController {
 
     @Autowired
     private MessageSource messageSource;
-
-    private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     /**
      * Alustus
