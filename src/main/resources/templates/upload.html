@@ -61,19 +61,19 @@
                    th:value="${_csrf.token}"/>
         </form>
         <div class="container">
-            <h3>Jaa kuva</h3>
+            <h3 th:text="#{service.sharepic}">Jaa kuva</h3>
             <form th:action="@{'/upload?' + ${_csrf.parameterName} + '=' + ${_csrf.token}}" id="uploadform" method="POST" th:object="${imageUploadFormData}" enctype="multipart/form-data">
                 <div class="input-field">
-                    <input id="imageDesc" type="text" name="description" th:field="*{description}" placeholder="Kuvaus" class="validate" length="24"/>
+                    <input id="imageDesc" type="text" name="description" th:field="*{description}" th:placeholder="#{service.description}" class="validate" length="24"/>
                     <!--<label for="imageDesc">Kuvaus</label>-->
                 </div>
                 <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
-                    Kuvaus ei saa olla tyhjä tai yli 24 merkkiä pitkä.
+                    <span th:text="#{service.notvaliddesc}"></span>
                 </div>
-                <span style="font-weight: bold;">HUOM. Kuvan maksimikoko on 12 megatavua.</span>
+                <span style="font-weight: bold;" th:text="#{service.maxsizewarning}">HUOM. Kuvan maksimikoko on 12 megatavua.</span>
                 <div class="file-field input-field">
                     <div class="btn">
-                        <span>Lisää kuva</span>
+                        <span th:text="#{service.addpicture}">Lisää kuva</span>
                         <input type="file" accept="image/*;capture=camera" th:field="*{file}" name="imageFile" id="imgUploadInput" onchange="previewFile(event)"/>
                     </div>
                     <div class="file-path-wrapper">
@@ -84,7 +84,8 @@
                     Virhe
                 </div>
                 <div class="input-field">
-                    <button class="btn waves-effect waves-light" type="submit" id="uploadSubmitBtn" name="action">Lataa
+                    <button class="btn waves-effect waves-light" type="submit" id="uploadSubmitBtn" name="action"> 
+                        <span th:text="#{service.upload}"></span>
                         <i class="material-icons right">send</i>
                     </button>
 
