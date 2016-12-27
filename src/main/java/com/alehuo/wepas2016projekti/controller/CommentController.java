@@ -22,6 +22,7 @@ import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.service.CommentService;
 import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -89,7 +90,7 @@ public class CommentController {
      * @return Näkymä "addcomment"
      */
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
-    public String addComment(Authentication a, Model m, @PathVariable String uuid) {
+    public String addComment(Authentication a, Model m, @PathVariable String uuid, Locale l) {
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
         m.addAttribute("imageUuid", uuid);
