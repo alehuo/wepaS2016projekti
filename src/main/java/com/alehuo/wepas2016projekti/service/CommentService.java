@@ -50,11 +50,4 @@ public class CommentService {
         u.addComment(c);
         return commentRepository.save(c);
     }
-
-    /**
-     *
-     */
-    public void deleteAllComments() {
-        commentRepository.deleteAll();
-    }
 }

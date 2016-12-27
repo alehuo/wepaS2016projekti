@@ -80,20 +80,4 @@ public class CommentController {
         }
         return "redirect:/photo/" + imageUuid;
     }
-
-    /**
-     * Kommentin lisäämissivu
-     *
-     * @param a Autentikointi
-     * @param m Model
-     * @param uuid Kuvan UUID
-     * @return Näkymä "addcomment"
-     */
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
-    public String addComment(Authentication a, Model m, @PathVariable String uuid, Locale l) {
-        UserAccount u = userService.getUserByUsername(a.getName());
-        m.addAttribute("user", u);
-        m.addAttribute("imageUuid", uuid);
-        return "addcomment";
-    }
 }
