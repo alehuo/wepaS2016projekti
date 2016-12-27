@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("comment")
 public class CommentController {
+
     private static final Logger LOG = Logger.getLogger(CommentController.class.getName());
 
     @Autowired
@@ -49,7 +50,6 @@ public class CommentController {
 
     @Autowired
     private ImageService imageService;
-
 
     @Autowired
     private CommentService commentService;
@@ -79,5 +79,21 @@ public class CommentController {
             LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti kommentoida kuvaa ''{1}'' viestin sisallolla \"{2}\", mutta viesti oli liian pitkä.", new Object[]{a.getName(), imageUuid, comment});
         }
         return "redirect:/photo/" + imageUuid;
+    }
+
+    /**
+     * Kommentin lisäämissivu
+     *
+     * @param a Autentikointi
+     * @param m Model
+     * @param uuid Kuvan UUID
+     * @return Näkymä "addcomment"
+     */
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+    public String addComment(Authentication a, Model m, @PathVariable String uuid, Locale l) {
+        UserAccount u = userService.getUserByUsername(a.getName());
+        m.addAttribute("user", u);
+        m.addAttribute("imageUuid", uuid);
+        return "addcomment";
     }
 }
