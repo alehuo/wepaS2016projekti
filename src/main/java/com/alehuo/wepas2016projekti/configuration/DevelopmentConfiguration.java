@@ -28,15 +28,13 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
 /**
  *
  * @author alehuo
  */
 @Configuration
-@Profile({"default","development"})
+@Profile({"default", "development"})
 @EnableWebSecurity
 @EnableCaching
 public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
@@ -51,9 +49,9 @@ public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
         super.addResourceHandlers(registry);
     }
-    
+
     @Bean
-    public ReloadableResourceBundleMessageSource messageSource(){
+    public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:lang");
         messageSource.setDefaultEncoding("UTF-8");
@@ -61,16 +59,17 @@ public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public CookieLocaleResolver localeResolver(){
+    public CookieLocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.ENGLISH);
+        Locale finnishLocale = new Locale.Builder().setLanguage("fi").setRegion("FI").build();
+        localeResolver.setDefaultLocale(finnishLocale);
         localeResolver.setCookieName("locale");
         localeResolver.setCookieMaxAge(3600);
         return localeResolver;
     }
 
     @Bean
-    public LocaleChangeInterceptor localeInterceptor(){
+    public LocaleChangeInterceptor localeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("lang");
         return interceptor;
