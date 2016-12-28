@@ -169,7 +169,7 @@ public class UiTest extends FluentTest {
 
         Thread.sleep(500);
 
-        assertTrue("\nError: ei löydy 'Käyttäjätunnus on joko varattu tai virheellisen kokoinen.' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Käyttäjätunnus on joko varattu tai virheellisen kokoinen."));
+        assertTrue("\nError: ei löydy 'Käyttäjätunnus on joko varattu tai virheellisen kokoinen, sen on oltava 4-25 merkkiä pitkä.' -tekstiä\n" + pageSource() + "\n", pageSource().contains("Käyttäjätunnus on joko varattu tai virheellisen kokoinen, sen on oltava 4-25 merkkiä pitkä."));
 
         goTo("http://localhost:" + port);
 

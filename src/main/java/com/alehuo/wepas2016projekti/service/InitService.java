@@ -87,11 +87,11 @@ public class InitService {
         if (userService.getUserByUsername("admin") == null) {
             userService.createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
             try {
-                addImage("src/main/resources/kuvat/1.jpg", "image/jpg", "Testikuva 1", "admin", scaleImages);
-                addImage("src/main/resources/kuvat/2.jpg", "image/jpg", "Testikuva 2", "admin", scaleImages);
-                addImage("src/main/resources/kuvat/3.jpg", "image/jpg", "Testikuva 3", "admin", scaleImages);
-                addImage("src/main/resources/kuvat/4.jpg", "image/jpg", "Testikuva 4", "admin", scaleImages);
-                addImage("src/main/resources/kuvat/5.jpg", "image/jpg", "Testikuva 5", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/1.jpg", "image/jpg", "jpg", "Testikuva 1", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/2.jpg", "image/jpg", "jpg", "Testikuva 2", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/3.jpg", "image/jpg", "jpg", "Testikuva 3", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/4.jpg", "image/jpg", "jpg", "Testikuva 4", "admin", scaleImages);
+                addImage("src/main/resources/kuvat/5.jpg", "image/jpg", "jpg", "Testikuva 5", "admin", scaleImages);
             } catch (IOException ex) {
                 Logger.getLogger(InitService.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -107,19 +107,19 @@ public class InitService {
                     Scalr.Mode.FIT_TO_HEIGHT,
                     widthHeight, widthHeight, Scalr.OP_ANTIALIAS);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(resized, "jpg", baos);
+            ImageIO.write(resized, type, baos);
             return baos.toByteArray();
         } catch (IOException ex) {
             return null;
         }
     }
 
-    public void addImage(String fPath, String type, String description, String poster, boolean resize) throws IOException {
+    public void addImage(String fPath, String type, String type2, String description, String poster, boolean resize) throws IOException {
         Path path = Paths.get(fPath);
         Image i = new Image();
         i.setImageContentType(type);
         if (resize) {
-            i.setImageData(resizeImage(Files.readAllBytes(path), type, widthHeight));
+            i.setImageData(resizeImage(Files.readAllBytes(path), type2, widthHeight));
         } else {
             i.setImageData(Files.readAllBytes(path));
         }

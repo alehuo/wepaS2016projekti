@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class DefaultController {
+    
     private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     @Autowired
@@ -59,8 +60,6 @@ public class DefaultController {
 
     @Autowired
     private MessageSource messageSource;
-
-    private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
     /**
      * Alustus
@@ -78,8 +77,6 @@ public class DefaultController {
      */
     @RequestMapping("/")
     public String index(Authentication a, Model m, Locale l) {
-        System.out.println(l);
-        System.out.println(messageSource.getMessage("service.title", null, l));
         List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);

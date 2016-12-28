@@ -158,8 +158,6 @@ Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin al
 ## Myöhempään versioon tulossa:
 
 * Pääkäyttäjällä mahdollisuus poistaa kommentteja ja kuvia hallintasivun kautta
-* Kuvien pienentäminen tietokantaan vietäessä (Vielä harkinnassa)
-* Jos käyttäjä haluaa ladata lisää kuvia näkyville etusivulla, mahdollista se (Vielä harkinnassa)
 * Lokalisointi (English / Finnish)
 
 ## NetBeansin liitännäisellä luotu luokkakaavio:

@@ -21,13 +21,11 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -54,53 +52,58 @@ public class ProductionConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
         super.addResourceHandlers(registry);
     }
-    
+
     /**
      *
-     * @return
-     * @throws URISyntaxException
+     * @return @throws URISyntaxException
      */
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
-        
+
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-        
+
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setUrl(dbUrl);
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
-        
+
         //Autocommit pois päältä
         basicDataSource.setDefaultAutoCommit(false);
-        
+
         return basicDataSource;
     }
-    
+
     @Bean
-    public MessageSource messageSource() {
+    public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("/localization/lang");
+        messageSource.setBasename("classpath:lang");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
 
     @Bean
-    public LocaleResolver localeResolver() {
-        CookieLocaleResolver resolver = new CookieLocaleResolver();
-        resolver.setDefaultLocale(new Locale("fi"));
-        resolver.setCookieName("localeCookie");
-        resolver.setCookieMaxAge(4800);
-        return resolver;
+    public CookieLocaleResolver localeResolver() {
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        Locale finnishLocale = new Locale.Builder().setLanguage("fi").setRegion("FI").build();
+        localeResolver.setDefaultLocale(finnishLocale);
+        localeResolver.setCookieName("locale");
+        localeResolver.setCookieMaxAge(3600);
+        return localeResolver;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeInterceptor() {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        return interceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-        interceptor.setParamName("localeName");
-        registry.addInterceptor(interceptor);
+        registry.addInterceptor(localeInterceptor());
     }
-    
+
 }

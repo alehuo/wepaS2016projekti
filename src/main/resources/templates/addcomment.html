@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Lisää kommentti - Kuvapalvelu</title>
+        <title th:text="#{service.title}">Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
@@ -24,13 +24,15 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a class="center brand-logo" th:href="@{/}">Kuvapalvelu</a>
+                    <a class="center brand-logo" th:href="@{/}" th:text="#{service.title}">Kuvapalvelu</a>
                     <a href="#" data-activates="mobileMenu" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i>Syöte</a></li>
-                        <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i>Haku</a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}">Profiili</span></a></li>
-                        <li><a onclick="$('#logoutForm').submit();" href="#!" id="logout"><i class='material-icons left'>lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i><span th:text="#{service.feed}">Syöte</span></a></li>
+                        <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i><span th:text="#{service.search}">Haku</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
+                        <li><a th:href="@{'?lang=fi'}"><img th:src="@{'/fi_FI.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
+                        <li><a th:href="@{'?lang=en'}"><img th:src="@{'/en_EN.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
+                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i><span th:text="#{service.logout}">Kirjaudu ulos</span></a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
                         <li><div class="userView">
@@ -45,10 +47,12 @@
                                     <span class="white-text email" th:text="${user.email}">Sähköpostiosoite</span>
                                 </a>
                             </div></li>
-                        <li><a th:href="@{/}" id="syote"><i class="material-icons deep-orange-text">timeline</i>Syöte</a></li>
-                        <li><a th:href="@{/search}" id="haku"><i class="material-icons green-text">search</i>Haku</a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons blue-text">face</i>Profiili</a></li>
-                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class="material-icons">lock</i>Kirjaudu ulos</a></li>
+                        <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i><span th:text="#{service.feed}">Syöte</span></a></li>
+                        <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i><span th:text="#{service.search}">Haku</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
+                        <li><a th:href="@{'?lang=fi'}"><i class='material-icons left'><img th:src="@{'/fi_FI.png'}"/></i> <span th:text="#{service.finnish}">Suomi</span></a></li>
+                        <li><a th:href="@{'?lang=en'}"><i class='material-icons left'><img th:src="@{'/en_EN.png'}"/></i> <span th:text="#{service.english}">Englanti</span></a></li>
+                        <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i><span th:text="#{service.logout}">Kirjaudu ulos</span></a></li>
                     </ul>            
                 </div>
             </nav>
@@ -59,19 +63,19 @@
                    th:value="${_csrf.token}"/>
         </form>
         <div class="container">
-            <h3>Kommentoi</h3>
+            <h3 th:text="#{service.comment}">Kommentoi</h3>
             <form th:action="@{/comment}" method="POST">
                 <input type="hidden" name="imageUuid" th:value="${imageUuid}"/>
                 <div class="row">
                     <div class="input-field">
                         <i class="material-icons prefix">mode_edit</i>
-                        <textarea name="comment" class="materialize-textarea" placeholder="Kommentti"></textarea>
+                        <textarea name="comment" class="materialize-textarea" th:placeholder="#{service.commentplaceholder}"></textarea>
                         <!--<label>Kommentti</label>-->
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field">
-                        <button type="submit" class="btn btn-primary">Kommentoi</button>
+                        <button type="submit" class="btn btn-primary" th:text="#{service.comment}">Kommentoi</button>
                     </div>
                 </div>
             </form>
