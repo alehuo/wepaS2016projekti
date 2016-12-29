@@ -73,16 +73,14 @@
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>
-                    <noscript><div class="input-field col s3">
-                            <button class="btn waves-effect waves-light" type="submit" name="action">Hae
-                                <i class="material-icons right">search</i>
-                            </button>
-                        </div></noscript>
+                    <div class="input-field col s3">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Hae
+                            <i class="material-icons right">search</i>
+                        </button>
+                    </div>
                 </div>
             </form>
-            <span th:text="#{service.searchresults}"></span>
-            <ul id="searchResult">
-            </ul>
+            <p><span th:text="#{service.searchresults}"></span></p>
             <div th:each="u : ${userlist}">
                 <p><a th:href="@{'/profile/' + ${u.username}}"><span th:text="${u.username}" style="font-weight: bold;">Käyttäjätunnus</span></a></p>
             </div>
@@ -94,44 +92,7 @@
             </div>
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
-        <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
-        <script>
-            $("input#username").on("change keyup paste", function () {
-                $("#searchResult").empty();
-                var usrName = $(this).val();
-                if (usrName.length === 0) {
-                    return;
-                } else {
-                    setTimeout(function () {
-                        search(usrName);
-                    }, 200);
-                }
-            });
-            function search(searchTerm) {
-                $.ajax({
-                    url: '/api/users',
-                    type: "POST",
-                    data: {
-                        "searchTerm": searchTerm,
-                        "_csrf": $("meta[name='_csrf']").attr("content")
-                    },
-                    success: function (result) {
-                        var data = result;
-                        var items = [];
-                        $.each(data, function (i, dataRow) {
-                            items.push('<li style="font-size: 12pt;"><a href="/profile/' + dataRow.username + '">' + dataRow.username + '</a></li>');
-                            console.log(dataRow.username);
-                        });
-
-                        $("#searchResult").append(items.join(''));
-                    },
-                    error: function (req, status, err) {
-                        console.log('Something went wrong', status, err);
-                    }
-                });
-            }
-        </script>
     </body>
 </html>

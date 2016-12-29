@@ -65,7 +65,7 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
         http.headers().frameOptions().sameOrigin();
 //        http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/h2-console/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**").permitAll().anyRequest().permitAll()
+                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/h2-console/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**", "/fonts/roboto/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()
                 .logout().permitAll();
