@@ -30,7 +30,8 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 /**
- *
+ * Kehitysympäristön konfiguraatio
+ * 
  * @author alehuo
  */
 @Configuration
@@ -40,7 +41,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
 
     /**
-     * Map resources
+     * Resurssien "mappaus"
      *
      * @param registry
      */
@@ -50,6 +51,10 @@ public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
         super.addResourceHandlers(registry);
     }
 
+    /**
+     * Lokalisaatiotiedostojen lataaminen
+     * @return 
+     */
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -58,16 +63,30 @@ public class DevelopmentConfiguration extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
+    /**
+     * Lokalisaatioevästeen asetus
+     * 
+     * Oletusarvoinen lokalisaatio: fi_FI
+     * 
+     * @return 
+     */
     @Bean
     public CookieLocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
         Locale finnishLocale = new Locale.Builder().setLanguage("fi").setRegion("FI").build();
         localeResolver.setDefaultLocale(finnishLocale);
         localeResolver.setCookieName("locale");
+        //Eväste vanhenee tunnissa
         localeResolver.setCookieMaxAge(3600);
         return localeResolver;
     }
 
+    /**
+     * Tämän avulla voidaan asettaa sivuston kieli lang GET -parametrillä.
+     * Esim. http://localhost:8080?lang=fi
+     * 
+     * @return 
+     */
     @Bean
     public LocaleChangeInterceptor localeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();

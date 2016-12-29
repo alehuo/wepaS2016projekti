@@ -22,7 +22,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- *
+ * Web -palvelinohjelmoinnin kurssin projektityö
  * @author alehuo
  */
 @SpringBootApplication
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class Application {
 
     /**
-     *
+     * Käynnistetään Spring -sovellus
      * @param args
      */
     public static void main(String[] args) {

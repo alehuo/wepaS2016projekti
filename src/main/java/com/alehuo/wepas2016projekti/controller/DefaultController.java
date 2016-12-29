@@ -46,20 +46,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class DefaultController {
-    
+
+    /**
+     * Logger
+     */
     private static final Logger LOG = Logger.getLogger(DefaultController.class.getName());
 
+    /**
+     * Käyttäjätietojen palvelu
+     */
     @Autowired
     private UserService userService;
 
+    /**
+     * Kuvarepositorio
+     */
     @Autowired
     private ImageRepository imageRepo;
 
+    /**
+     * Käynnistyspalvelu
+     */
     @Autowired
     private InitService initService;
-
-    @Autowired
-    private MessageSource messageSource;
 
     /**
      * Alustus
@@ -70,9 +79,10 @@ public class DefaultController {
     }
 
     /**
+     * Sovelluksen etusivu
      *
-     * @param a
-     * @param m
+     * @param a Autentikointi
+     * @param m Malli
      * @return
      */
     @RequestMapping("/")
@@ -85,6 +95,7 @@ public class DefaultController {
     }
 
     /**
+     * Kirjautumissivu
      *
      * @return
      */
@@ -94,9 +105,10 @@ public class DefaultController {
     }
 
     /**
+     * Uloskirjautumissivu (Jos JavaScript on pois päältä)
      *
-     * @param a
-     * @param m
+     * @param a Autentikointi
+     * @param m Malli
      * @return
      */
     @RequestMapping(value = "/logout/confirm", method = RequestMethod.GET)
@@ -107,8 +119,9 @@ public class DefaultController {
     }
 
     /**
+     * Rekisteröitymissivu
      *
-     * @param m
+     * @param m Malli
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -118,9 +131,9 @@ public class DefaultController {
     }
 
     /**
-     *
-     * @param userAccount
-     * @param bindingResult
+     * Rekisteröinnin hallinta
+     * @param userAccount Käyttäjätili
+     * @param bindingResult Validointi
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -128,10 +141,12 @@ public class DefaultController {
         String username = userAccount.getUsername();
         String email = userAccount.getEmail();
         String password = userAccount.getPassword();
+        //Jos virheitä esiintyy
         if (bindingResult.hasErrors()) {
             LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti rekisteroitya sivustolle, mutta syotteita ei validoitu onnistuneesti.", username);
             return "register";
         }
+        //Jos käyttäjätiliä ei löydy tietokannasta, rekisteröi se uutena
         if (userService.getUserByUsernameIgnoreCase(username) == null) {
             userService.createNewUser(username, password, email, Role.USER);
             LOG.log(Level.INFO, "Kayttaja ''{0}'' rekisteroityi onnistuneesti sivustolle.", username);

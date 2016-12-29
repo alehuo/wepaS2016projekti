@@ -34,14 +34,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- *
+ * Kehitysympäristön turvallisuuskonfiguraatio
+ * 
  * @author Aleksi
  */
-@Profile({"default", "development", "development_local"})
+@Profile({"default", "development"})
 @Configuration
 @EnableWebSecurity
 public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Käyttäjätietojen palvelu
+     */
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -56,14 +60,15 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     }
 
     /**
-     *
+     * Konfiguroi Spring Security -lisäosan
      * @param http
      * @throws Exception
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
-//        http.csrf().disable();
+        //Sallitaan pääsy resurssikansioihin sekä H2 -konsoliin
+        //Kirjautumislokame löytyy GET -reitistä /login
         http.authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/h2-console/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**", "/fonts/roboto/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
@@ -73,7 +78,7 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     }
 
     /**
-     *
+     * Aseta käyttäjätietojen hakuun käytettävä palvelu
      * @param auth
      * @throws Exception
      */
@@ -83,7 +88,8 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     }
 
     /**
-     *
+     * Salasanaenkooderi
+     * 
      * @return
      */
     @Bean

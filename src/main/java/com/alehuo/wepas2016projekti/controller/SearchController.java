@@ -29,22 +29,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
+ * Hakukontrolleri
  *
  * @author alehuo
  */
 @Controller
 @RequestMapping("search")
 public class SearchController {
-    
+
+    /**
+     * Logger
+     */
     private static final Logger LOG = Logger.getLogger(SearchController.class.getName());
-    
+
+    /**
+     * Käyttäjätilipalvelu
+     */
     @Autowired
     private UserService userService;
-    
+
     /**
+     * Hakusivu
      *
-     * @param a
-     * @param m
+     * @param a Autentikointi
+     * @param m Malli
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -52,19 +60,25 @@ public class SearchController {
         m.addAttribute("user", userService.getUserByUsername(a.getName()));
         return "search";
     }
-    
+
     /**
+     * Haun käsittely
      *
-     * @param a
-     * @param m
-     * @param username
+     * @param a Autentikointi
+     * @param m Malli
+     * @param searchTerm Hakutermi
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String doSearch(Authentication a, Model m, @RequestParam String username) {
-        LOG.log(Level.INFO, "Kayttaja ''{0}'' haki hakusanalla ''{1}''.", new Object[]{a.getName(), username});
+    public String doSearch(Authentication a, Model m, @RequestParam String searchTerm) {
+        LOG.log(Level.INFO, "Kayttaja ''{0}'' haki hakusanalla ''{1}''.", new Object[]{a.getName(), searchTerm});
+
         m.addAttribute("user", userService.getUserByUsername(a.getName()));
-        m.addAttribute("userlist", userService.getUsersByUsernameLike(username));
+        if (!searchTerm.trim().isEmpty()) {
+            //Lista käyttäjätileistä
+            m.addAttribute("userlist", userService.getUsersByUsernameLike(searchTerm));
+        }
+
         return "search";
     }
 }

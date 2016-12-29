@@ -34,6 +34,9 @@ import org.w3c.css.sac.ErrorHandler;
 /**
  * Custom HtmlUnitDriver
  *
+ * Tätä käytetään, jotta saadaan JavaScript kytkettyä päälle. Lisäksi kaikki
+ * mahd. warning ja error -viestit on piilotettu.
+ *
  * @author alehuo
  */
 public class CustomHtmlUnitDriver extends HtmlUnitDriver {
@@ -58,6 +61,8 @@ public class CustomHtmlUnitDriver extends HtmlUnitDriver {
     }
 
     /**
+     * Kytketään virhe- ja varoitusviestit pois päältä (Esim. jQuery tuottaa
+     * huomattavasti konsolisyötettä.)
      *
      * @param client
      * @return

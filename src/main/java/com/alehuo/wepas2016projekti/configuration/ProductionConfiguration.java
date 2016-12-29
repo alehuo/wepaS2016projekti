@@ -33,6 +33,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 /**
+ * Kehitysympäristön konfiguraatio
  *
  * @author alehuo
  */
@@ -43,7 +44,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 public class ProductionConfiguration extends WebMvcConfigurerAdapter {
 
     /**
-     * Map resources
+     * Resurssien "mappaus"
      *
      * @param registry
      */
@@ -54,6 +55,9 @@ public class ProductionConfiguration extends WebMvcConfigurerAdapter {
     }
 
     /**
+     * Heroku -palvelussa käytetään PostgreSQL -tietokantaa tiedon
+     * tallentamiseen. Tämä metodi hakee herokusta tietokantayhteyden
+     * mahdollistavat ympäristömuuttujat.
      *
      * @return @throws URISyntaxException
      */
@@ -76,6 +80,11 @@ public class ProductionConfiguration extends WebMvcConfigurerAdapter {
         return basicDataSource;
     }
 
+    /**
+     * Lokalisaatiotiedostojen lataaminen
+     *
+     * @return
+     */
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -84,16 +93,30 @@ public class ProductionConfiguration extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
+    /**
+     * Lokalisaatioevästeen asetus
+     *
+     * Oletusarvoinen lokalisaatio: fi_FI
+     *
+     * @return
+     */
     @Bean
     public CookieLocaleResolver localeResolver() {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
         Locale finnishLocale = new Locale.Builder().setLanguage("fi").setRegion("FI").build();
         localeResolver.setDefaultLocale(finnishLocale);
         localeResolver.setCookieName("locale");
+        //Eväste vanhenee tunnissa
         localeResolver.setCookieMaxAge(3600);
         return localeResolver;
     }
 
+    /**
+     * Tämän avulla voidaan asettaa sivuston kieli lang GET -parametrillä.
+     * Esim. http://localhost:8080?lang=fi
+     * 
+     * @return 
+     */
     @Bean
     public LocaleChangeInterceptor localeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();

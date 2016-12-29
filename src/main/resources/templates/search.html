@@ -67,7 +67,7 @@
             <form id="searchForm" th:action="@{/search}" method="POST">
                 <div class="row">
                     <div class="input-field col s9">
-                        <input id="username" type="text" name="username"/>
+                        <input type="text" name="searchTerm" autocomplete="off"/>
                         <label for="username" th:text="#{service.username}">Käyttäjätunnus</label>
                     </div>
                     <input type="hidden"

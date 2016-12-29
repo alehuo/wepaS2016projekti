@@ -34,35 +34,50 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * Profiilikontrolleri
  *
  * @author alehuo
  */
 @Controller
 public class ProfileController {
 
-
+    /**
+     * Logger
+     */
     private static final Logger LOG = Logger.getLogger(ProfileController.class.getName());
+
+    /**
+     * Käyttäjätilipalveli
+     */
     @Autowired
     private UserService userService;
 
+    /**
+     * Kuvapalvelu
+     */
     @Autowired
     private ImageService imageService;
 
     /**
+     * Profiilin selaus
      *
-     * @param a
-     * @param username
-     * @param m
+     * @param a Autentikoini
+     * @param username Käyttäjänimi
+     * @param m Malli
+     * @param l Lokalisaatio
      * @return
      * @throws UnsupportedEncodingException
      */
     @RequestMapping("/profile/{username}")
     public String viewProfile(Authentication a, @PathVariable String username, Model m, Locale l) throws UnsupportedEncodingException {
+        
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
         String profileUsername = URLDecoder.decode(username, "UTF-8");
         UserAccount u = userService.getUserByUsername(profileUsername);
         m.addAttribute("userProfile", u);
+
+        //Jos käyttäjä ei ole tyhjä, lisää käyttäjän lisäämät kuvat
         if (u != null) {
             List<Image> images = imageService.findAllByUserAccount(u);
             m.addAttribute("userImages", images);
@@ -73,15 +88,17 @@ public class ProfileController {
     }
 
     /**
-     *
-     * @param a
-     * @param uuid
-     * @param m
+     * Kuvan selaus
+     * @param a Autentikointi
+     * @param uuid Kuvan UUID
+     * @param m Malli
+     * @param l Lokalisaatio
      * @return
      * @throws UnsupportedEncodingException
      */
     @RequestMapping("/photo/{uuid}")
     public String viewPhoto(Authentication a, @PathVariable String uuid, Model m, Locale l) throws UnsupportedEncodingException {
+        
         UserAccount loggedInUser = userService.getUserByUsername(a.getName());
         m.addAttribute("user", loggedInUser);
         m.addAttribute("image", imageService.findOneImageByUuid(uuid));

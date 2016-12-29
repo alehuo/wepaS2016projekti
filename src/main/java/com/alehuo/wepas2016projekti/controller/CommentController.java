@@ -36,21 +36,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- *
+ * Kommenttikontrolleri
+ * 
+ * Käytetään kommenttien lisäämiseen
+ * 
  * @author Jusaa
  */
 @Controller
 @RequestMapping("comment")
 public class CommentController {
 
+    /**
+     * Logger
+     */
     private static final Logger LOG = Logger.getLogger(CommentController.class.getName());
 
+    /**
+     * Käyttäjätietojen palvelu
+     */
     @Autowired
     private UserService userService;
 
+    /**
+     * Kuvapalvelu
+     */
     @Autowired
     private ImageService imageService;
 
+    /**
+     * Kommenttipalvelu
+     */
     @Autowired
     private CommentService commentService;
 
