@@ -143,6 +143,8 @@ Nappia painamalla kommentti/kuva poistetaan:
 * Kuvan kommentit -liitostaulu (FK image_id (integer), FK comments_id (integer))
 
 
+![Tietokantakaavio](img/9adc8064.png)
+
 ## Testaus
 
 * Yksikkö- ja integraatiotestit jne.
@@ -169,8 +171,9 @@ esimerkiksi http://localhost:8080/api/users/us palauttaa: [{"username":"user"}] 
 
 ## NetBeansin liitännäisellä luotu luokkakaavio:
 
-![Luokkadiagrammi](class_diagram.png)
+![Luokkadiagrammi](img/class_diagram.png)
 
 ## Tietokantakaavio:
 
-![Tietokantakaavio](https://yuml.me/670dff40)
+
+
