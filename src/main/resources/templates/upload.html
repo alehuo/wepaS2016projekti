@@ -66,8 +66,8 @@
                     <input id="imageDesc" type="text" name="description" th:field="*{description}" th:placeholder="#{service.description}" class="validate" length="24"/>
                     <!--<label for="imageDesc">Kuvaus</label>-->
                 </div>
-                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
-                    <span th:text="#{service.notvaliddesc}"></span>
+                <div th:if="${#fields.hasErrors('description')}">
+                    <span style="color: red" th:text="#{service.notvaliddesc}"></span>
                 </div>
                 <span style="font-weight: bold;" th:text="#{service.maxsizewarning}">HUOM. Kuvan maksimikoko on 12 megatavua.</span>
                 <div class="file-field input-field">
