@@ -31,28 +31,28 @@ import org.springframework.stereotype.Repository;
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
     /**
-     *
-     * @return
+     * Palauttaa kymmenen uusinta kuvaa
+     * @return Kymmenen uusinta kuvaa
      */
     List<Image> findTop10ByOrderByIdDesc();
     
     /**
-     *
-     * @return
+     * Palauttaa kymmenen uusinta kuvaa, jotka on asetettu näkyviksi
+     * @return Kymmenen uusinta kuvaa, jotka on asetettu näkyviksi
      */
     List<Image> findTop10ByVisibleTrueOrderByIdDesc();
 
     /**
-     *
-     * @param uuid
-     * @return
+     * Palauttaa yhden kuvan UUID:n perusteella
+     * @param uuid UUID
+     * @return Kuva
      */
     Image findOneByUuid(String uuid);
 
     /**
-     *
-     * @param u
-     * @return
+     * Palauttaa kaikki näkyvissä olevat kuvat lähetysjärjestyksessä, jotka käyttäjä on lähettänyt
+     * @param u Käyttäjä
+     * @return Kuvat
      */
     List<Image> findAllByVisibleTrueAndImageOwnerOrderByIdDesc(UserAccount u);
 }

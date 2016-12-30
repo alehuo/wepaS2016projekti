@@ -25,22 +25,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Kuvapalvelu
  * @author alehuo
  */
 @Service("imageService")
 public class ImageService {
 
+    /**
+     * Kuvarepositorio
+     */
     @Autowired
     private ImageRepository imageRepo;
 
     /**
-     *
-     * @param u
-     * @param imageData
-     * @param imageType
-     * @param description
-     * @return
+     * Lisää kuva
+     * @param u Käyttäjätili
+     * @param imageData Kuvan data
+     * @param imageType Kuvan tiedostomuoto
+     * @param description Kuvaus
+     * @return Juuri lisätty kuva
      */
     @Transactional
     public Image addImage(UserAccount u, byte[] imageData, String imageType, String description) {
@@ -53,9 +56,9 @@ public class ImageService {
     }
 
     /**
-     *
-     * @param imageId
-     * @return
+     * Palauttaa kuvan ID:n perusteella
+     * @param imageId Kuvan ID
+     * @return Kuva
      */
     @Transactional
     public Image findOneImageById(Long imageId) {
@@ -63,9 +66,9 @@ public class ImageService {
     }
 
     /**
-     *
-     * @param uuid
-     * @return
+     * Palauttaa kuvan UUID:n perusteella
+     * @param uuid UUID
+     * @return Kuva
      */
     @Transactional
     public Image findOneImageByUuid(String uuid) {
@@ -73,9 +76,9 @@ public class ImageService {
     }
 
     /**
-     *
-     * @param u
-     * @return
+     * Palauttaa kaikki kuvat jotka käyttäjä on lähettänyt palveluun
+     * @param u Käyttäjätunnus
+     * @return Kuvat
      */
     @Transactional
     public List<Image> findAllByUserAccount(UserAccount u) {
@@ -83,8 +86,8 @@ public class ImageService {
     }
 
     /**
-     *
-     * @return
+     * Palauttaa kaikki palveluun lisätyt kuvat
+     * @return Kaikki kuvat
      */
     @Transactional
     public List<Image> findAllImages() {
@@ -92,9 +95,9 @@ public class ImageService {
     }
 
     /**
-     *
-     * @param i
-     * @return
+     * Tallentaa kuvan
+     * @param i Kuva
+     * @return Tallennettu kuva
      */
     public Image saveImage(Image i) {
         imageRepo.save(i);
@@ -102,7 +105,7 @@ public class ImageService {
     }
 
     /**
-     *
+     * Poistaa kaikki kuvat palvelusta
      */
     public void deleteAllImages() {
         imageRepo.deleteAll();

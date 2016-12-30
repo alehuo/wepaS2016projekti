@@ -37,18 +37,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * Käynnistyspalvelu
  *
  * @author alehuo
  */
 @Service
 public class InitService {
 
+    /**
+     * Käyttäjätilipalvelu
+     */
     @Autowired
     private UserService userService;
 
+    /**
+     * Kommenttirepositorio
+     */
     @Autowired
     private CommentRepository commentRepo;
 
+    /**
+     * Kuvarepositorio
+     */
     @Autowired
     private ImageRepository imageRepo;
 
@@ -81,9 +91,12 @@ public class InitService {
         //Poista käyttäjätilit
         userService.deleteAllUsers();
 
+        //Lisää "user" -käyttäjä
         if (userService.getUserByUsername("user") == null) {
             userService.createNewUser("user", "user", "user@localhost.com", Role.USER);
         }
+
+        //Lisää "admin" -käyttäjä ja sille kuvia
         if (userService.getUserByUsername("admin") == null) {
             userService.createNewUser("admin", "admin", "admin@localhost.com", Role.ADMINISTRATOR);
             try {
@@ -99,6 +112,14 @@ public class InitService {
         }
     }
 
+    /**
+     * Pienentää kuvan
+     *
+     * @param byteArray Kuvan data
+     * @param type Kuvan tiedostotyyppi
+     * @param widthHeight Leveys ja korkeus (Kuvat ovat neliön muotoisia)
+     * @return Pienennetyn kuvan data
+     */
     public byte[] resizeImage(byte[] byteArray, String type, int widthHeight) {
         BufferedImage resized;
         try {
@@ -114,17 +135,30 @@ public class InitService {
         }
     }
 
+    /**
+     * Lisää kuvan
+     *
+     * @param fPath Tiedoston sijainti
+     * @param type Tyyppi
+     * @param type2 Tyyppi 2
+     * @param description Kuvaus
+     * @param poster Lisääjä
+     * @param resize Pienennetäänkö kuvaa vai ei?
+     * @throws IOException
+     */
     public void addImage(String fPath, String type, String type2, String description, String poster, boolean resize) throws IOException {
         Path path = Paths.get(fPath);
         Image i = new Image();
         i.setImageContentType(type);
+        //Jos kuva halutaan pienentää
         if (resize) {
             i.setImageData(resizeImage(Files.readAllBytes(path), type2, widthHeight));
         } else {
+            //Muuten, lisää kuva sellaisenaan
             i.setImageData(Files.readAllBytes(path));
         }
         i.setDescription(description);
-        i.setImageOwner(userService.getUserByUsername("admin"));
+        i.setImageOwner(userService.getUserByUsername(poster));
         imageRepo.save(i);
     }
 }

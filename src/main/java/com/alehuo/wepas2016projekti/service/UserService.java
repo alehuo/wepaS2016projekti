@@ -58,60 +58,60 @@ public class UserService {
     }
 
     /**
-     *
-     * @return
+     * Palauttaa kaikki käyttäjät
+     * @return Kaikki käyttäjät
      */
     public List<UserAccount> getAllUsers() {
         return userRepo.findAll();
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Palauttaa käyttäjän sen ID:n perusteella
+     * @param id Käyttäjän ID
+     * @return Käyttäjä
      */
     public UserAccount getUserById(Long id) {
         return userRepo.findOne(id);
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Palauttaa käyttäjän sen käyttäjänimen perusteella
+     * @param username Käyttäjänimi
+     * @return Käyttäjä
      */
     public UserAccount getUserByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Palauttaa käyttäjän sen käyttäjänimen perusteella
+     * @param username Käyttäjänimi (non case sensitive)
+     * @return Käyttäjä
      */
     public UserAccount getUserByUsernameIgnoreCase(String username) {
         return userRepo.findByUsernameIgnoreCase(username);
     }
 
     /**
-     *
-     * @param u
-     * @return
+     * Tallentaa käyttäjän
+     * @param u Käyttäjä
+     * @return Juuri tallennettu käyttäjä
      */
     public UserAccount saveUser(UserAccount u) {
         return userRepo.save(u);
     }
 
     /**
-     *
+     * Poistaa kaikki käyttäjät
      */
     public void deleteAllUsers() {
         userRepo.deleteAll();
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Palauttaa käyttäjät jotka vastaavat hakusanaa
+     * @param username Hakusana
+     * @return Käyttäjät
      */
     public List<UserAccount> getUsersByUsernameLike(String username) {
         return userRepo.findByUsernameIgnoreCaseContaining(username);

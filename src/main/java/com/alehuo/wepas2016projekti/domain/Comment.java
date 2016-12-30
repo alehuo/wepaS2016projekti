@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
- *
+ * Kommentti -entiteetti
  * @author alehuo
  */
 @Entity
@@ -40,7 +40,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Comment extends AbstractPersistable<Long> {
 
     /**
-     * Käyttäjä
+     * Kommentin luoja/omistaja
      */
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn
@@ -61,13 +61,24 @@ public class Comment extends AbstractPersistable<Long> {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    /**
+     * Onko viesti näkyvissä?
+     */
     @Column(name = "visible")
     private boolean visible = true;
 
+    /**
+     * Palauttaa, onko viesti näkyvissä
+     * @return Viestin näkyvyys
+     */
     public boolean isVisible() {
         return visible;
     }
 
+    /**
+     * Asettaa viestin näkyvyystilan
+     * @param visible Näkyvyys
+     */
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
@@ -81,48 +92,48 @@ public class Comment extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @return
+     * Palauttaa kommentin luojan
+     * @return Kommentin luoja
      */
     public UserAccount getUser() {
         return user;
     }
 
     /**
-     *
-     * @param user
+     * Asettaa kommentin luojan
+     * @param user Kommentin luoja
      */
     public void setUser(UserAccount user) {
         this.user = user;
     }
 
     /**
-     *
-     * @return
+     * Palauttaa viestin sisällön
+     * @return Viestin sisältö
      */
     public String getBody() {
         return body;
     }
 
     /**
-     *
-     * @param body
+     * Asettaa viestin sisällön
+     * @param body Viestin sisältö
      */
     public void setBody(String body) {
         this.body = body;
     }
 
     /**
-     *
-     * @return
+     * Palauttaa viestin luomisajan
+     * @return Viestin luomisaika
      */
     public Date getCreationDate() {
         return creationDate;
     }
 
     /**
-     *
-     * @param creationDate
+     * Asettaa viestin luomisajan
+     * @param creationDate Viestin luomisaika
      */
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;

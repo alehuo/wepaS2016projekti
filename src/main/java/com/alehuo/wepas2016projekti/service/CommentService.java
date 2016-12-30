@@ -24,23 +24,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Kommenttipalvelu
  * @author Jusaa
  */
 @Service
 public class CommentService {
 
+    /**
+     * Kommenttirepo
+     */
     @Autowired
     private CommentRepository commentRepository;
 
+    /**
+     * Käyttäjätietopalvelu
+     */
     @Autowired
     private UserService userService;
 
     /**
-     *
-     * @param body
-     * @param u
-     * @return
+     * Lisää kommentti
+     * @param body Sisältö
+     * @param u Käyttäjätunnus
+     * @return Juuri lisätty kommentti
      */
     @Transactional
     public Comment addComment(String body, UserAccount u) {

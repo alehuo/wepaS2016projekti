@@ -23,12 +23,12 @@ package com.alehuo.wepas2016projekti.domain;
 public enum Role {
 
     /**
-     *
+     * Peruskäyttäjä
      */
     USER, 
 
     /**
-     *
+     * Pääkäyttäjä
      */
     ADMINISTRATOR;
 }

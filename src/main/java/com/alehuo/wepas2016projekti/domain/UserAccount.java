@@ -26,7 +26,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
@@ -35,7 +34,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
- * Käyttäjä -luokka
+ * Käyttäjä -entiteetti
  *
  * @author alehuo
  */
@@ -67,6 +66,9 @@ public class UserAccount extends AbstractPersistable<Long> {
     @Email
     private String email;
 
+    /**
+     * Käyttäjätilin rooli
+     */
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -79,7 +81,7 @@ public class UserAccount extends AbstractPersistable<Long> {
     private List<Comment> comments;
 
     /**
-     *
+     * Konstruktori
      */
     public UserAccount() {
         comments = new ArrayList();
@@ -97,8 +99,8 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @return
+     * Palauttaa, onko resurssi juuri luotu
+     * @return Luotu
      */
     @JsonIgnore
     @Override
@@ -107,8 +109,8 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @return
+     * Palauttaa käyttäjänimen
+     * @return Käyttäjänimi
      */
     @JsonProperty("username")
     public String getUsername() {
@@ -116,16 +118,16 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @param username
+     * Asettaa käyttäjänimen
+     * @param username Käyttäjänimi
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     *
-     * @return
+     * Palauttaa s.postiosoitteen
+     * @return Sähköpostiosoite
      */
     @JsonIgnore
     public String getEmail() {
@@ -133,24 +135,24 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @param email
+     * Asettaa s.postiosoitteen
+     * @param email S.postiosoite
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     *
-     * @param password
+     * Asettaa salasanan
+     * @param password Salasana
      */
     public void setPassword(String password) {
         this.password = password;
     }
 
     /**
-     *
-     * @return
+     * Palauttaa salasanan
+     * @return Salasana
      */
     @JsonIgnore
     public String getPassword() {
@@ -158,16 +160,16 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @param role
+     * Asettaa käyttäjätilin roolin
+     * @param role Rooli
      */
     public void setRole(Role role) {
         this.role = role;
     }
 
     /**
-     *
-     * @return
+     * Palauttaa käyttäjätilin roolin
+     * @return Rooli
      */
     @JsonIgnore
     public Role getRole() {
@@ -175,8 +177,8 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @return
+     * Palauttaa käyttäjän kirjoittamat kommentit
+     * @return Kommentit
      */
     @JsonIgnore
     public List<Comment> getComments() {
@@ -184,21 +186,25 @@ public class UserAccount extends AbstractPersistable<Long> {
     }
 
     /**
-     *
-     * @param comments
+     * Asettaa kommentit
+     * @param comments Kommentit
      */
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
     /**
-     *
-     * @param c
+     * Lisää kommentin
+     * @param c Kommentti
      */
     public void addComment(Comment c) {
         comments.add(c);
     }
 
+    /**
+     * HashCode
+     * @return HashCode
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -208,6 +214,11 @@ public class UserAccount extends AbstractPersistable<Long> {
         return hash;
     }
 
+    /**
+     * Equals
+     * @param obj UserAccount -entiteetti
+     * @return true | false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

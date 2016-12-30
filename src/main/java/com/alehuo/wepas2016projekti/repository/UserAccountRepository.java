@@ -30,23 +30,23 @@ import org.springframework.stereotype.Repository;
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 
     /**
-     *
-     * @param username
-     * @return
+     * Palauttaa käyttäjän käyttäjänimen perusteella
+     * @param username Käyttäjänimi
+     * @return Käyttäjä
      */
     UserAccount findByUsername(String username);
     
     /**
-     *
-     * @param username
-     * @return
+     * Palauttaa käyttäjän käyttäjänimen perusteella
+     * @param username Käyttäjänimi (Non case sensitive)
+     * @return Käyttäjä
      */
     UserAccount findByUsernameIgnoreCase(String username);
 
     /**
-     *
-     * @param username
-     * @return
+     * Palauttaa kaikki käyttäjät joiden käyttäjätunnuksessa esiintyy merkkijono
+     * @param username Merkkijono
+     * @return Käyttäjät
      */
     List<UserAccount> findByUsernameIgnoreCaseContaining(String username);
 
