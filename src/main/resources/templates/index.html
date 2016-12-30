@@ -83,7 +83,7 @@
                             <noscript>
                                 <img class="autoscale" th:src="@{'/img/' + ${image.uuid}}"/>
                             </noscript>
-                            <div sec:authorize="hasAuthority('ADMINISTRATOR')"><form th:action="@{'delete/image'}" method="POST"><input type="submit" th:value="#{service.deleteimage}"/><input type="hidden" name="photoId" th:value="${image.id}"/></form></div>
+                            <div sec:authorize="hasAuthority('ADMINISTRATOR')"><form th:action="@{/delete/image}" method="POST"><p class="center-align"><input class="btn red" type="submit" th:value="#{service.deleteimage}"/></p><input type="hidden" name="photoId" th:value="${image.id}"/></form></div>
                         </div>
                         <div class="card-content">
                             <p><span class="card-title large" th:text="${image.description}"></span></p>
@@ -92,7 +92,7 @@
                             <p>
                                 <ul th:id="${'comments_' + image.uuid}">
                                     <li th:each="comment : ${image.lastThreeComments}">
-                                        <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span><span sec:authorize="hasAuthority('ADMINISTRATOR')"><form th:action="@{'delete/comment'}" method="POST"><input type="submit" th:value="#{service.deletecomment}"/><input type="hidden" name="commentId" th:value="${comment.id}"/></form></span></p>
+                                        <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span><span sec:authorize="hasAuthority('ADMINISTRATOR')"><form th:action="@{/delete/comment}" method="POST"><p><input class="btn red" type="submit" th:value="#{service.deletecomment}"/></p><input type="hidden" name="commentId" th:value="${comment.id}"/></form></span></p>
                                     </li>  
                                 </ul>
                                 <a th:href="@{'/photo/' + ${image.uuid}}" th:text="#{service.showimagepage}">Näytä kuvasivu ja loput kommentit</a>

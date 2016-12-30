@@ -21,7 +21,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -41,6 +43,7 @@ public class Comment extends AbstractPersistable<Long> {
      * Käyttäjä
      */
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn
     private UserAccount user;
 
     /**
@@ -57,6 +60,25 @@ public class Comment extends AbstractPersistable<Long> {
     @Type(type = "timestamp")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate;
+
+    @Column(name = "visible")
+    private boolean visible = true;
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    /**
+     * Aseta kommentin timestamp luontihetkenä
+     */
+    @PrePersist
+    protected void onCreate() {
+        creationDate = new Date();
+    }
 
     /**
      *

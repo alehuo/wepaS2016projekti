@@ -20,6 +20,7 @@ package com.alehuo.wepas2016projekti.configuration;
  *
  * @author alehuo
  */
+import com.alehuo.wepas2016projekti.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +62,7 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
         //Sallitaan pääsy resurssikansioihin
         //Kirjautumislokame löytyy GET -reitistä /login
         http.authorizeRequests()
+                .antMatchers("/delete/**").hasAuthority(Role.ADMINISTRATOR.toString())  
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**", "/fonts/roboto/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()

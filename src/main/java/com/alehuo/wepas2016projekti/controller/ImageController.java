@@ -75,7 +75,7 @@ public class ImageController {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         Image i = imageService.findOneImageByUuid(imageUuid);
-        if (i != null) {
+        if (i != null && i.isVisible()) {
             //Luodaan ETag kuvalle
             final HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType(i.getContentType()));
@@ -113,7 +113,7 @@ public class ImageController {
             Image i = imageService.findOneImageByUuid(imageUuid);
 
             //Jos kuva ei ole tyhjä
-            if (i != null) {
+            if (i != null && i.isVisible()) {
                 //Lisää / poista tykkäys tilanteen mukaan
                 if (i.getLikedBy().contains(u)) {
                     LOG.log(Level.INFO, "Kayttaja ''{0}'' poisti tykkayksen kuvasta ''{1}''", new Object[]{a.getName(), imageUuid});

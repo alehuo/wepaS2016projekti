@@ -18,14 +18,14 @@ package com.alehuo.wepas2016projekti.controller;
 
 import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
-import com.alehuo.wepas2016projekti.domain.UserAccount;
 import com.alehuo.wepas2016projekti.repository.CommentRepository;
 import com.alehuo.wepas2016projekti.repository.ImageRepository;
 import com.alehuo.wepas2016projekti.repository.UserAccountRepository;
-import java.util.List;
-import javax.persistence.PreRemove;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,16 +35,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Admin -kontrolleri.
  *
- * - Kommenttien poisto 
- * - Kuvien poisto
+ * - Kommenttien poisto - Kuvien poisto
  *
- *TYÖN ALLA
- * 
+ * TYÖN ALLA
+ *
  * @author alehuo
  */
 @Controller
 @RequestMapping("delete")
 public class AdminController {
+
+    /**
+     * Logger
+     */
+    private static final Logger LOG = Logger.getLogger(AdminController.class.getName());
 
     @Autowired
     private CommentRepository commentRepo;
@@ -56,20 +60,22 @@ public class AdminController {
     private UserAccountRepository userRepo;
 
     /**
-     * Kommentin poistaminen sen ID:n perusteella
+     * Kommentin poistaminen sen ID:n perusteella Asetetaan lippu "deleted" true
+     * -arvoon jotta kommentti ei näy. Tällöin vältetään Data violation
+     * exceptionit jne.
      *
      * @param a Autentikointi
      * @param commentId Kommentin id
+     * @return 
      */
     @Transactional
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public String deleteComment(Authentication a, @RequestParam Long commentId) {
-//        Comment c = commentRepo.findOne(commentId);
-//        UserAccount ua = c.getUser();
-////        ua.removeComment(c);
-//        userRepo.save(ua);
-//        /*TODO*/
-//        commentRepo.delete(commentId);
+        Comment c = commentRepo.findOne(commentId);
+        //Aseta pois näkyviltä
+        c.setVisible(false);
+        commentRepo.save(c);
+        LOG.log(Level.INFO, "Paakayttaja ''{0}'' poisti kayttajan ''{1}'' kommentin viestin sisallolla \"{2}\"", new Object[]{a.getName(), c.getUser().getUsername(), c.getBody()});
         return "redirect:/";
     }
 
@@ -78,20 +84,18 @@ public class AdminController {
      *
      * @param a Autentikointi
      * @param photoId Kuvan id
+     * @return 
      */
     @Transactional
     @RequestMapping(value = "/image", method = RequestMethod.POST)
     public String deletePhoto(Authentication a, @RequestParam Long photoId) {
-//        Image i = imageRepo.findOne(photoId);
-//        if (!i.getComments().isEmpty()) {
-//            for (Comment c : i.getComments()) {
-//                UserAccount u = userRepo.findOne(c.getUser().getId());
-//                u.removeComment(c);
-//            }
-//        }
-////        imageRepo.save(i);
-//        commentRepo.deleteInBatch(i.getComments());
-//        imageRepo.delete(photoId);
+        Image i = imageRepo.findOne(photoId);
+        //Aseta pois näkyviltä
+        i.setVisible(false);
+        //Tallenna
+        imageRepo.save(i);
+        //Logita
+        LOG.log(Level.INFO, "Paakayttaja ''{0}'' poisti kuvan ''{1}''", new Object[]{a.getName(), i.getUuid()});
         return "redirect:/";
     }
 }
