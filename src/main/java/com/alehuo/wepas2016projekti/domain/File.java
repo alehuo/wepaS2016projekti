@@ -22,27 +22,32 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
- *
+ * Kuvan tiedostosisältö -entiteetti
+ * Tämä entiteetti säilöö kuvatiedoston sisällön.
+ * 
  * @author alehuo
  */
 @Entity
 @Table(name = "file")
 public class File extends AbstractPersistable<Long> {
 
+    /**
+     * Data
+     */
     @Lob
     private byte[] file;
 
     /**
-     *
-     * @return
+     * Palauttaa datan
+     * @return Kuvan data
      */
     public byte[] getFile() {
         return file;
     }
 
     /**
-     *
-     * @param file
+     * Asettaa datan
+     * @param file Kuvan data
      */
     public void setFile(byte[] file) {
         this.file = file;

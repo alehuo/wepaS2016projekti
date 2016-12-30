@@ -24,6 +24,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
+ * Kuva -entiteetti
  *
  * @author alehuo
  */
@@ -44,6 +45,10 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<UserAccount> likedBy;
 
+    /**
+     * Lista kommenteista (Yksi kommentti liittyy yhteen kuvaan mutta kuvalla
+     * voi olla monta kommenttia)
+     */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
@@ -69,25 +74,41 @@ public class Image extends AbstractPersistable<Long> {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    /**
+     * Kuvan UUID
+     */
     private String uuid = UUID.randomUUID().toString();
 
+    /**
+     * Onko kuva näkyvissä?
+     */
     private boolean visible = true;
 
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
     /**
-     *
+     * Konstruktori, joka asettaa muutaman listan
      */
     public Image() {
         comments = new ArrayList<>();
         likedBy = new ArrayList<>();
         file = new File();
+    }
+
+    /**
+     * Palauttaa kuvan näkyvyyden
+     *
+     * @return Näkyvyys
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+    /**
+     * Aseta kuvan näkyvyystila
+     *
+     * @param visible Näkyvyys
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     /**
@@ -99,64 +120,72 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     /**
+     * Palauttaa kuvan datan
      *
-     * @return
+     * @return Kuvan data
      */
     public byte[] getImageData() {
         return file.getFile();
     }
 
     /**
+     * Asettaa kuvan datan
      *
-     * @param imageData
+     * @param imageData Kuvan data
      */
     public void setImageData(byte[] imageData) {
         file.setFile(imageData);
     }
 
     /**
+     * Asettaa kuvan omistajan
      *
-     * @param imageOwner
+     * @param imageOwner Kuvan omistaja
      */
     public void setImageOwner(UserAccount imageOwner) {
         this.imageOwner = imageOwner;
     }
 
     /**
+     * Palauttaa kuvan omistajan
      *
-     * @return
+     * @return Kuvan omistaja
      */
     public UserAccount getImageOwner() {
         return imageOwner;
     }
 
     /**
+     * Palauttaa kuvan kuvaus
      *
-     * @return
+     * @return Kuvan kuvaus
      */
     public String getDescription() {
         return description;
     }
 
     /**
+     * Asettaa kuvan kuvauksen
      *
-     * @param description
+     * @param description Kuvan kuvaus
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
+     * Lisää kuvalle tykkäyksen
      *
-     * @param u
+     * @param u Käyttäjätili
      */
     public void addLike(UserAccount u) {
         likedBy.add(u);
     }
 
     /**
+     * Poistaa kuvalta tykkäyksen
      *
-     * @param u
+     * @param u Käyttäjätili
      */
     public void removeLike(UserAccount u) {
         if (likedBy.contains(u)) {
@@ -165,56 +194,64 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     /**
+     * Palauttaa kuvasta tykänneet henkilöt
      *
-     * @return
+     * @return Lista henkilöistä
      */
     public List<UserAccount> getLikedBy() {
         return likedBy;
     }
 
     /**
+     * Asettaa kuvan tiedostomuodon
      *
-     * @param contentType
+     * @param contentType Tiedostomuoto
      */
     public void setImageContentType(String contentType) {
         this.contentType = contentType;
     }
 
     /**
+     * Palauttaa kuvan tiedostomuodon
      *
-     * @return
+     * @return Kuvan tiedostomuoto
      */
     public String getContentType() {
         return contentType;
     }
 
     /**
+     * Palauttaa tykkäyksien lukumäärän
      *
-     * @return
+     * @return Tykkäyksien lukumäärä
      */
     public int getLikes() {
         return likedBy.size();
     }
 
     /**
+     * Palauttaa kuvan luomisajan
      *
-     * @return
+     * @return Luomisaika
      */
     public Date getCreationDate() {
         return creationDate;
     }
 
     /**
+     * Asettaa kuvan kommentit
      *
-     * @param comments
+     * @param comments Kuvan kommentit
      */
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
     /**
+     * Palauttaa kuvan kommentit suodattaen pois ne jotka pääkäyttäjä on
+     * "poistanut"
      *
-     * @return
+     * @return Lista kommenteista
      */
     public List<Comment> getComments() {
         List<Comment> tmpComments = new ArrayList<>();
@@ -227,30 +264,34 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     /**
+     * Lisää kuvalle kommentin
      *
-     * @param c
+     * @param c Kommentti
      */
     public void addComment(Comment c) {
         comments.add(c);
     }
 
     /**
+     * Palauttaa kuvan UUID:n
      *
-     * @return
+     * @return UUID
      */
     public String getUuid() {
         return uuid;
     }
 
     /**
+     * Asettaa kuvan UUID:n
      *
-     * @param uuid
+     * @param uuid UUID
      */
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
     /**
+     * Palauttaa kommenttien lukumäärän
      *
      * @return Kommenttien lukumäärä
      */
@@ -259,24 +300,30 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     /**
+     * Palauttaa kolme viimeisintä kommenttia
      *
      * @return
      */
     public List<Comment> getLastThreeComments() {
-        List<Comment> comments = getComments();
+        List<Comment> imageComments = getComments();
         //Jos kommentteja on >= 3 niin palautetaan sublist
-        if (comments.size() >= 3) {
-            return comments.subList(comments.size() - 3, comments.size());
+        if (imageComments.size() >= 3) {
+            return imageComments.subList(imageComments.size() - 3, imageComments.size());
         }
         //Jos näin ei ole, käydään kommenttilista läpi for -loopilla
         //Esim. jos koko on kaksi, käydään läpi indeksit 1 ja 0
         List<Comment> tmpComments = new ArrayList<>();
-        for (int i = comments.size() - 1; i >= 0; i--) {
-            tmpComments.add(comments.get(i));
+        for (int i = imageComments.size() - 1; i >= 0; i--) {
+            tmpComments.add(imageComments.get(i));
         }
         return tmpComments;
     }
 
+    /**
+     * HashCode
+     *
+     * @return HashCode
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -285,6 +332,12 @@ public class Image extends AbstractPersistable<Long> {
         return hash;
     }
 
+    /**
+     * Equals
+     *
+     * @param obj Kuva -entiteetti
+     * @return true | false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

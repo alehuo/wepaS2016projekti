@@ -21,44 +21,52 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- *
+ * Kuvan lähetyksessä käytetty Form -luokka.
+ * Tämän avulla validoidaan kuvan lähetys.
+ * 
  * @author alehuo
  */
 public class ImageUploadFormData {
 
+    /**
+     * Kuvan kuvaus
+     */
     @Length(max = 24)
     private String description;
 
+    /**
+     * Tiedosto
+     */
     @NotNull
     private MultipartFile file;
 
     /**
-     *
-     * @return
+     * Palauttaa kuvauksen
+     * @return Kuvaus
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     *
-     * @param description
+     * Asettaa kuvauksen
+     * @param description Kuvaus
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     *
-     * @return
+     * Palauttaa tiedoston
+     * @return Tiedosto
      */
     public MultipartFile getFile() {
         return file;
     }
 
     /**
-     *
-     * @param file
+     * Asettaa tiedoston
+     * @param file Tiedosto
      */
     public void setFile(MultipartFile file) {
         this.file = file;

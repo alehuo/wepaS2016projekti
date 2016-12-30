@@ -27,15 +27,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Käyttäjätietopalvelu
  * @author alehuo
  */
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
+    /**
+     * Käyttäjärepository
+     */
     @Autowired
     private UserAccountRepository userRepo;
 
+    /**
+     * Hakee käyttäjän tietokannasta ja asettaa sille oikeat käyttöoikeudet
+     * @param string Käyttäjätunnus
+     * @return Käyttäjätiedot
+     * @throws UsernameNotFoundException 
+     */
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
 

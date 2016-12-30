@@ -20,7 +20,7 @@ import com.alehuo.wepas2016projekti.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- *
+ * Kommentti -repositorio
  * @author Jusaa
  */
 public interface CommentRepository extends JpaRepository<Comment, Long>{

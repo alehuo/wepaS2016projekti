@@ -108,6 +108,7 @@ public class CommentController {
      * @param a Autentikointi
      * @param m Model
      * @param uuid Kuvan UUID
+     * @param l
      * @return Näkymä "addcomment"
      */
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)

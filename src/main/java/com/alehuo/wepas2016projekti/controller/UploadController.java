@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- *
+ * Kuvan lataukseen käytettävä kontrolleri
  * @author alehuo
  */
 @Controller
@@ -52,9 +52,10 @@ public class UploadController {
     private ImageService imageService;
 
     /**
-     *
-     * @param a
-     * @param m
+     * Kuvan lataussivu
+     * @param a Autentikointi
+     * @param m Malli
+     * @param l Locale
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -66,11 +67,12 @@ public class UploadController {
     }
 
     /**
-     *
-     * @param a
-     * @param m
-     * @param formData
-     * @param bs
+     * Kuvan latauksen käsittely
+     * @param a Autentikointi
+     * @param m Malli
+     * @param formData Lomakkeen data
+     * @param bs BindingResult
+     * @param l Locale
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)

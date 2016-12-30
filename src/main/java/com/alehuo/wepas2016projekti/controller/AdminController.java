@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +34,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * Admin -kontrolleri.
  *
- * - Kommenttien poisto - Kuvien poisto
- *
- * TYÖN ALLA
+ * Kommenttien ja kuvien poisto.
+
  *
  * @author alehuo
  */
@@ -50,12 +48,21 @@ public class AdminController {
      */
     private static final Logger LOG = Logger.getLogger(AdminController.class.getName());
 
+    /**
+     * Kommenttirepositorio
+     */
     @Autowired
     private CommentRepository commentRepo;
 
+    /**
+     * Kuvarepositorio
+     */
     @Autowired
     private ImageRepository imageRepo;
 
+    /**
+     * Käyttäjärepositorio
+     */
     @Autowired
     private UserAccountRepository userRepo;
 
@@ -66,7 +73,7 @@ public class AdminController {
      *
      * @param a Autentikointi
      * @param commentId Kommentin id
-     * @return 
+     * @return Näkymä
      */
     @Transactional
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
@@ -84,7 +91,7 @@ public class AdminController {
      *
      * @param a Autentikointi
      * @param photoId Kuvan id
-     * @return 
+     * @return Näkymä
      */
     @Transactional
     @RequestMapping(value = "/image", method = RequestMethod.POST)
