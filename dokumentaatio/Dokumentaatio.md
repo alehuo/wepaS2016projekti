@@ -1,20 +1,23 @@
 #Web-palvelinohjelmoinnin projekti 2016
 
-Kurssin projektityönä on kuvapalvelu, johon käyttäjä voi lisätä kuvia.
-Muut käyttäjät pystyvät kommentoimaan ja tykkäämään kuvista sekä selaamaan toisien profiileja.
+Kurssin projektityönä on kuvapalvelu, johon käyttäjä voi lisätä omia kuvia.
+Muut käyttäjät voivat kommentoida ja tykätä kuvista sekä selata toisten käyttäjien profiileja.
 Sivut on toteutettu responsiivisesti eli ne toimivat sekä selaimessa että mobiililaitteella hyvin.
 
 Huomioitavaa on, että projekti ei vaadi JavaScript -tukea selaimelta, mutta se on vahvasti suositeltavaa.
 
-Mobiililaitteilla sivuvalikko ei avaudu, jos JavaScript ei ole päällä (pohdimme tälle ratkaisua).
+Mobiililaitteilla sivuvalikko ei avaudu, jos JavaScript ei ole päällä.
 
-Muuten projekti on täysin toimiva. Kuvien lisäys, kuvien selaaminen, kuvien kommentointi 
+Muuten kaikki toimii. Kuvien lisäys, selaaminen, kommentointi 
 
 ja kuvista tykkääminen toimivat ilman JavaScriptiä.
 
-
-
 ## Sovelluksen linkki: https://hummingbird-66191.herokuapp.com/
+
+Sovellukseen pääsee kirjautumaan tunnuksella user::user sekä pääkäyttäjätunnuksella admin::admin.
+Lisäksi halutessaan voi rekisteröityä rekisteröitymislomakkeen kautta. 
+Rekisteröityessä kysytään sähköpostiosoitetta.
+Sähköpostiosoitteella ei tällä hetkellä tee mitään, joten riittää kunhan s.postiosoitekenttään pistää "jonkinlaisen" osoitteen.
 
 ## Build status ja test coverage
 
@@ -28,6 +31,7 @@ ja kuvista tykkääminen toimivat ilman JavaScriptiä.
 * Rekisteröitymislomake
 * Pääkäyttäjällä mahdollisuus poistaa kommentteja ja kuvia hallintasivun kautta
 * Responsiivinen ulkoasu eli toimii hyvin sekä mobiililaitteilla että työpöytäselaimilla
+* Mahdollisuus käyttää palvelua suomeksi tai englanniksi
 
 ## Käyttötapaukset
 
@@ -114,7 +118,7 @@ Käyttäjä voi kommentoida kuvaa suoraan klikkaamalla "Kommentoi" -linkkiä kuv
 
 ### 7. Käyttäjä haluaa tykätä kuvasta
 
-Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin alapuolella:
+Käyttäjä voi tykätä kuvasta suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin alapuolella:
 
 ![Tykkääminen](img/kuvasta_tykkaaminen.gif)
 
@@ -145,6 +149,10 @@ Nappia painamalla kommentti/kuva poistetaan:
 
 ![Tietokantakaavio](img/9adc8064.png)
 
+## NetBeansin liitännäisellä luotu luokkakaavio:
+
+![Luokkadiagrammi](img/class_diagram.png)
+
 ## Testaus
 
 * Yksikkö- ja integraatiotestit jne.
@@ -162,18 +170,9 @@ Nappia painamalla kommentti/kuva poistetaan:
 
 ## Toteuttamatta jääneet:
 
-* "Restful" -rajapinta käyttäjätilien hakuun. Itse kontrolleri on tehty, mutta sitä ei ole kytketty hakulomakkeeseen. Haku olisi suoritettu jQueryn autocomplete -ominaisuudella.
+* "Restful" -rajapintaa hyödyntävä haku. Itse Rest -kontrolleri on tehty, mutta sitä ei ole kytketty hakulomakkeeseen. Haku olisi suoritettu jQueryn autocomplete -ominaisuudella.
 
 GET -pyyntö osoitteeseen http://localhost:8080/api/users/{hakusana}
 
 esimerkiksi http://localhost:8080/api/users/us palauttaa: [{"username":"user"}] ja http://localhost:8080/api/users/a palauttaa: [{"username":"admin"}]
-
-
-## NetBeansin liitännäisellä luotu luokkakaavio:
-
-![Luokkadiagrammi](img/class_diagram.png)
-
-## Tietokantakaavio:
-
-
 
