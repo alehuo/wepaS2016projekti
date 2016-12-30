@@ -23,11 +23,6 @@ import com.alehuo.wepas2016projekti.service.ImageService;
 import com.alehuo.wepas2016projekti.service.UserService;
 import java.io.IOException;
 import java.util.Locale;
-//import java.awt.image.BufferedImage;
-//import java.io.ByteArrayInputStream;
-//import java.io.ByteArrayOutputStream;
-//import org.imgscalr.Scalr;
-//import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.Valid;
@@ -104,29 +99,6 @@ public class UploadController {
             }
         } else {
             //Tallenna kuva
-//            BufferedImage resized;
-//            try {
-//                resized = Scalr.resize(ImageIO.read(new ByteArrayInputStream(file.getBytes())),
-//                        Scalr.Method.QUALITY,
-//                        Scalr.Mode.FIT_TO_WIDTH,
-//                        1024, 1024, Scalr.OP_ANTIALIAS);
-//            } catch (IOException ex) {
-//                LOG.log(Level.SEVERE, null, ex);
-//                LOG.log(Level.SEVERE, "Kayttaja ''{0}'' yritti ladata kuvaa palveluun, mutta tapahtui palvelinvirhe.", a.getName());
-//                bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
-//                return "upload";
-//            }
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            try {
-//                ImageIO.write(resized, file.getContentType(), baos);
-//            } catch (IOException ex) {
-//                LOG.log(Level.SEVERE, null, ex);
-//                
-//                bs.rejectValue("file", "error.file", "Kuvan lähetys epäonnistui.");
-//                return "upload";
-//            }
-//            byte[] bytes = baos.toByteArray();
-//            Image i = imageService.addImage(u, bytes, file.getContentType(), description);
             Image i;
             try {
                 i = imageService.addImage(u, file.getBytes(), file.getContentType(), description);
@@ -148,9 +120,3 @@ public class UploadController {
         return "redirect:/";
     }
 }
-//import java.awt.image.BufferedImage;
-//import java.io.ByteArrayInputStream;
-//import java.io.ByteArrayOutputStream;
-//import org.imgscalr.Scalr;
-//import java.io.IOException;
-//import javax.imageio.ImageIO;

@@ -16,6 +16,7 @@
  */
 package com.alehuo.wepas2016projekti.repository;
 
+import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.List;

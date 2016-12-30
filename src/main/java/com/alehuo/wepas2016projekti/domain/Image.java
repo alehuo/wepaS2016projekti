@@ -57,8 +57,7 @@ public class Image extends AbstractPersistable<Long> {
     /**
      * Kuvan otsikko
      */
-    @NotBlank
-    @Length(min = 4, max = 64)
+    @Length(max = 24)
     private String description;
 
     /**

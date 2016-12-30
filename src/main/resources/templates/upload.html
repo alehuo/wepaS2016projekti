@@ -29,7 +29,7 @@
                     <ul class="right hide-on-med-and-down">
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i><span th:text="#{service.feed}">Syöte</span></a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i><span th:text="#{service.search}">Haku</span></a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span sec:authentication="name" id="currentUser">Profiili</span></a></li>
                         <li><a th:href="@{'?lang=fi'}"><img th:src="@{'/fi_FI.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
                         <li><a th:href="@{'?lang=en'}"><img th:src="@{'/en_EN.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
                         <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i><span th:text="#{service.logout}">Kirjaudu ulos</span></a></li>
@@ -49,7 +49,7 @@
                             </div></li>
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i><span th:text="#{service.feed}">Syöte</span></a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i><span th:text="#{service.search}">Haku</span></a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span sec:authentication="name" id="currentUser">Profiili</span></a></li>
                         <li><a th:href="@{'?lang=fi'}"><i class='material-icons left'><img th:src="@{'/fi_FI.png'}"/></i> <span th:text="#{service.finnish}"> Suomenkielinen</span></a></li>
                         <li><a th:href="@{'?lang=en'}"><i class='material-icons left'><img th:src="@{'/en_EN.png'}"/></i> <span th:text="#{service.english}"> Englanninkielinen</span></a></li>
                         <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i><span th:text="#{service.logout}">Kirjaudu ulos</span></a></li>
