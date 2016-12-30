@@ -38,12 +38,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * Kuvakontrolleri
  *
  * @author alehuo
  */
 @Controller
 @RequestMapping("img")
 public class ImageController {
+
+    /**
+     * Logger
+     */
     private static final Logger LOG = Logger.getLogger(ImageController.class.getName());
 
     @Autowired
@@ -52,13 +57,13 @@ public class ImageController {
     @Autowired
     private UserService userService;
 
-
     /**
-     * Hakee tietokannasta kuvan
+     * Hakee tietokannasta kuvan. Kuvan hakemisessa hyödynnetään ETag
+     * -otsaketta.
      *
-     * @param a
+     * @param a Autentikointi
      * @param imageUuid Kuvan UUID
-     * @param ifNoneMatch
+     * @param ifNoneMatch If-None-Match -headeri välimuistia varten
      * @return Kuva
      */
     @RequestMapping(value = "/{imageUuid}", method = RequestMethod.GET)
@@ -66,10 +71,12 @@ public class ImageController {
     public ResponseEntity<byte[]> getImage(Authentication a, @PathVariable String imageUuid, @RequestHeader(required = false, value = "If-None-Match") String ifNoneMatch) {
         if (ifNoneMatch != null) {
 //            LOG.log(Level.INFO, "Kuva ''{0}'' loytyy kayttajan selaimen valimuistista eika sita tarvitse ladata. Kuvaa pyysi kayttaja ''{1}''", new Object[]{imageUuid, a.getName()});
+            //Jos If-None-Match -headeri löytyy, niin lähetä NOT MODIFIED vastaus
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         Image i = imageService.findOneImageByUuid(imageUuid);
         if (i != null) {
+            //Luodaan ETag kuvalle
             final HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType(i.getContentType()));
             headers.setContentLength(i.getImageData().length);
@@ -77,8 +84,10 @@ public class ImageController {
             headers.setExpires(Long.MAX_VALUE);
             headers.setETag("\"" + imageUuid + "\"");
 //            LOG.log(Level.INFO, "Kuva ''{0}'' loytyi tietokannasta, ja sita pyysi kayttaja ''{1}''", new Object[]{imageUuid, a.getName()});
+            //Palautetaan kuva uutena resurssina
             return new ResponseEntity<>(i.getImageData(), headers, HttpStatus.CREATED);
         } else {
+            //Jos kuvaa ei löydy tietokannasta
             LOG.log(Level.WARNING, "Kuvaa ''{0}'' ei loytynyt tietokannasta, ja sita pyysi kayttaja ''{1}''", new Object[]{imageUuid, a.getName()});
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -87,10 +96,10 @@ public class ImageController {
     /**
      * Kuvasta tykkäys
      *
-     * @param a Authentication
+     * @param a Autentikointi
      * @param imageUuid Kuvan UUID
-     * @param redirect
-     * @param req
+     * @param redirect Uudelleenohjaus
+     * @param req HTTP Request
      * @return Onnistuiko pyyntö vai ei (sekä sen tyyppi; unlike vai like).
      */
     @RequestMapping(value = "/like", method = RequestMethod.POST)
@@ -98,37 +107,38 @@ public class ImageController {
         //Käyttäjän autentikoiminen
         UserAccount u = userService.getUserByUsername(a.getName());
         final HttpHeaders h = new HttpHeaders();
+        //Jos käyttäjätili ei ole tyhjä
         if (u != null) {
+            //Haetaan kuva
             Image i = imageService.findOneImageByUuid(imageUuid);
+
+            //Jos kuva ei ole tyhjä
             if (i != null) {
+                //Lisää / poista tykkäys tilanteen mukaan
                 if (i.getLikedBy().contains(u)) {
                     LOG.log(Level.INFO, "Kayttaja ''{0}'' poisti tykkayksen kuvasta ''{1}''", new Object[]{a.getName(), imageUuid});
                     i.removeLike(u);
                     imageService.saveImage(i);
                     h.add("LikeType", "unlike");
-                    if (redirect == 1) {
-                        String referer = req.getHeader("Referer");
-                        h.add("Location", req.getHeader("Referer"));
-                        return new ResponseEntity<>(h, HttpStatus.FOUND);
-                    }
-                    return new ResponseEntity<>(h, HttpStatus.OK);
                 } else {
                     i.addLike(u);
                     LOG.log(Level.INFO, "Kayttaja ''{0}'' tykkasi kuvasta ''{1}''", new Object[]{a.getName(), imageUuid});
                     imageService.saveImage(i);
                     h.add("LikeType", "like");
-                    if (redirect == 1) {
-                        String referer = req.getHeader("Referer");
-                        h.add("Location", req.getHeader("Referer"));
-                        return new ResponseEntity<>(h, HttpStatus.FOUND);
-                    }
-                    return new ResponseEntity<>(h, HttpStatus.OK);
                 }
+                //Uudelleenohjaus
+                if (redirect == 1) {
+                    h.add("Location", req.getHeader("Referer"));
+                    return new ResponseEntity<>(h, HttpStatus.FOUND);
+                }
+                return new ResponseEntity<>(h, HttpStatus.OK);
             } else {
+                //Jos kuvaa ei ole olemassa mutta yritetään silti tykätä
                 LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti tykata kuvaa, mita ei ole olemassa. ({1})", new Object[]{a.getName(), imageUuid});
                 return new ResponseEntity<>(h, HttpStatus.BAD_REQUEST);
             }
         }
+        //Jos ei olla kirjauduttu sisään ja yritetään tykätä kuvasta
         LOG.log(Level.WARNING, "Yritettiin tykata kuvaa kirjautumatta sisaan ({0})", a.getName());
         return new ResponseEntity<>(h, HttpStatus.UNAUTHORIZED);
     }

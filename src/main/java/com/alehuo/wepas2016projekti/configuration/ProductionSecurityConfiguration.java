@@ -34,6 +34,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
+ * Tuotantoympäristön turvallisuusprofiili
  *
  * @author Aleksi
  */
@@ -42,10 +43,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Käyttäjätietojen palvelu
+     */
     @Autowired
     private UserDetailsService userDetailsService;
 
     /**
+     * Konfiguroi Spring Security -lisäosan
      *
      * @param http
      * @throws Exception
@@ -53,8 +58,10 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
+        //Sallitaan pääsy resurssikansioihin
+        //Kirjautumislokame löytyy GET -reitistä /login
         http.authorizeRequests()
-                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**").permitAll().anyRequest().permitAll()
+                .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**", "/fonts/roboto/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
@@ -62,6 +69,7 @@ public class ProductionSecurityConfiguration extends WebSecurityConfigurerAdapte
     }
 
     /**
+     * Aseta käyttäjätietojen hakuun käytettävä palvelu
      *
      * @param auth
      * @throws Exception

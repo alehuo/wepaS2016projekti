@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title th:text="#{service.title}">Kuvapalvelu</title>
+        <title th:text="#{service.search}">Kuvapalvelu</title>
         <meta name="mobile-web-app-capable" content="yes"/>
         <!--Viewport-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
@@ -29,7 +29,7 @@
                     <ul class="right hide-on-med-and-down">
                         <li><a th:href="@{/}" id="syote"><i class="material-icons left">store</i><span th:text="#{service.feed}">Syöte</span></a></li>
                         <li><a th:href="@{/search}" id="haku"><i class="material-icons left">search</i><span th:text="#{service.search}">Haku</span></a></li>
-                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span th:text="${user.username}" id="currentUser">Profiili</span></a></li>
+                        <li><a th:href="@{'/profile/' + ${user.username}}" id="profiili"><i class="material-icons left">face</i><span sec:authentication="name" id="currentUser">Profiili</span></a></li>
                         <li><a th:href="@{'?lang=fi'}"><img th:src="@{'/fi_FI.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
                         <li><a th:href="@{'?lang=en'}"><img th:src="@{'/en_EN.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
                         <li><a onclick="event.preventDefault(); $('#logoutForm').submit();" th:href="@{'/logout/confirm'}" id="logout"><i class='material-icons left'>lock</i><span th:text="#{service.logout}">Kirjaudu ulos</span></a></li>
@@ -67,22 +67,20 @@
             <form id="searchForm" th:action="@{/search}" method="POST">
                 <div class="row">
                     <div class="input-field col s9">
-                        <input id="username" type="text" name="username"/>
+                        <input id="username" type="text" name="searchTerm" autocomplete="off"/>
                         <label for="username" th:text="#{service.username}">Käyttäjätunnus</label>
                     </div>
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>
-                    <noscript><div class="input-field col s3">
-                            <button class="btn waves-effect waves-light" type="submit" name="action">Hae
-                                <i class="material-icons right">search</i>
-                            </button>
-                        </div></noscript>
+                    <div class="input-field col s3">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Hae
+                            <i class="material-icons right">search</i>
+                        </button>
+                    </div>
                 </div>
             </form>
-            <span th:text="#{service.searchresults}"></span>
-            <ul id="searchResult">
-            </ul>
+            <p><span th:text="#{service.searchresults}"></span></p>
             <div th:each="u : ${userlist}">
                 <p><a th:href="@{'/profile/' + ${u.username}}"><span th:text="${u.username}" style="font-weight: bold;">Käyttäjätunnus</span></a></p>
             </div>
@@ -94,44 +92,7 @@
             </div>
         </div>
         <script type="text/javascript" th:src="@{'~/' + 'js/jquery-3.1.1.min.js'}"></script>
-        <script type="text/javascript" th:src="@{'~/' + 'js/jquery-ui.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/materialize.js'}"></script>
         <script type="text/javascript" th:src="@{'~/' + 'js/script.js'}"></script>
-        <script>
-            $("input#username").on("change keyup paste", function () {
-                $("#searchResult").empty();
-                var usrName = $(this).val();
-                if (usrName.length === 0) {
-                    return;
-                } else {
-                    setTimeout(function () {
-                        search(usrName);
-                    }, 200);
-                }
-            });
-            function search(searchTerm) {
-                $.ajax({
-                    url: '/api/users',
-                    type: "POST",
-                    data: {
-                        "searchTerm": searchTerm,
-                        "_csrf": $("meta[name='_csrf']").attr("content")
-                    },
-                    success: function (result) {
-                        var data = result;
-                        var items = [];
-                        $.each(data, function (i, dataRow) {
-                            items.push('<li style="font-size: 12pt;"><a href="/profile/' + dataRow.username + '">' + dataRow.username + '</a></li>');
-                            console.log(dataRow.username);
-                        });
-
-                        $("#searchResult").append(items.join(''));
-                    },
-                    error: function (req, status, err) {
-                        console.log('Something went wrong', status, err);
-                    }
-                });
-            }
-        </script>
     </body>
 </html>

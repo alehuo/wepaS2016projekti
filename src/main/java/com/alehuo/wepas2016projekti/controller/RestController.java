@@ -21,9 +21,9 @@ import com.alehuo.wepas2016projekti.service.UserService;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * "Restful" rajapinta käyttäjien hakemiselle hakusanan perusteella.
@@ -40,12 +40,12 @@ public class RestController {
     /**
      * Palauttaa käyttäjätunnuksia hakusanan perusteella
      *
-     * @param searchTerm
-     * @param res
+     * @param searchTerm Hakusana
+     * @param res HTTP Response
      * @return
      */
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public List<UserAccount> getUsersMatching(@RequestParam String searchTerm, HttpServletResponse res) {
+    @RequestMapping(value = "/users/{searchTerm}", method = RequestMethod.GET)
+    public List<UserAccount> getUsersMatching(@PathVariable String searchTerm, HttpServletResponse res) {
         res.setStatus(200);
         return usrService.getUsersByUsernameLike(searchTerm);
     }

@@ -118,7 +118,6 @@ Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin al
 
 ![Tykkääminen](img/kuvasta_tykkaaminen.gif)
 
-(Parannuksia / lisää juttuja toiseen deadlineen mennessä.)
 
 ## Tietokantataulut
 
@@ -137,15 +136,7 @@ Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin al
 
 ## TODO list
 
-* Kuvien tallennus tietokantaan toimii [OK]
-* PostgreSQL -tietokantajärjestelmä Herokussa toimii [OK]
-* CSRF protection käyttöön (ja tarkista että JavaScript -koodit toimivat tämän kanssa hyvin) [OK]
-* Syötteiden validointi [OK, KATSO VIELÄ KUVAN LÄHETYKSEN VALIDOINTI]
-* Käyttäjän toimintojen logitus ja seuranta [OK]
-* Tykkäys toimii ilman JavaScriptiä [OK]
-* Uloskirjautuminen toimii ilman JavaScriptiä [OK]
-* Kommentoiti toimii ilman JavaScriptiä [OK]
-* Loput testeistä valmiiksi. Nyt testataan ~80% koko sivun toiminnallisuudesta. []
+* Syötteiden validointi [KATSO VIELÄ KUVAN LÄHETYKSEN VALIDOINTI]
 
 ## Toteutetut ominaisuudet:
 
@@ -154,16 +145,22 @@ Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin al
 * Käyttäjäprofiilit
 * Rekisteröitymislomake
 * Responsiivinen ulkoasu eli toimii hyvin sekä mobiililaitteilla että työpöytäselaimilla
+* Lokalisointi (Suomi / Englanti)
 
-## Myöhempään versioon tulossa:
+## Toteuttamatta jääneet:
 
-* Pääkäyttäjällä mahdollisuus poistaa kommentteja ja kuvia hallintasivun kautta
-* Lokalisointi (English / Finnish)
+* "Restful" -rajapinta käyttäjätilien hakuun. Itse kontrolleri on tehty, mutta sitä ei ole kytketty hakulomakkeeseen. Haku olisi suoritettu jQueryn autocomplete -ominaisuudella.
+
+GET -pyyntö osoitteeseen http://localhost:8080/api/users/{hakusana}
+
+esimerkiksi http://localhost:8080/api/users/us palauttaa: [{"username":"user"}]
+
+* Pääkäyttäjätoiminnallisuus
 
 ## NetBeansin liitännäisellä luotu luokkakaavio:
 
 ![Luokkadiagrammi](class_diagram.png)
 
-## Alustava tietokantakaavio:
+## Tietokantakaavio:
 
 ![Tietokantakaavio](https://yuml.me/670dff40)

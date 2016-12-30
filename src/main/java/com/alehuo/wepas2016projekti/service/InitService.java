@@ -123,7 +123,7 @@ public class InitService {
         } else {
             i.setImageData(Files.readAllBytes(path));
         }
-        i.setDescription("Testikuva 1");
+        i.setDescription(description);
         i.setImageOwner(userService.getUserByUsername("admin"));
         imageRepo.save(i);
     }

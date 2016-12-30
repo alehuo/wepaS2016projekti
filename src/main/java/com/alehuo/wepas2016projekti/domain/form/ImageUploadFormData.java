@@ -26,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class ImageUploadFormData {
 
-    @NotNull
     @Length(max = 24)
     private String description;
 
