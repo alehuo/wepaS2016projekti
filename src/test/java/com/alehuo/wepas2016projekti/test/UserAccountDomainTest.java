@@ -29,6 +29,9 @@ import org.junit.Test;
  */
 public class UserAccountDomainTest {
 
+    /**
+     *
+     */
     @Test
     public void kayttajatunnuksenAsettaminenToimii() {
         UserAccount u = new UserAccount();
@@ -37,6 +40,9 @@ public class UserAccountDomainTest {
         assertEquals(username, u.getUsername());
     }
 
+    /**
+     *
+     */
     @Test
     public void sahkopostiosoitteenAsettaminenToimii() {
         UserAccount u = new UserAccount();
@@ -45,6 +51,9 @@ public class UserAccountDomainTest {
         assertEquals(email, u.getEmail());
     }
 
+    /**
+     *
+     */
     @Test
     public void kayttajaTasonAsettaminenToimii() {
         UserAccount u = new UserAccount();
@@ -54,6 +63,9 @@ public class UserAccountDomainTest {
         assertEquals(Role.ADMINISTRATOR, u.getRole());
     }
 
+    /**
+     *
+     */
     @Test
     public void salasananAsettaminenToimii() {
         UserAccount u = new UserAccount();
@@ -62,6 +74,9 @@ public class UserAccountDomainTest {
         assertEquals(password, u.getPassword());
     }
 
+    /**
+     *
+     */
     @Test
     public void hashCodeJaEqualsToimii() {
         UserAccount u = new UserAccount();

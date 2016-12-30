@@ -25,6 +25,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
  * Kuva -entiteetti
+ *
  * @author alehuo
  */
 @Entity
@@ -45,7 +46,8 @@ public class Image extends AbstractPersistable<Long> {
     private List<UserAccount> likedBy;
 
     /**
-     * Lista kommenteista (Yksi kommentti liittyy yhteen kuvaan mutta kuvalla voi olla monta kommenttia)
+     * Lista kommenteista (Yksi kommentti liittyy yhteen kuvaan mutta kuvalla
+     * voi olla monta kommenttia)
      */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
@@ -83,7 +85,17 @@ public class Image extends AbstractPersistable<Long> {
     private boolean visible = true;
 
     /**
+     * Konstruktori, joka asettaa muutaman listan
+     */
+    public Image() {
+        comments = new ArrayList<>();
+        likedBy = new ArrayList<>();
+        file = new File();
+    }
+
+    /**
      * Palauttaa kuvan näkyvyyden
+     *
      * @return Näkyvyys
      */
     public boolean isVisible() {
@@ -92,19 +104,11 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Aseta kuvan näkyvyystila
+     *
      * @param visible Näkyvyys
      */
     public void setVisible(boolean visible) {
         this.visible = visible;
-    }
-
-    /**
-     * Konstruktori, joka asettaa muutaman listan
-     */
-    public Image() {
-        comments = new ArrayList<>();
-        likedBy = new ArrayList<>();
-        file = new File();
     }
 
     /**
@@ -117,6 +121,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kuvan datan
+     *
      * @return Kuvan data
      */
     public byte[] getImageData() {
@@ -125,6 +130,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Asettaa kuvan datan
+     *
      * @param imageData Kuvan data
      */
     public void setImageData(byte[] imageData) {
@@ -133,6 +139,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Asettaa kuvan omistajan
+     *
      * @param imageOwner Kuvan omistaja
      */
     public void setImageOwner(UserAccount imageOwner) {
@@ -141,6 +148,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kuvan omistajan
+     *
      * @return Kuvan omistaja
      */
     public UserAccount getImageOwner() {
@@ -149,6 +157,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kuvan kuvaus
+     *
      * @return Kuvan kuvaus
      */
     public String getDescription() {
@@ -157,6 +166,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Asettaa kuvan kuvauksen
+     *
      * @param description Kuvan kuvaus
      */
     public void setDescription(String description) {
@@ -165,6 +175,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Lisää kuvalle tykkäyksen
+     *
      * @param u Käyttäjätili
      */
     public void addLike(UserAccount u) {
@@ -173,6 +184,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Poistaa kuvalta tykkäyksen
+     *
      * @param u Käyttäjätili
      */
     public void removeLike(UserAccount u) {
@@ -183,6 +195,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kuvasta tykänneet henkilöt
+     *
      * @return Lista henkilöistä
      */
     public List<UserAccount> getLikedBy() {
@@ -191,6 +204,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Asettaa kuvan tiedostomuodon
+     *
      * @param contentType Tiedostomuoto
      */
     public void setImageContentType(String contentType) {
@@ -199,6 +213,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kuvan tiedostomuodon
+     *
      * @return Kuvan tiedostomuoto
      */
     public String getContentType() {
@@ -207,6 +222,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa tykkäyksien lukumäärän
+     *
      * @return Tykkäyksien lukumäärä
      */
     public int getLikes() {
@@ -215,6 +231,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kuvan luomisajan
+     *
      * @return Luomisaika
      */
     public Date getCreationDate() {
@@ -223,6 +240,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Asettaa kuvan kommentit
+     *
      * @param comments Kuvan kommentit
      */
     public void setComments(List<Comment> comments) {
@@ -230,7 +248,9 @@ public class Image extends AbstractPersistable<Long> {
     }
 
     /**
-     * Palauttaa kuvan kommentit suodattaen pois ne jotka pääkäyttäjä on "poistanut"
+     * Palauttaa kuvan kommentit suodattaen pois ne jotka pääkäyttäjä on
+     * "poistanut"
+     *
      * @return Lista kommenteista
      */
     public List<Comment> getComments() {
@@ -245,6 +265,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Lisää kuvalle kommentin
+     *
      * @param c Kommentti
      */
     public void addComment(Comment c) {
@@ -253,6 +274,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kuvan UUID:n
+     *
      * @return UUID
      */
     public String getUuid() {
@@ -261,6 +283,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Asettaa kuvan UUID:n
+     *
      * @param uuid UUID
      */
     public void setUuid(String uuid) {
@@ -269,6 +292,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kommenttien lukumäärän
+     *
      * @return Kommenttien lukumäärä
      */
     public int getCommentsAmount() {
@@ -277,6 +301,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Palauttaa kolme viimeisintä kommenttia
+     *
      * @return
      */
     public List<Comment> getLastThreeComments() {
@@ -296,6 +321,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * HashCode
+     *
      * @return HashCode
      */
     @Override
@@ -308,6 +334,7 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      * Equals
+     *
      * @param obj Kuva -entiteetti
      * @return true | false
      */

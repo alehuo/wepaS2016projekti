@@ -81,6 +81,7 @@ public class DefaultController {
      *
      * @param a Autentikointi
      * @param m Malli
+     * @param l
      * @return
      */
     @RequestMapping("/")
@@ -107,6 +108,7 @@ public class DefaultController {
      *
      * @param a Autentikointi
      * @param m Malli
+     * @param l
      * @return
      */
     @RequestMapping(value = "/logout/confirm", method = RequestMethod.GET)

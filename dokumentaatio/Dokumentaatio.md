@@ -146,7 +146,6 @@ Nappia painamalla kommentti/kuva poistetaan:
 * Kuvan tykkäykset -liitostaulu (FK image_id (integer), FK liked_by_id (integer))
 * Kuvan kommentit -liitostaulu (FK image_id (integer), FK comments_id (integer))
 
-
 ![Tietokantakaavio](img/9adc8064.png)
 
 ## NetBeansin liitännäisellä luotu luokkakaavio:
@@ -167,12 +166,12 @@ Nappia painamalla kommentti/kuva poistetaan:
 * Responsiivinen ulkoasu eli toimii hyvin sekä mobiililaitteilla että työpöytäselaimilla
 * Lokalisointi (Suomi / Englanti)
 * Pääkäyttäjätoiminnallisuus
+* Käyttäjien seuranta
 
 ## Toteuttamatta jääneet:
 
-* "Restful" -rajapintaa hyödyntävä haku. Itse Rest -kontrolleri on tehty, mutta sitä ei ole kytketty hakulomakkeeseen. Haku olisi suoritettu jQueryn autocomplete -ominaisuudella.
-
-GET -pyyntö osoitteeseen http://localhost:8080/api/users/{hakusana}
+* "Restful" -rajapintaa hyödyntävä haku. Itse Rest -kontrolleri on tehty, mutta sitä ei ole kytketty hakulomakkeeseen. Haku olisi suoritettu jQueryn autocomplete -ominaisuudella lähettämällä GET -pyyntö osoitteeseen "http://localhost:8080/api/users/{hakusana}".
 
 esimerkiksi http://localhost:8080/api/users/us palauttaa: [{"username":"user"}] ja http://localhost:8080/api/users/a palauttaa: [{"username":"admin"}]
 
+* Etusivulla näytettäisiin enemmän kuvia. (Mielestämme maksimissaan kymmenen kuvaa etusivulla tuntui riittävältä, joten sen takia jätimme "sivutuksen" toteuttamatta. Jos sovellusta skaalattaisiin tuhansiin käyttäjiin, tällöin ominaisuudesta olisi ollut hyötyä.)

@@ -124,6 +124,10 @@ public class ProductionConfiguration extends WebMvcConfigurerAdapter {
         return interceptor;
     }
 
+    /**
+     *
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeInterceptor());

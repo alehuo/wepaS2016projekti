@@ -28,6 +28,9 @@ import org.junit.Test;
  */
 public class CommentDomainTest {
 
+    /**
+     *
+     */
     @Test
     public void testaaAsetaKaikki() {
         Comment c = new Comment();
