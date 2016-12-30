@@ -23,8 +23,8 @@
                     <a class="center brand-logo" th:href="@{/}" th:text="#{service.title}">Kuvapalvelu</a>
                     <a href="#" data-activates="mobileMenu" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a th:href="@{'?lang=fi'}"><span th:text="#{service.finnish}">Suomi</span></a></li>
-                        <li><a th:href="@{'?lang=en'}"><span th:text="#{service.english}">Englanti</span></a></li>
+                        <li><a th:href="@{'?lang=fi'}"><img th:src="@{'/fi_FI.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
+                        <li><a th:href="@{'?lang=en'}"><img th:src="@{'/en_EN.png'}" style="height: 100%; vertical-align: middle;"/></a></li>
                     </ul>
                     <ul class="side-nav" id="mobileMenu">
                         <li><a th:href="@{'?lang=fi'}"><i class='material-icons left'><img th:src="@{'/fi_FI.png'}"/></i> <span th:text="#{service.finnish}">Suomi</span></a></li>
