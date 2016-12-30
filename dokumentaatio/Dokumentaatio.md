@@ -118,25 +118,35 @@ Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin al
 
 ![Tykkääminen](img/kuvasta_tykkaaminen.gif)
 
+### 8. Käyttäjä haluaa vaihtaa sovelluksen kielen
+
+Käyttäjä voi vaihtaa sovelluksen kielen klikkaamalla yläpalkin oikeassa yläkulmassa olevia lippuja:
+
+![Kielen vaihto](img/kielen_vaihto.png)
+
+### 9. Pääkäyttäjä haluaa poistaa kuvan tai yksittäisen kommentin
+
+Sovelluksessa on toiminnallisuus, jolla pystyy "poistamaan" yksittäisiä kuvia ja kommentteja.
+Ollessa kirjautuneena pääkäyttäjätunnuksella käyttäjä näkee kuvan alla "Poista kuva" -napin sekä kommentin alla vastaavasti "Poista kommentti" -napin. 
+Nappia painamalla kommentti/kuva poistetaan:
+
+![Pääkäyttäjätoiminnot](img/paakayttaja.png)
+
 
 ## Tietokantataulut
 
-* Käyttäjät -taulu
-* Kuvat -taulu
-* Kuvan data -taulu
-* Kommentit -taulu
-* Kuvan tykkäykset -liitostaulu
-* Kuvan kommentit -liitostaulu
+* Käyttäjät -taulu (id (integer), email (varchar), password (varchar), role (varchar), username (varchar))
+* Kommentit -taulu (id (integer), body (varchar), timestamp (timestamp), visible (boolean), FK user_id (integer))
+* Kuvat -taulu (id (integer), content_type (varchar), timestamp (timestamp), description (varchar), uuid (varchar), visible (boolean), FK file_id (integer), FK image_owner_id (integer))
+* Kuvan data -taulu (id (integer), file (byte))
+* Kuvan tykkäykset -liitostaulu (FK image_id (integer), FK liked_by_id (integer))
+* Kuvan kommentit -liitostaulu (FK image_id (integer), FK comments_id (integer))
 
 
 ## Testaus
 
 * Yksikkö- ja integraatiotestit jne.
 * GitHub -> Travis -> Heroku
-
-## TODO list
-
-* Syötteiden validointi [KATSO VIELÄ KUVAN LÄHETYKSEN VALIDOINTI]
 
 ## Toteutetut ominaisuudet:
 
@@ -146,6 +156,7 @@ Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin al
 * Rekisteröitymislomake
 * Responsiivinen ulkoasu eli toimii hyvin sekä mobiililaitteilla että työpöytäselaimilla
 * Lokalisointi (Suomi / Englanti)
+* Pääkäyttäjätoiminnallisuus
 
 ## Toteuttamatta jääneet:
 
@@ -153,9 +164,8 @@ Käyttäjä voi tykätä suoraan klikkaamalla "Tykkää" -linkkiä kuvakortin al
 
 GET -pyyntö osoitteeseen http://localhost:8080/api/users/{hakusana}
 
-esimerkiksi http://localhost:8080/api/users/us palauttaa: [{"username":"user"}]
+esimerkiksi http://localhost:8080/api/users/us palauttaa: [{"username":"user"}] ja http://localhost:8080/api/users/a palauttaa: [{"username":"admin"}]
 
-* Pääkäyttäjätoiminnallisuus
 
 ## NetBeansin liitännäisellä luotu luokkakaavio:
 

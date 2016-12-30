@@ -1,4 +1,3 @@
-
 package com.alehuo.wepas2016projekti.domain;
 
 import java.util.ArrayList;
@@ -15,13 +14,13 @@ import javax.persistence.FetchType;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -45,7 +44,7 @@ public class Image extends AbstractPersistable<Long> {
     @ManyToMany
     private List<UserAccount> likedBy;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     /**
@@ -71,6 +70,16 @@ public class Image extends AbstractPersistable<Long> {
     private Date creationDate;
 
     private String uuid = UUID.randomUUID().toString();
+
+    private boolean visible = true;
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     /**
      *
@@ -208,7 +217,13 @@ public class Image extends AbstractPersistable<Long> {
      * @return
      */
     public List<Comment> getComments() {
-        return comments;
+        List<Comment> tmpComments = new ArrayList<>();
+        for (Comment comment : comments) {
+            if (comment.isVisible()) {
+                tmpComments.add(comment);
+            }
+        }
+        return tmpComments;
     }
 
     /**
@@ -237,10 +252,10 @@ public class Image extends AbstractPersistable<Long> {
 
     /**
      *
-     * @return
+     * @return Kommenttien lukumäärä
      */
     public int getCommentsAmount() {
-        return comments.size();
+        return getComments().size();
     }
 
     /**
@@ -248,6 +263,7 @@ public class Image extends AbstractPersistable<Long> {
      * @return
      */
     public List<Comment> getLastThreeComments() {
+        List<Comment> comments = getComments();
         //Jos kommentteja on >= 3 niin palautetaan sublist
         if (comments.size() >= 3) {
             return comments.subList(comments.size() - 3, comments.size());

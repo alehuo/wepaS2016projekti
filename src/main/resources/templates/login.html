@@ -55,9 +55,6 @@
                             <label for="password" th:text="#{service.password}">Salasana</label>
                         </div>
                     </div>
-                    <input type="hidden"
-                           th:name="${_csrf.parameterName}"
-                           th:value="${_csrf.token}"/>
                     <div class="row">
                         <div class="input-field">
                             <button type="submit" class="btn btn-primary" th:text="#{service.login}">Kirjaudu sisään</button>

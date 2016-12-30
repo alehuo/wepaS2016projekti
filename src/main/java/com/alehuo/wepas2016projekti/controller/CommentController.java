@@ -37,9 +37,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Kommenttikontrolleri
- * 
+ *
  * Käytetään kommenttien lisäämiseen
- * 
+ *
  * @author Jusaa
  */
 @Controller
@@ -83,13 +83,19 @@ public class CommentController {
         //Validoidaan syöte tässä
         if (comment.length() > 0 && comment.length() <= 40) {
             Image img = imageService.findOneImageByUuid(imageUuid);
-            UserAccount u = userService.getUserByUsername(a.getName());
-            Comment comm = commentService.addComment(comment, u);
-            img.addComment(comm);
-            u.addComment(comm);
-            LOG.log(Level.INFO, "Kayttaja ''{0}'' kommentoi kuvaan ''{1}'' viestin sisallolla \"{2}\"", new Object[]{a.getName(), imageUuid, comment});
-            userService.saveUser(u);
-            imageService.saveImage(img);
+            if (img != null && img.isVisible()) {
+                UserAccount u = userService.getUserByUsername(a.getName());
+                Comment comm = commentService.addComment(comment, u);
+                img.addComment(comm);
+                u.addComment(comm);
+                LOG.log(Level.INFO, "Kayttaja ''{0}'' kommentoi kuvaan ''{1}'' viestin sisallolla \"{2}\"", new Object[]{a.getName(), imageUuid, comment});
+                userService.saveUser(u);
+                imageService.saveImage(img);
+            } else {
+                LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti kommentoida kuvaa ''{1}'' viestin sisallolla \"{2}\", mutta kuvaa ei löytynyt.", new Object[]{a.getName(), imageUuid, comment});
+                return "redirect:/";
+            }
+
         } else {
             LOG.log(Level.WARNING, "Kayttaja ''{0}'' yritti kommentoida kuvaa ''{1}'' viestin sisallolla \"{2}\", mutta viesti oli liian pitkä.", new Object[]{a.getName(), imageUuid, comment});
         }

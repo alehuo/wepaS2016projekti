@@ -14,9 +14,9 @@
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
         <!-- CSRF -->
-        <meta name="_csrf" th:content="${_csrf.token}"/>
-        <!-- default header name is X-CSRF-TOKEN -->
-        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <meta th:if="${_csrf?.token}" name="_csrf" th:content="${_csrf.token}"/>
+        <!--default header name is X-CSRF-TOKEN--> 
+        <meta th:if="${_csrf?.headerName}" name="_csrf_header" th:content="${_csrf.headerName}"/>
         <!--Style-->
         <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>
@@ -57,6 +57,8 @@
                 </div>
             </nav>
         </div>
+        <form th:action="@{'/logout'}" id="logoutForm" method="POST">
+        </form>
         <div class="container">
             <h3 th:text="${image.description}"></h3>
             <div class="row">
@@ -80,6 +82,7 @@
                             <noscript>
                                 <img class="autoscale" th:src="@{'/img/' + ${image.uuid}}"/>
                             </noscript>
+                            <div sec:authorize="hasAuthority('ADMINISTRATOR')"><form th:action="@{/delete/image}" method="POST"><p class="center-align"><input class="btn red" type="submit" th:value="#{service.deleteimage}"/></p><input type="hidden" name="photoId" th:value="${image.id}"/></form></div>
                         </div>
                         <div class="card-content">
                             <p><span class="card-title large" th:text="${image.description}"></span></p>
@@ -88,7 +91,7 @@
                             <p>
                                 <ul th:id="${'comments_' + image.uuid}">
                                     <li th:if="${not #lists.isEmpty(image.comments)}" th:each="comment : ${image.comments}">
-                                        <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span></p>
+                                        <p><a th:href="@{'/profile/' + ${comment.user.username}}"><span th:text="${comment.user.username}" style="font-weight: bold;">Käyttäjätunnus</span></a> <span th:text="${comment.body}"></span><span sec:authorize="hasAuthority('ADMINISTRATOR')"><form th:action="@{/delete/comment}" method="POST"><p><input class="btn red" type="submit" th:value="#{service.deletecomment}"/></p><input type="hidden" name="commentId" th:value="${comment.id}"/></form></span></p>
                                     </li>  
                                 </ul>
                             </p>

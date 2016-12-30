@@ -14,9 +14,9 @@
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
         <!-- CSRF -->
-        <meta name="_csrf" th:content="${_csrf.token}"/>
-        <!-- default header name is X-CSRF-TOKEN -->
-        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <meta th:if="${_csrf?.token}" name="_csrf" th:content="${_csrf.token}"/>
+         <!--default header name is X-CSRF-TOKEN--> 
+        <meta th:if="${_csrf?.headerName}" name="_csrf_header" th:content="${_csrf.headerName}"/>
         <!--Style-->
         <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>

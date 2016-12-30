@@ -29,8 +29,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,7 +85,7 @@ public class DefaultController {
      */
     @RequestMapping("/")
     public String index(Authentication a, Model m, Locale l) {
-        List<Image> images = imageRepo.findTop10ByOrderByIdDesc();
+        List<Image> images = imageRepo.findTop10ByVisibleTrueOrderByIdDesc();
         UserAccount u = userService.getUserByUsername(a.getName());
         m.addAttribute("user", u);
         m.addAttribute("images", images);

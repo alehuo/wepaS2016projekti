@@ -14,9 +14,9 @@
         <!--Manifest-->
         <link rel="manifest" th:href="@{'~/' + 'manifest.json'}"/>
         <!-- CSRF -->
-        <meta name="_csrf" th:content="${_csrf.token}"/>
-        <!-- default header name is X-CSRF-TOKEN -->
-        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <meta th:if="${_csrf?.token}" name="_csrf" th:content="${_csrf.token}"/>
+        <!--default header name is X-CSRF-TOKEN--> 
+        <meta th:if="${_csrf?.headerName}" name="_csrf_header" th:content="${_csrf.headerName}"/>
         <!--Style-->
         <link rel="stylesheet" th:href="@{'~/' + 'css/global.css'}" />
     </head>
@@ -57,14 +57,11 @@
                 </div>
             </nav>
         </div>
-        <form action="/logout" id="logoutForm" method="POST">
-            <input type="hidden"
-                   th:name="${_csrf.parameterName}"
-                   th:value="${_csrf.token}"/>
+        <form th:action="@{/logout}" id="logoutForm" method="POST">
         </form>
         <div class="container">
             <h3 th:text="#{service.sharepic}">Jaa kuva</h3>
-            <form th:action="@{'/upload?' + ${_csrf.parameterName} + '=' + ${_csrf.token}}" id="uploadform" method="POST" th:object="${imageUploadFormData}" enctype="multipart/form-data">
+            <form th:action="@{'/upload?' + ${_csrf?.parameterName} + '=' + ${_csrf?.token}}" id="uploadform" method="POST" th:object="${imageUploadFormData}" enctype="multipart/form-data">
                 <div class="input-field">
                     <input id="imageDesc" type="text" name="description" th:field="*{description}" th:placeholder="#{service.description}" class="validate" length="24"/>
                     <!--<label for="imageDesc">Kuvaus</label>-->

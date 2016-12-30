@@ -79,7 +79,7 @@ public class ImageService {
      */
     @Transactional
     public List<Image> findAllByUserAccount(UserAccount u) {
-        return imageRepo.findAllByImageOwnerOrderByIdDesc(u);
+        return imageRepo.findAllByVisibleTrueAndImageOwnerOrderByIdDesc(u);
     }
 
     /**

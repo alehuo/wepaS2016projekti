@@ -16,7 +16,6 @@
  */
 package com.alehuo.wepas2016projekti.repository;
 
-import com.alehuo.wepas2016projekti.domain.Comment;
 import com.alehuo.wepas2016projekti.domain.Image;
 import com.alehuo.wepas2016projekti.domain.UserAccount;
 import java.util.List;
@@ -36,6 +35,12 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
      * @return
      */
     List<Image> findTop10ByOrderByIdDesc();
+    
+    /**
+     *
+     * @return
+     */
+    List<Image> findTop10ByVisibleTrueOrderByIdDesc();
 
     /**
      *
@@ -49,5 +54,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
      * @param u
      * @return
      */
-    List<Image> findAllByImageOwnerOrderByIdDesc(UserAccount u);
+    List<Image> findAllByVisibleTrueAndImageOwnerOrderByIdDesc(UserAccount u);
 }

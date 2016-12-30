@@ -20,6 +20,7 @@ package com.alehuo.wepas2016projekti.configuration;
  *
  * @author alehuo
  */
+import com.alehuo.wepas2016projekti.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,8 +69,10 @@ public class DevelopmentSecurityConfiguration extends WebSecurityConfigurerAdapt
     protected void configure(HttpSecurity http) throws Exception {
         http.headers().frameOptions().sameOrigin();
         //Sallitaan pääsy resurssikansioihin sekä H2 -konsoliin
+//        http.csrf().disable();
         //Kirjautumislokame löytyy GET -reitistä /login
         http.authorizeRequests()
+                .antMatchers("/delete/**").hasAuthority(Role.ADMINISTRATOR.toString())  
                 .antMatchers("/js/**", "/css/**", "/manifest.json", "/resources/**", "/h2-console/**", "/register", "/fi_FI.png", "/en_EN.png", "/login**", "/fonts/roboto/**").permitAll().anyRequest().permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().defaultSuccessUrl("/", true).loginPage("/login").permitAll().and()
